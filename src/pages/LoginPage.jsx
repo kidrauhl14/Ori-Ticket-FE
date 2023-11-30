@@ -1,6 +1,6 @@
-import React from 'react'
-import TicketImg from "@assets/img_ticket.png"
-import KakaoImg from "@assets/img_kakao.png"
+import React from "react";
+import TicketImg from "@assets/img_ticket.png";
+import KakaoImg from "@assets/img_kakao.png";
 import NaverImg from "@assets/img_naver.png";
 
 export default function LoginPage() {
@@ -46,7 +46,4 @@ export default function LoginPage() {
       </div>
     </div>
   );
-
 }
-
-  
