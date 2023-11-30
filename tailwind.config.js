@@ -1,8 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 import daisyUIPlugin from "daisyui";
-
+import formsPlugin from '@tailwindcss/forms';
+import ratioPlugin from '@tailwindcss/aspect-ratio';
 export const mode = "jit";
-export const content = ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"];
+export const content = [
+  "./index.html",
+  "./src/**/*.{js,ts,jsx,tsx}",
+  "./node_modules/react-tailwindcss-datepicker/dist/index.esm.js",
+];
 export const darkMode = "class";
 export const theme = {
   screens: {
@@ -12,10 +17,14 @@ export const theme = {
     xl: "1280px",
     xl2: "1360px",
   },
-  extend: {},
+  extend: {
+    colors: {
+      "navy-basic": "#041882",
+    },
+  },
 };
 
-export const plugins = [daisyUIPlugin];
+export const plugins = [daisyUIPlugin, formsPlugin, ratioPlugin];
 
 export const daisyUISettings = {
   styled: true,
