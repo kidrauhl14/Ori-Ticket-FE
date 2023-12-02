@@ -1,4 +1,4 @@
-import React from "react";
+import { Link } from "react-router-dom";
 
 // 이미지
 import BaseballImg from "@assets/img_baseball.png";
@@ -18,6 +18,8 @@ const categories = [
     label: "농구",
   },
 ];
+
+const categoryLabelMap ={"야구": "baseball", "축구": "soccer", "농구":"basketball",};
 
 const tickets = [
   {
@@ -61,20 +63,18 @@ export default function MainPage() {
       <Navbar />
       <div className="flex max-w-5xl mb-4">
         {categories.map((category, index) => (
-          <div
-            key={index}
-            className="justify-center h-full w-full"
-          >
-            <button className="p-0 rounded-xl mx-6">
-              <img
-                src={category.img}
-                alt={category.alt}
-                className="flex justify-center h-full w-full rounded-xl"
-              />
-            </button>
-            <p className="mb-4 font-extrabold text-base">
-              {category.label}
-            </p>
+          <div key={index} className="justify-center h-full w-full">
+            <Link to={`/category/${categoryLabelMap[category.label]}`}>
+              <button className="p-0 rounded-xl mx-6">
+                <img
+                  src={category.img}
+                  alt={category.alt}
+                  className="flex justify-center h-full w-full rounded-xl"
+                />
+              </button>
+            </Link>
+
+            <p className="mb-4 font-extrabold text-base">{category.label}</p>
           </div>
         ))}
       </div>
@@ -94,21 +94,11 @@ export default function MainPage() {
             >
               <div className="w-72">
                 <div className="flex m-2">
-                  <p className="text-xs mr-1">
-                    {ticket.sport_name}
-                  </p>
-                  <p className="text-xs font-extrabold mr-1">
-                    &gt;
-                  </p>
-                  <p className="text-xs mr-1">
-                    {ticket.team_name}
-                  </p>
-                  <p className="text-xs font-extrabold mr-1">
-                    &gt;
-                  </p>
-                  <p className="text-xs">
-                    {ticket.stadium_name}
-                  </p>
+                  <p className="text-xs mr-1">{ticket.sport_name}</p>
+                  <p className="text-xs font-extrabold mr-1">&gt;</p>
+                  <p className="text-xs mr-1">{ticket.team_name}</p>
+                  <p className="text-xs font-extrabold mr-1">&gt;</p>
+                  <p className="text-xs">{ticket.stadium_name}</p>
                 </div>
                 <div className="flex-col m-2">
                   <div className="text-xl text-left font-extrabold">
