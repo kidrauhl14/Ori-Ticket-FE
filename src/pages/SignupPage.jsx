@@ -20,7 +20,7 @@ export default function SignupPage() {
   } 
   return (
     <>
-      <div className="w-52 lg:w-72 xl:w-80 2xl:w-96">
+      <div className="w-64 lg:w-72 xl:w-80 2xl:w-96">
         <h1 className=" font-extrabold">회원가입</h1>
         <div className="grid-rows-6 w-full my-10">
           <div className="py-4 text-left">

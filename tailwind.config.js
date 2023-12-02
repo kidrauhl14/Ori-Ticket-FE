@@ -11,7 +11,7 @@ export const content = [
 export const darkMode = "class";
 export const theme = {
   screens: {
-    sm: "480px",
+    sm: "400px",
     md: "768px",
     lg: "1025px",
     xl: "1280px",
