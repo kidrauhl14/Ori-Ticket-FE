@@ -1,4 +1,6 @@
 import { useParams } from 'react-router-dom';
+import { useNavigate, Link } from "react-router-dom";
+
 import Navbar from '@components/common/Navbar.jsx'
 import DoubleSeatBtn from '@assets/img_btn_double.png'
 import BaseballImg from "@assets/img_baseball.png";
@@ -59,50 +61,20 @@ const tickets = [
         <img src={BaseballImg} className="border rounded-lg" />
         <div className="text-7xl font-extrabold ml-4">{category}</div>
       </div>
-      <div className="bg-pink-100 flex flex-col">
+      <div className="flex flex-col">
         <button className="p-0 w-1/6 mb-4 justify-start">
           <img src={DoubleSeatBtn} />
         </button>
         <div className="bg-white flex max-w-5xl mb-4">
-          {/* <div className="bg-pink-400 h-20 w-full"> */}
-          {/* <div className="bg-yellow-400 h-20 w-full flex items-center border border-4 border-navy-basic rounded-md">
-            <div className="bg-navy-basic h-20 max-h-full dropdown flex justify-between  items-center bg-navy-basic border rounded-xl">
-              <div className="w-1/12">
-                <img
-                  src={TicketImg}
-                  className="w-full max-h-full border rounded-md"
-                />
-              </div>
-              <div className="text-white text-2xl font-extrabold ml-4">
-                야구
-              </div>
-              <div className="bg-white ml-4 text-slate-700 text-2xl font-extrabold ">
+          <div className="navbar bg-navy-basic flex rounded-box">
+            {/* <img src={TicketImg} className="w-auto h-auto"/> */}
+            <div className="text-white">TicketImg자리</div>
+            <div className="bg-white flex justify-between flex-1 px-2 border rounded-md">
+              <a className="btn btn-ghost rounded-btn text-slate-500 text-base font-extrabold">
                 카테고리별 보기
-              </div>
-              <div tabIndex={0} role="button" className="btn m-1 ml-auto">
-                <svg
-                  width="24"
-                  height="14"
-                  viewBox="0 0 24 14"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M10.9393 13.0607C11.5251 13.6464 12.4749 13.6464 13.0607 13.0607L22.6066 3.51472C23.1924 2.92893 23.1924 1.97918 22.6066 1.3934C22.0208 0.807611 21.0711 0.807611 20.4853 1.3934L12 9.87868L3.51472 1.3934C2.92893 0.807612 1.97918 0.807612 1.3934 1.3934C0.807611 1.97919 0.807611 2.92893 1.3934 3.51472L10.9393 13.0607ZM10.5 10L10.5 12L13.5 12L13.5 10L10.5 10Z"
-                    fill="#4C5379"
-                  />
-                </svg>
-              </div>
-            </div>
-          </div> */}
-          <div className="navbar bg-base-300 rounded-box">
-            <div className="flex-1 px-2 lg:flex-none">
-              <a>daisyUI</a>
-            </div>
-            <div className="flex justify-end flex-1 px-2">
-              <div className="flex items-stretch">
-                <a className="btn btn-ghost rounded-btn">Button</a>
-                <div className="bg-pink-300 dropdown dropdown-end">
+              </a>
+              <div>
+                <div className="bg-slate-200 dropdown dropdown-end">
                   <div
                     tabIndex={0}
                     role="button"
@@ -124,11 +96,11 @@ const tickets = [
 
                   <div
                     tabIndex={0}
-                    className="dropdown-content z-[1] card card-compact w-96 p-2 shadow bg-primary text-primary-content"
+                    className="dropdown-content z-[1] card card-compact w-96 p-2 shadow bg-navy-basic text-navy-basic"
                   >
-                    {/* <ul
+                    <ul
                       tabIndex={0}
-                      className="menu dropdown-content z-[1] p-2 shadow bg-base-200 rounded-box w-52 mt-4"
+                      className="bg-base-200 rounded-box w-52 mt-4"
                     >
                       {[
                         "키움 > 고척 돔 야구장",
@@ -146,7 +118,7 @@ const tickets = [
                           <a>{item}</a>
                         </li>
                       ))}
-                    </ul> */}
+                    </ul>
                   </div>
                 </div>
               </div>
@@ -162,51 +134,53 @@ const tickets = [
             <li className="w-28 text-sm">등록일</li>
           </ul>
           <div>
-            {tickets.map((ticket, index) => (
-              <div
-                key={index}
-                className="flex w-full h-full rounded-xl border-2 border-blue-950 mt-1"
-              >
-                <div className="w-72">
-                  <div className="flex m-2 text-sm breadcrumbs">
-                    <ul>
-                      <li>
-                        <a>{ticket.sport_name}</a>
-                      </li>
-                      <li>
-                        <a>{ticket.team_name}</a>
-                      </li>
-                      <li>
-                        <a>{ticket.stadium_name}</a>
-                      </li>
-                    </ul>
-                  </div>
+            <Link to="/detail" className="text-navy-basic">
+              {tickets.map((ticket, index) => (
+                <div
+                  key={index}
+                  className="flex w-full h-full rounded-xl border-2 border-blue-950 mt-1"
+                >
+                  <div className="w-72">
+                    <div className="flex m-2 text-sm breadcrumbs">
+                      <ul>
+                        <li>
+                          <a>{ticket.sport_name}</a>
+                        </li>
+                        <li>
+                          <a>{ticket.team_name}</a>
+                        </li>
+                        <li>
+                          <a>{ticket.stadium_name}</a>
+                        </li>
+                      </ul>
+                    </div>
 
-                  <div className="flex-col m-2">
-                    <div className="text-xl text-left font-extrabold">
-                      {ticket.seat_info}
+                    <div className="flex-col m-2">
+                      <div className="text-xl text-left font-extrabold">
+                        {ticket.seat_info}
+                      </div>
+                      <div className="text-left font-semibold">
+                        {ticket.use_date}
+                      </div>
                     </div>
-                    <div className="text-left font-semibold">
-                      {ticket.use_date}
+                  </div>
+                  <div className="w-28 grid justify-center items-center text-sm">
+                    {ticket.quantity}
+                  </div>
+                  <div className="w-28 flex-col">
+                    <div className="text-sm text-end mt-6 pr-6 justify-end">
+                      {ticket.original_price}
+                    </div>
+                    <div className="font-extrabold text-xl text">
+                      {ticket.sale_price}
                     </div>
                   </div>
-                </div>
-                <div className="w-28 grid justify-center items-center text-sm">
-                  {ticket.quantity}
-                </div>
-                <div className="w-28 flex-col">
-                  <div className="text-sm text-end mt-6 pr-6 justify-end">
-                    {ticket.original_price}
-                  </div>
-                  <div className="font-extrabold text-xl text">
-                    {ticket.sale_price}
+                  <div className="w-28 grid justify-center items-center text-sm">
+                    {ticket.post_date}
                   </div>
                 </div>
-                <div className="w-28 grid justify-center items-center text-sm">
-                  {ticket.post_date}
-                </div>
-              </div>
-            ))}
+              ))}
+            </Link>
           </div>
         </div>
       </div>
