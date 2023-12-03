@@ -71,8 +71,9 @@ const tickets = [
         </button>
         <div className="bg-white flex max-w-5xl mb-4">
           <div className="navbar bg-navy-basic flex rounded-box">
-            {/* <img src={TicketImg} className="w-auto h-auto"/> */}
-            <div className="text-white">TicketImg자리</div>
+            <div className="text-white">
+              <img src={TicketImg} className="border-none rounded-xl w-12 h-12" />
+            </div>
             <div className="text-white text-base mx-4 text-lg font-extrabold">
               {category === "baseball" && "야구"}
               {category === "soccer" && "축구"}
