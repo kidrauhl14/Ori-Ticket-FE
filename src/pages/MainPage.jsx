@@ -19,7 +19,11 @@ const categories = [
   },
 ];
 
-const categoryLabelMap ={"야구": "baseball", "축구": "soccer", "농구":"basketball",};
+const categoryLabelMap = {
+  야구: "baseball",
+  축구: "soccer",
+  농구: "basketball",
+};
 
 const tickets = [
   {
@@ -63,8 +67,15 @@ export default function MainPage() {
       <Navbar />
       <div className="flex max-w-5xl mb-4">
         {categories.map((category, index) => (
-          <div key={index} className="justify-center h-full w-full">
-            <Link to={`/category/${categoryLabelMap[category.label]}`}>
+          <div
+            key={index}
+            className="justify-center h-full w-full"
+          >
+            <Link
+              to={`/category/${
+                categoryLabelMap[category.label]
+              }`}
+            >
               <button className="p-0 rounded-xl mx-6">
                 <img
                   src={category.img}
@@ -74,7 +85,9 @@ export default function MainPage() {
               </button>
             </Link>
 
-            <p className="mb-4 font-extrabold text-base">{category.label}</p>
+            <p className="mb-4 font-extrabold text-base">
+              {category.label}
+            </p>
           </div>
         ))}
       </div>
@@ -94,11 +107,21 @@ export default function MainPage() {
             >
               <div className="w-72">
                 <div className="flex m-2">
-                  <p className="text-xs mr-1">{ticket.sport_name}</p>
-                  <p className="text-xs font-extrabold mr-1">&gt;</p>
-                  <p className="text-xs mr-1">{ticket.team_name}</p>
-                  <p className="text-xs font-extrabold mr-1">&gt;</p>
-                  <p className="text-xs">{ticket.stadium_name}</p>
+                  <p className="text-xs mr-1">
+                    {ticket.sport_name}
+                  </p>
+                  <p className="text-xs font-extrabold mr-1">
+                    &gt;
+                  </p>
+                  <p className="text-xs mr-1">
+                    {ticket.team_name}
+                  </p>
+                  <p className="text-xs font-extrabold mr-1">
+                    &gt;
+                  </p>
+                  <p className="text-xs">
+                    {ticket.stadium_name}
+                  </p>
                 </div>
                 <div className="flex-col m-2">
                   <div className="text-xl text-left font-extrabold">

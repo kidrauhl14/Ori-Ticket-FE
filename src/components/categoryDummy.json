@@ -1,0 +1,254 @@
+{
+  "sports": [
+    { "sport_name": "야구" },
+    { "sport_name": "축구" },
+    { "sport_name": "농구" }
+  ],
+  "stadiums": [
+    {
+      "sport_name": "야구",
+      "stadium_name": "고척 돔 야구장",
+      "home_team_name": "키움"
+    },
+    {
+      "sport_name": "야구",
+      "stadium_name": "광주 챔피언스 필드",
+      "home_team_name": "KIA"
+    },
+    {
+      "sport_name": "야구",
+      "stadium_name": "대구 라이온즈 파크",
+      "home_team_name": "삼성"
+    },
+    {
+      "sport_name": "야구",
+      "stadium_name": "대전 이글스 파크",
+      "home_team_name": "한화"
+    },
+    {
+      "sport_name": "야구",
+      "stadium_name": "부산 사직 야구장",
+      "home_team_name": "롯데"
+    },
+    {
+      "sport_name": "야구",
+      "stadium_name": "수원 위즈 파크",
+      "home_team_name": "KT"
+    },
+    {
+      "sport_name": "야구",
+      "stadium_name": "인천 SSG랜더스필드",
+      "home_team_name": "SSG"
+    },
+    {
+      "sport_name": "야구",
+      "stadium_name": "잠실 야구장",
+      "home_team_name": "두산"
+    },
+    {
+      "sport_name": "야구",
+      "stadium_name": "잠실 야구장",
+      "home_team_name": "LG"
+    },
+    {
+      "sport_name": "야구",
+      "stadium_name": "창원NC파크",
+      "home_team_name": "LG"
+    },
+    {
+      "sport_name": "축구",
+      "stadium_name": "강릉 종합 운동장",
+      "home_team_name": "강원FC"
+    },
+    {
+      "sport_name": "축구",
+      "stadium_name": "광주 축구 전용경기장",
+      "home_team_name": "광주FC"
+    },
+    {
+      "sport_name": "축구",
+      "stadium_name": "DGB대구은행파크",
+      "home_team_name": "대구FC"
+    },
+    {
+      "sport_name": "축구",
+      "stadium_name": "대전 월드컵 경기장",
+      "home_team_name": "대전 하나 시티즌"
+    },
+    {
+      "sport_name": "축구",
+      "stadium_name": "서울 월드컵 경기장",
+      "home_team_name": "FC서울"
+    },
+    {
+      "sport_name": "축구",
+      "stadium_name": "수원 월드컵 경기장",
+      "home_team_name": "수원 삼성 블루윙즈"
+    },
+    {
+      "sport_name": "축구",
+      "stadium_name": "수원 종합 운동장",
+      "home_team_name": "수원FC"
+    },
+    {
+      "sport_name": "축구",
+      "stadium_name": "울산 문수 축구경기장",
+      "home_team_name": "울산 현대 축구단"
+    },
+    {
+      "sport_name": "축구",
+      "stadium_name": "인천 축구 전용경기장",
+      "home_team_name": "인천 유나이티드"
+    },
+    {
+      "sport_name": "축구",
+      "stadium_name": "전주 월드컵 경기장",
+      "home_team_name": "전북 현대 모터스"
+    },
+    {
+      "sport_name": "축구",
+      "stadium_name": "제주 월드컵 경기장",
+      "home_team_name": "제주 유나이티드"
+    },
+    {
+      "sport_name": "축구",
+      "stadium_name": "포항 스틸야드",
+      "home_team_name": "포항 스틸러스"
+    },
+    {
+      "sport_name": "농구",
+      "stadium_name": "고양 소노 아레나",
+      "home_team_name": "고양 소노 스카이거너스"
+    },
+    {
+      "sport_name": "농구",
+      "stadium_name": "대구 체육관",
+      "home_team_name": "대구 한국가스공사 페가수스"
+    },
+    {
+      "sport_name": "농구",
+      "stadium_name": "부산 사직 실내체육관",
+      "home_team_name": "부산 KCC 이지스"
+    },
+    {
+      "sport_name": "농구",
+      "stadium_name": "잠실 실내 체육관",
+      "home_team_name": "서울 삼성 썬더스"
+    },
+    {
+      "sport_name": "농구",
+      "stadium_name": "서울 학생 체육관",
+      "home_team_name": "서울 SK 나이츠"
+    },
+    {
+      "sport_name": "농구",
+      "stadium_name": "수원 KT 소닉붐 아레나",
+      "home_team_name": "수원 KT 소닉붐"
+    },
+    {
+      "sport_name": "농구",
+      "stadium_name": "안양 실내 체육관",
+      "home_team_name": "안양 정관장 레드부스터스"
+    },
+    {
+      "sport_name": "농구",
+      "stadium_name": "울산 동천 체육관",
+      "home_team_name": "울산 현대모비스 피버스"
+    },
+    {
+      "sport_name": "농구",
+      "stadium_name": "원주 종합 체육관",
+      "home_team_name": "원주 DB 프로미"
+    },
+    {
+      "sport_name": "야구",
+      "stadium_name": "창원 실내 체육관",
+      "home_team_name": "창원 LG 세이커스"
+    }
+  ],
+  "teams": [
+    { "sport_name": "야구", "away_team_name": "KIA" },
+    { "sport_name": "야구", "away_team_name": "두산" },
+    { "sport_name": "야구", "away_team_name": "롯데" },
+    { "sport_name": "야구", "away_team_name": "삼성" },
+    { "sport_name": "야구", "away_team_name": "SSG" },
+    { "sport_name": "야구", "away_team_name": "NC" },
+    { "sport_name": "야구", "away_team_name": "LG" },
+    { "sport_name": "야구", "away_team_name": "KT" },
+    { "sport_name": "야구", "away_team_name": "키움" },
+    { "sport_name": "야구", "away_team_name": "한화" },
+    { "sport_name": "축구", "away_team_name": "강원FC" },
+    { "sport_name": "축구", "away_team_name": "광주FC" },
+    { "sport_name": "축구", "away_team_name": "대구FC" },
+    {
+      "sport_name": "축구",
+      "away_team_name": "대전 하나 시티즌"
+    },
+    { "sport_name": "축구", "away_team_name": "FC서울" },
+    {
+      "sport_name": "축구",
+      "away_team_name": "수원 삼성 블루윙즈"
+    },
+    { "sport_name": "축구", "away_team_name": "수원FC" },
+    {
+      "sport_name": "축구",
+      "away_team_name": "울산 현대 축구단"
+    },
+    {
+      "sport_name": "축구",
+      "away_team_name": "인천 유나이티드"
+    },
+    {
+      "sport_name": "축구",
+      "away_team_name": "전북 현대 모터스"
+    },
+    {
+      "sport_name": "축구",
+      "away_team_name": "제주 유나이티드"
+    },
+    {
+      "sport_name": "축구",
+      "away_team_name": "포항 스틸러스"
+    },
+    {
+      "sport_name": "농구",
+      "away_team_name": "고양 소노 스카이거너스"
+    },
+    {
+      "sport_name": "농구",
+      "away_team_name": "대구 한국가스공사 페가수스"
+    },
+    {
+      "sport_name": "농구",
+      "away_team_name": "부산 KCC 이지스"
+    },
+    {
+      "sport_name": "농구",
+      "away_team_name": "서울 삼성 썬더스"
+    },
+    {
+      "sport_name": "농구",
+      "away_team_name": "서울 SK 나이츠"
+    },
+    {
+      "sport_name": "농구",
+      "away_team_name": "수원 KT 소닉붐"
+    },
+    {
+      "sport_name": "농구",
+      "away_team_name": "안양 정관장 레드부스터스"
+    },
+    {
+      "sport_name": "농구",
+      "away_team_name": "울산 현대모비스 피버스"
+    },
+    {
+      "sport_name": "농구",
+      "away_team_name": "원주 DB 프로미"
+    },
+    {
+      "sport_name": "농구",
+      "away_team_name": "창원 LG 세이커스"
+    }
+  ]
+}
