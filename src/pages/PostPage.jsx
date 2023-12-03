@@ -208,6 +208,71 @@ export default function PostPage() {
         </div>
       </div>
       {/* 티켓 가경정보끝 */}
+      {/* 좌석정보 */}
+      <div className="flex-col mb-12">
+        <div className="flex items-center mb-1">
+          <p className="font-extrabold text-lg">
+            좌석정보&nbsp;
+          </p>
+          <p className="font-extrabold text-lg text-yellow-basic">
+            (필수)
+          </p>
+        </div>
+        <div className="flex-col items-center mb-1">
+          <select className="block appearance-none w-full bg-white border-2 border-blue-950 hover:border-blue-950 px-4 py-2 pr-8 rounded-xl shadow leading-tight focus:outline-none focus:shadow-outline mb-1">
+            <option>선택</option>
+            <option>선택2</option>
+          </select>
+          <select className="block appearance-none w-full bg-white border-2 border-blue-950 hover:border-blue-950 px-4 py-2 pr-8 rounded-xl shadow leading-tight focus:outline-none focus:shadow-outline">
+            <option>선택</option>
+            <option>선택2</option>
+          </select>
+        </div>
+        <div className="flex items-center mb-1">
+          <input
+            placeholder="예시: B2"
+            className="mr-1 rounded-xl border-blue-950 border-2 w-32"
+          ></input>
+          <p className="font-extrabold text-base mr-4">
+            구역: (존/블럭)
+          </p>
+          <input
+            placeholder="예시: 6"
+            className="mr-1 rounded-xl border-blue-950 border-2 w-32"
+          ></input>
+          <p className="font-extrabold text-base mr-4">
+            열
+          </p>
+        </div>
+        <div className="flex items-center mb-1">
+          <input
+            placeholder="선택사항: 추가 정보 입력(최대 10글자)"
+            className="mr-1 rounded-xl border-blue-950 border-2 w-full"
+          ></input>
+        </div>
+        <div className="flex items-center mb-1">
+          <img
+            src={Exclamation}
+            alt="느낌표"
+            className="w-6 h-6 mr-1"
+          ></img>
+          <p className="font-extrabold text-sm">
+            상품수량은 일괄로 한번에 판매 됩니다.
+          </p>
+        </div>
+        <div className="flex items-center">
+          <img
+            src={Exclamation}
+            alt="느낌표"
+            className="w-6 h-6 mr-1"
+          ></img>
+          <p className="font-extrabold text-sm">
+            정가이하로 판매하세요. 정가이상으로 등록 시
+            이용제한이 발생할 수 있습니다.
+          </p>
+        </div>
+      </div>
+      {/* 좌석 정보끝 */}
       {/* 연석 여부 */}
       <div className="flex-col mb-12">
         <div className="flex items-center mb-1">
