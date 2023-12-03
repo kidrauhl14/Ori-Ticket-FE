@@ -59,7 +59,11 @@ const tickets = [
       <Navbar />
       <div className="flex justify-center items-center">
         <img src={BaseballImg} className="border rounded-lg" />
-        <div className="text-7xl font-extrabold ml-4">{category}</div>
+        <div className="text-7xl font-extrabold ml-4">
+          {category === "baseball" && "야구"}
+          {category === "soccer" && "축구"}
+          {category === "basketball" && "농구"}
+        </div>
       </div>
       <div className="flex flex-col">
         <button className="p-0 w-1/6 mb-4 justify-start">
@@ -69,8 +73,13 @@ const tickets = [
           <div className="navbar bg-navy-basic flex rounded-box">
             {/* <img src={TicketImg} className="w-auto h-auto"/> */}
             <div className="text-white">TicketImg자리</div>
+            <div className="text-white text-base mx-4 text-lg font-extrabold">
+              {category === "baseball" && "야구"}
+              {category === "soccer" && "축구"}
+              {category === "basketball" && "농구"}
+            </div>
             <div className="bg-white flex justify-between flex-1 px-2 border rounded-md">
-              <a className="btn btn-ghost rounded-btn text-slate-500 text-base font-extrabold">
+              <a className="text-slate-500 text-base text-lg font-extrabold">
                 카테고리별 보기
               </a>
               <div>
@@ -96,11 +105,11 @@ const tickets = [
 
                   <div
                     tabIndex={0}
-                    className="dropdown-content z-[1] card card-compact w-96 p-2 shadow bg-navy-basic text-navy-basic"
+                    className="dropdown-content z-[1] card card-compact w-96 p-0 shadow bg-white text-navy-basic"
                   >
                     <ul
                       tabIndex={0}
-                      className="bg-base-200 rounded-box w-52 mt-4"
+                      className="bg-base-200 grid grid-cols-3 gap-8 rounded-box "
                     >
                       {[
                         "키움 > 고척 돔 야구장",
@@ -114,7 +123,7 @@ const tickets = [
                         "KT > 수원 위즈파크",
                         "LG > 잠실 야구장",
                       ].map((item, index) => (
-                        <li key={index} className="w-full px-2 py-1">
+                        <li key={index} className="col-span-2 w-full px-2 py-1">
                           <a>{item}</a>
                         </li>
                       ))}
@@ -134,7 +143,10 @@ const tickets = [
             <li className="w-28 text-sm">등록일</li>
           </ul>
           <div>
-            <Link to="/detail" className="text-navy-basic">
+            <Link
+              to="/detail"
+              className="text-navy-basic hover:text-navy-basic"
+            >
               {tickets.map((ticket, index) => (
                 <div
                   key={index}
@@ -144,13 +156,19 @@ const tickets = [
                     <div className="flex m-2 text-sm breadcrumbs">
                       <ul>
                         <li>
-                          <a>{ticket.sport_name}</a>
+                          <a className="text-navy-basic hover:text-navy-basic">
+                            {ticket.sport_name}
+                          </a>
                         </li>
                         <li>
-                          <a>{ticket.team_name}</a>
+                          <a className="text-navy-basic hover:text-navy-basic">
+                            {ticket.team_name}
+                          </a>
                         </li>
                         <li>
-                          <a>{ticket.stadium_name}</a>
+                          <a className="text-navy-basic hover:text-navy-basic">
+                            {ticket.stadium_name}
+                          </a>
                         </li>
                       </ul>
                     </div>
