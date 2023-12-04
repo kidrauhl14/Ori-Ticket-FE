@@ -1,0 +1,49 @@
+{
+  "post": [
+    {
+      "report_post_id": "1",
+      "report_id": "powerrock",
+      "sale_post_id": "",
+      "reason": "정가 이상 등록",
+      "reported_at": "2023-11-18"
+    },
+    {
+      "report_post_id": "2",
+      "report_id": "puredragon",
+      "sale_post_id": "",
+      "reason": "허위 매물 의심",
+      "reported_at": "2023-11-22"
+    },
+    {
+      "report_post_id": "3",
+      "report_id": "dakpura",
+      "sale_post_id": "",
+      "reason": "부적절한 사진",
+      "reported_at": "2023-11-26"
+    }
+  ],
+
+  "trade": [
+    {
+      "report_trade_id": "1",
+      "report_id": "sunflower",
+      "transaction_id": "",
+      "reason": "입금 대기",
+      "reported_at": "2023-11-20"
+    },
+    {
+      "report_trade_id": "2",
+      "report_id": "euncherry",
+      "transaction_id": "",
+      "reason": "유효하지 않음",
+      "reported_at": "2023-11-24"
+    },
+    {
+      "report_trade_id": "3",
+      "report_id": "hahaeunly",
+      "transaction_id": "",
+      "reason": "PIN번호 사용불가",
+      "reported_at": "2023-11-30"
+    }
+  ]
+}
