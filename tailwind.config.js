@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 import daisyUIPlugin from "daisyui";
-import formsPlugin from '@tailwindcss/forms';
-import ratioPlugin from '@tailwindcss/aspect-ratio';
+import formsPlugin from "@tailwindcss/forms";
+import ratioPlugin from "@tailwindcss/aspect-ratio";
 export const mode = "jit";
 export const content = [
   "./index.html",
@@ -20,11 +20,16 @@ export const theme = {
   extend: {
     colors: {
       "navy-basic": "#041882",
+      "yellow-basic": "#fde047",
     },
   },
 };
 
-export const plugins = [daisyUIPlugin, formsPlugin, ratioPlugin];
+export const plugins = [
+  daisyUIPlugin,
+  formsPlugin,
+  ratioPlugin,
+];
 
 export const daisyUISettings = {
   styled: true,
@@ -34,7 +39,6 @@ export const daisyUISettings = {
   logs: true,
   rtl: false,
 };
-
 
 // export const mode = "jit";
 // export const content = ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"];
@@ -51,15 +55,6 @@ export const daisyUISettings = {
 // };
 
 // export const plugins = [daisyui];
-
-
-
-
-
-
-
-
-
 
 // export const daisyui = {
 //   styled: true,

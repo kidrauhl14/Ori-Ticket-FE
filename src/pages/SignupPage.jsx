@@ -7,17 +7,16 @@ export default function SignupPage() {
   const [value, setValue] = useState({
     startDate: null,
     endDate: null,
-  }); 
+  });
 
-  const handleAllCheck =() => {
+  const handleAllCheck = () => {
     setIsCheckedAll(!isCheckedAll);
-  }
-
+  };
 
   const handleValueChange = (newValue) => {
-    console.log("newValue:", newValue); 
-    setValue(newValue); 
-  } 
+    console.log("newValue:", newValue);
+    setValue(newValue);
+  };
   return (
     <>
       <div className="w-64 lg:w-72 xl:w-80 2xl:w-96">
@@ -57,7 +56,7 @@ export default function SignupPage() {
               asSingle={true}
               value={value}
               onChange={handleValueChange}
-              dateFormat="yyyy-MM-dd"
+              dateFormat="MM-dd-yyyy"
               id="birthdate"
               name="birthdate"
               className="w-full"
@@ -85,7 +84,10 @@ export default function SignupPage() {
                 checked={isCheckedAll}
                 onChange={handleAllCheck}
               />
-              <label htmlFor="total_agree" className="ml-2 mb-2">
+              <label
+                htmlFor="total_agree"
+                className="ml-2 mb-2"
+              >
                 약관 전체동의
               </label>
             </div>
@@ -127,7 +129,10 @@ export default function SignupPage() {
             </div>
           </div>
           <div>
-            <button type="submit" className="py-4 mt-8 bg-navy-basic text-white">
+            <button
+              type="submit"
+              className="py-4 mt-8 bg-navy-basic text-white"
+            >
               가입하기
             </button>
           </div>

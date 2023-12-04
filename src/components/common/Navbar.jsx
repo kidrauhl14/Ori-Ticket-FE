@@ -23,6 +23,7 @@ export default function Navbar() {
           onClick={handleGoBack}
         />
       </div>
+      <div className="w-96"></div>
       <div className="flex">
         <div className="mr-6">
           <Link to="/chat">
