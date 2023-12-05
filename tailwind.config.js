@@ -21,6 +21,7 @@ export const theme = {
     colors: {
       "navy-basic": "#041882",
       "yellow-basic": "#fde047",
+      "sky-basic": "#3EAAE0",
     },
   },
 };
