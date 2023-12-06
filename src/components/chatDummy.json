@@ -1,6 +1,6 @@
 [
   {
-    "room_id": "room_1",
+    "room_id": "service",
     "participants": [
       { "id": "customer_service", "name": "고객센터" },
       { "id": "eunchae", "name": "은채" }
