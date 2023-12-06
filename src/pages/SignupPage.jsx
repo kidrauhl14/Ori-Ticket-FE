@@ -2,6 +2,27 @@ import { useState } from "react";
 import Datepicker from "react-tailwindcss-datepicker";
 
 export default function SignupPage() {
+
+    const [studyData, setStudyData] = useState(null);
+
+    const handleClick3 = () => {
+        fetch("https://jsonplaceholder.typicode.com/users")
+            .then((response) => {
+                return response.json()
+            })
+            .then((json) => {
+                setStudyData(json);
+                console.log(json);
+            })
+            // .catch((error) => {
+            //     setError(`Something Wrong: ${error}`);
+            // })
+    }
+
+
+
+
+
   const [selectedDate, setSelectedDate] = useState(null);
   const [isCheckedAll, setIsCheckedAll] = useState(false);
   const [value, setValue] = useState({
@@ -20,6 +41,26 @@ export default function SignupPage() {
   return (
     <>
       <div className="w-64 lg:w-72 xl:w-80 2xl:w-96">
+
+
+        <div>
+            <button onClick={handleClick3}> study 데이터 가져오기</button>
+            {studyData && (
+                <ul>
+                    {studyData.map((data) => (
+                        <p key={data.id}>
+                            {data.name} : {data.email}
+                        </p>
+                            
+                    ))}
+                </ul>
+            )}
+        </div>
+
+
+
+
+
         <h1 className=" font-extrabold">회원가입</h1>
         <div className="grid-rows-6 w-full my-10">
           <div className="py-4 text-left">
