@@ -1,4 +1,3 @@
-import {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from "@components/common/Navbar.jsx";
 import chatDummy from "@components/chatDummy.json";
@@ -10,8 +9,9 @@ function getLastMessageText(messages) {
 }
 
 export default function ChatlistPage() {
+
   return (
-    <div>
+    <div className="bg-blue-100 h-screen">
       <Navbar />
       <div>
         <h1 className="text-navy-basic flex justify-start text-2xl ml-2 font-extrabold">

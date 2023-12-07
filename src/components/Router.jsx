@@ -1,3 +1,4 @@
+import { useState } from "react";
 import LoginPage from "@pages/LoginPage";
 import SignupPage from "@pages/SignupPage";
 import MainPage from "@pages/MainPage";
@@ -13,6 +14,8 @@ import ServicePage from "@pages/ServicePage";
 import { Route, Routes, Navigate } from "react-router-dom";
 
 export default function Router() {
+  // const currentUserId = "eunchae";
+
   return (
     <Routes>
       <Route path="/" element={<MainPage />} />
@@ -25,8 +28,8 @@ export default function Router() {
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/admin" element={<AdminPage />} />
       <Route path="/chatlist" element={<ChatlistPage />} />
-      <Route path="/chatlist/:room_id" element={<ChatPage />} />
-      <Route path="/service" element={<ServicePage />} />
+      <Route path="/chatlist/:room_id" element={<ChatPage/>} />
+      <Route path={`/service`} element={<ServicePage />} />
       <Route path="*" element={<Navigate replace to="/login" />} />
     </Routes>
   );
