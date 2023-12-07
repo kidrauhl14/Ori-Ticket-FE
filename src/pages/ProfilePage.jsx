@@ -46,6 +46,12 @@ const saleTicket = [
 ];
 
 export default function ProfilePage() {
+  fetch("/resource").then((response) => response.json());
+
+  fetch("/auth", {
+    method: "POST",
+  });
+
   return (
     <div>
       <Navbar />
