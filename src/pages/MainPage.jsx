@@ -59,6 +59,28 @@ const tickets = [
     sale_price: "17,000",
     post_date: "11-25-2023",
   },
+  {
+    sport_name: "야구",
+    team_name: "롯데",
+    stadium_name: "부산 사직 야구장",
+    seat_info: "35구역 e열 2층 2루 지정석",
+    use_date: "사용일: 11-23-2023 (Thursday)",
+    quantity: "1개",
+    original_price: "20,000",
+    sale_price: "17,000",
+    post_date: "11-25-2023",
+  },
+  {
+    sport_name: "야구",
+    team_name: "롯데",
+    stadium_name: "부산 사직 야구장",
+    seat_info: "35구역 e열 2층 2루 지정석",
+    use_date: "사용일: 11-23-2023 (Thursday)",
+    quantity: "1개",
+    original_price: "20,000",
+    sale_price: "17,000",
+    post_date: "11-25-2023",
+  },
 ];
 
 export default function MainPage() {

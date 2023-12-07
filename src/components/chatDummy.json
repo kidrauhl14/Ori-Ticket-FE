@@ -5,7 +5,7 @@
       { "id": "taeyang", "name": "태양" },
       { "id": "eunchae", "name": "은채" }
     ],
-    "messages" : [
+    "messages": [
       {
         "type": "text",
         "text": "안녕하세요, 선물하기 보냈습니다.",
@@ -34,7 +34,7 @@
       { "id": "kitty", "name": "헬로키티" },
       { "id": "eunchae", "name": "은채" }
     ],
-    "messages" : [
+    "messages": [
       {
         "type": "text",
         "text": "안녕하세요, 입금이 아직 안돼서 연락드립니다.",
