@@ -26,12 +26,12 @@ export default function Navbar() {
       <div className="w-96"></div>
       <div className="flex">
         <div className="mr-6">
-          <Link to="/chat">
+          <Link to="/service">
             <img src={Adminchat} alt="관리자 채팅" />
           </Link>
         </div>
         <div className="mr-4">
-          <Link to="/chat">
+          <Link to="/chatlist">
             <img src={Chat} alt="채팅" />
           </Link>
         </div>

@@ -1,0 +1,49 @@
+[
+  {
+    "room_id": "eunchae",
+    "participants": [
+      { "id": "customer_service", "name": "고객센터" },
+      { "id": "eunchae", "name": "은채" }
+    ],
+    "messages": [
+      {
+        "type": "text",
+        "text": "안녕하세요, 입금이 아직 안돼서 연락드립니다.",
+        "from": "eunchae",
+        "sender_name": "은채",
+        "to": "customer_service"
+      },
+      {
+        "type": "text",
+        "text": "안녕하세요. 고객님! 문의 주신 건을 확인해보니 PIN 번호 유효성 확인은 마쳤지만 구매자 분께서 아직 미입금 상태로로 거래 보류 중으로 확인됩니다. 또한 구매자 입금 확인 시 거래 보류 상태가 해제되며 관람 종료 시 고객님에게 최종 입금이 될 예정입니다. 구매자에게 연락 후 입금 확인 되는대로 재안내 드리겠습니다. 불편을 드려서 죄송합니다.",
+        "from": "customer_service",
+        "sender_name": "고객센터",
+        "to": "eunchae"
+      },
+      {
+        "type": "text",
+        "text": "빠른 답변 감사합니다. 그럼 입금 확인되면 관람 종료 후 저한테 돈이 들어오는건가요?",
+        "from": "eunchae",
+        "sender_name": "은채",
+        "to": "customer_service"
+      },
+      {
+        "type": "text",
+        "text": "네, 그렇습니다. 고객님! 관람 종료 후 수수료(1,000원) 차감후 차액이 바로 입금 됩니다. 앞전에 문의 주신 내용이 변경점이 생기면 빠른 안내드리겠습니다. 다른 문의사항이나 궁금한점 있으시면 안내 도와드리겠습니다. 감사합니다.",
+        "from": "customer_service",
+        "sender_name": "고객센터",
+        "to": "eunchae"
+      },
+      {
+        "type": "text",
+        "text": "빠른 답변 감사합니다.",
+        "from": "eunchae",
+        "sender_name": "은채",
+        "to": "customer_service"
+      }
+    ]
+  }
+]
+
+
+
