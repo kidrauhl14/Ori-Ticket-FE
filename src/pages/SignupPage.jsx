@@ -3,24 +3,18 @@ import Datepicker from "react-tailwindcss-datepicker";
 
 export default function SignupPage() {
 
-    const [studyData, setStudyData] = useState(null);
-
-    const handleClick3 = () => {
-        fetch("https://jsonplaceholder.typicode.com/users")
-            .then((response) => {
-                return response.json()
-            })
-            .then((json) => {
-                setStudyData(json);
-                console.log(json);
-            })
-            // .catch((error) => {
-            //     setError(`Something Wrong: ${error}`);
-            // })
-    }
-
-
-
+    fetch("/response").then((response) => response.json());
+    // const [studyData, setStudyData] = useState(null);
+    // const handleClick3 = async () => {
+    //   try {
+    //     const response = await fetch("https://jsonplaceholder.typicode.com/users");
+    //     const data = await response.json();
+    //     setStudyData(data);
+    //     console.log(data);
+    //   } catch (error) {
+    //     console.error("Error fetching data:", error);
+    //   }
+    // };
 
 
   const [selectedDate, setSelectedDate] = useState(null);
@@ -44,7 +38,7 @@ export default function SignupPage() {
 
 
         <div>
-            <button onClick={handleClick3}> study 데이터 가져오기</button>
+            {/* <button onClick={handleClick3}> study 데이터 가져오기</button>
             {studyData && (
                 <ul>
                     {studyData.map((data) => (
@@ -54,7 +48,7 @@ export default function SignupPage() {
                             
                     ))}
                 </ul>
-            )}
+            )} */}
         </div>
 
 
