@@ -1,3 +1,4 @@
+//gitmoji 설치했따아
 import React from "react";
 
 // 이미지
