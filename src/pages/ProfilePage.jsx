@@ -6,6 +6,8 @@ import Ticket from "@assets/img_ticket.png";
 // 컴포넌트
 import Navbar from "@components/common/Navbar.jsx";
 
+import Test from "@components/common/Test.jsx";
+
 const myTickets = [
   {
     sport_name: "야구",
@@ -46,14 +48,9 @@ const saleTicket = [
 ];
 
 export default function ProfilePage() {
-  fetch("/resource").then((response) => response.json());
-
-  fetch("/auth", {
-    method: "POST",
-  });
-
   return (
     <div>
+      <Test />
       <Navbar />
       <div className="flex-col">
         {/* 내 정보 */}

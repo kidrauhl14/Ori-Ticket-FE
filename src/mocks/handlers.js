@@ -9,7 +9,7 @@ export const handlers = [
 
   http.post("/auth", () => {
     // Note that you DON'T have to stringify the JSON!
-    return HttpResponse.json(
+    return HttpResponse.json([
       {
         room_id: "room_1",
         participants: [
@@ -84,7 +84,7 @@ export const handlers = [
             to: "eunchae",
           },
         ],
-      }
-    );
+      },
+    ]);
   }),
 ];
