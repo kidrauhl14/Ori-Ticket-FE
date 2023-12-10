@@ -4,36 +4,17 @@ export default function Test() {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    //   //  모의 API로부터 데이터를 가져오는 fetch 요청
-    //   fetch("/auth", { method: "POST" })
-    //     .then((response) => {
-    //       if (!response.ok) {
-    //         throw new Error(
-    //           `HTTP error! Status: ${response.status}`
-    //         );
-    //       }
-    //       return response.json();
-    //     })
-    //     .then((data) => {
-    //       // 받아온 데이터를 상태에 저장
-    //       setUserData(data);
-    //     })
-    //     .catch((error) => {
-    //       console.error("Fetch error:", error);
-    //     });
-    // }, []);
-
     async function fetchData() {
       try {
-        const response = await fetch("/auth", {
-          method: "POST",
+        const response = await fetch("/posts", {
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            email: "none@naver.com",
-            password: "sdfkljsldf",
-          }),
+          // body: JSON.stringify({
+          //   email: "none@naver.com",
+          //   password: "sdfkljsldf",
+          // }),
         });
 
         if (!response.ok) {
@@ -57,15 +38,10 @@ export default function Test() {
       <div className="flex-col bg-white h-12">
         <div className="bg-black">테스트중</div>
         {/* userData가 로드되면 해당 정보를 사용 */}
-        {/* {userData &&
-          Array.isArray(userData) &&
-          userData.map((user) => (
-            <p key={user.room_id}>{user.room_id}</p>
-          ))} */}
         {userData &&
           userData.map((info, index) => (
             <div className="bg-white" key={index}>
-              User Data: {JSON.stringify(info.room_id)};
+              User Data: {JSON.stringify(info)};
             </div>
           ))}
       </div>
