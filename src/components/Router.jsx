@@ -7,6 +7,7 @@ import CategoryPage from "@pages/CategoryPage";
 import DetailPage from "@pages/DetailPage";
 import PaymentPage from "@pages/PaymentPage";
 import ProfilePage from "@pages/ProfilePage";
+import ProfileEditPage from "@pages/ProfileEditPage";
 import AdminPage from "@pages/AdminPage";
 import ChatPage from "@pages/ChatPage";
 import ChatlistPage from "@pages/ChatlistPage";
@@ -26,9 +27,10 @@ export default function Router() {
       <Route path="/detail" element={<DetailPage />} />
       <Route path="/payment" element={<PaymentPage />} />
       <Route path="/profile" element={<ProfilePage />} />
+      <Route path="/profile/edit" element={<ProfileEditPage />} />
       <Route path="/admin" element={<AdminPage />} />
       <Route path="/chatlist" element={<ChatlistPage />} />
-      <Route path="/chatlist/:room_id" element={<ChatPage/>} />
+      <Route path="/chatlist/:room_id" element={<ChatPage />} />
       <Route path={`/service`} element={<ServicePage />} />
       <Route path="*" element={<Navigate replace to="/login" />} />
     </Routes>

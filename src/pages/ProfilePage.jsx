@@ -1,12 +1,10 @@
-import React from "react";
-
 // 이미지
 import Ticket from "@assets/img_ticket.png";
 
 // 컴포넌트
 import Navbar from "@components/common/Navbar.jsx";
 
-import Test from "@components/common/Test.jsx";
+import Test from "@components/MSWtest/Test.jsx";
 
 const myTickets = [
   {
