@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 // 이미지
@@ -25,65 +26,49 @@ const categoryLabelMap = {
   농구: "basketball",
 };
 
-const tickets = [
-  {
-    sport_name: "야구",
-    team_name: "키움",
-    stadium_name: "고척 돔 야구장",
-    seat_info: "418구역 k열 4층 3루 지정석",
-    use_date: "사용일: 11-27-2023 (Monday)",
-    quantity: "1개",
-    original_price: "20,000",
-    sale_price: "18,000",
-    post_date: "11-25-2023",
-  },
-  {
-    sport_name: "야구",
-    team_name: "삼성",
-    stadium_name: "대구 라이온즈 파크",
-    seat_info: "7구역 b열 3층 1루 지정석",
-    use_date: "사용일: 11-25-2023 (Saturday)",
-    quantity: "1개",
-    original_price: "20,000",
-    sale_price: "20,000",
-    post_date: "11-25-2023",
-  },
-  {
-    sport_name: "야구",
-    team_name: "롯데",
-    stadium_name: "부산 사직 야구장",
-    seat_info: "35구역 e열 2층 2루 지정석",
-    use_date: "사용일: 11-23-2023 (Thursday)",
-    quantity: "1개",
-    original_price: "20,000",
-    sale_price: "17,000",
-    post_date: "11-25-2023",
-  },
-  {
-    sport_name: "야구",
-    team_name: "롯데",
-    stadium_name: "부산 사직 야구장",
-    seat_info: "35구역 e열 2층 2루 지정석",
-    use_date: "사용일: 11-23-2023 (Thursday)",
-    quantity: "1개",
-    original_price: "20,000",
-    sale_price: "17,000",
-    post_date: "11-25-2023",
-  },
-  {
-    sport_name: "야구",
-    team_name: "롯데",
-    stadium_name: "부산 사직 야구장",
-    seat_info: "35구역 e열 2층 2루 지정석",
-    use_date: "사용일: 11-23-2023 (Thursday)",
-    quantity: "1개",
-    original_price: "20,000",
-    sale_price: "17,000",
-    post_date: "11-25-2023",
-  },
-];
-
 export default function MainPage() {
+  // 판매글 리스트
+  const [postsData, setPostsData] = useState([]);
+  useEffect(() => {
+    async function fetchPostsData() {
+      try {
+        const response = await fetch("/posts/list", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(
+            `HTTP error! status: ${response.status}`
+          );
+        }
+
+        const data = await response.json();
+        setPostsData(data);
+      } catch (error) {
+        console.error("Fetching error:", error);
+      }
+    }
+
+    fetchPostsData();
+  }, []);
+  console.log(postsData);
+
+  // 날짜를 년-월-일 형식으로 변환하는 함수
+  const formatDate = (dateString) => {
+    const options = {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+    };
+    return new Date(dateString).toLocaleDateString(
+      "ko-KR",
+      options
+    );
+  };
+
   return (
     <div>
       <Navbar />
@@ -114,6 +99,13 @@ export default function MainPage() {
         ))}
       </div>
       <SearchBar />
+      <div className="mt-8">
+        <Link to={`/post`}>
+          <div className="w-full py-2 border-2 border-blue-950 rounded-xl bg-blue-950 text-yellow-basic font-extrabold text-xl">
+            티켓 판매 등록
+          </div>
+        </Link>
+      </div>
       <div className="w-full h-full mt-8 rounded-xl border-2 border-blue-950">
         <ul className="flex justify-between my-4">
           <li className="w-72 text-sm">상품정보</li>
@@ -122,54 +114,80 @@ export default function MainPage() {
           <li className="w-28 text-sm">등록일</li>
         </ul>
         <div>
-          {tickets.map((ticket, index) => (
-            <div
-              key={index}
-              className="flex w-full h-full rounded-xl border-2 border-blue-950 mt-1"
-            >
-              <div className="w-72">
-                <div className="flex m-2">
-                  <p className="text-xs mr-1">
-                    {ticket.sport_name}
-                  </p>
-                  <p className="text-xs font-extrabold mr-1">
-                    &gt;
-                  </p>
-                  <p className="text-xs mr-1">
-                    {ticket.team_name}
-                  </p>
-                  <p className="text-xs font-extrabold mr-1">
-                    &gt;
-                  </p>
-                  <p className="text-xs">
-                    {ticket.stadium_name}
-                  </p>
-                </div>
-                <div className="flex-col m-2">
-                  <div className="text-xl text-left font-extrabold">
-                    {ticket.seat_info}
+          {postsData.length > 0 && // 조건부 렌더링 추가
+            postsData.map((data, index) => (
+              <div
+                key={index}
+                className="flex w-full h-full rounded-xl border-2 border-blue-950 mt-1"
+              >
+                <div className="w-72">
+                  <div className="flex m-2">
+                    <p className="text-xs mr-1">
+                      {data.content.length > 0 &&
+                        data.content[0].sportsName}
+                    </p>
+                    <p className="text-xs font-extrabold mr-1">
+                      &gt;
+                    </p>
+                    <p className="text-xs mr-1">
+                      {data.content.length > 0 &&
+                        data.content[0].homeTeamName}
+                    </p>
+                    <p className="text-xs font-extrabold mr-1">
+                      &gt;
+                    </p>
+                    <p className="text-xs">
+                      {data.content.length > 0 &&
+                        data.content[0].stadiumName}
+                    </p>
                   </div>
-                  <div className="text-left font-semibold">
-                    {ticket.use_date}
+                  <div className="flex-col m-2">
+                    <div className="text-xl text-left font-extrabold">
+                      {data.content.length > 0 &&
+                        data.content[0].seatInfo}
+                    </div>
+                    <div className="text-left font-semibold">
+                      {data.content.length > 0 &&
+                        formatDate(
+                          data.content[0].expirationAt
+                        )}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="w-28 grid justify-center items-center text-sm">
-                {ticket.quantity}
-              </div>
-              <div className="w-28 flex-col">
-                <div className="text-sm text-end mt-6 pr-6 justify-end">
-                  {ticket.original_price}
+                <div className="w-28 grid justify-center items-center text-sm">
+                  {data.content.length > 0 &&
+                    data.content[0].quantity}
                 </div>
-                <div className="font-extrabold text-xl text">
-                  {ticket.sale_price}
+                <div className="w-28 flex-col">
+                  <div className="text-sm text-end mt-6 pr-6 justify-end">
+                    {data.content.length > 0 &&
+                      data.content[0].originalPrice}
+                  </div>
+                  <div className="font-extrabold text-xl text">
+                    {data.content.length > 0 &&
+                      data.content[0].salePrice}
+                  </div>
+                </div>
+                <div className="w-28 grid justify-center items-center text-sm">
+                  {data.content.length > 0 &&
+                    formatDate(data.content[0].createdAt)}
                 </div>
               </div>
-              <div className="w-28 grid justify-center items-center text-sm">
-                {ticket.post_date}
-              </div>
+            ))}
+        </div>
+        <div className="card-compact w-96 bg-base-100 shadow-xl">
+          <div className="card-body">
+            <h2 className="card-title">Card title!</h2>
+            <p className="">
+              If a dog chews shoes whose shoes does he
+              choose?
+            </p>
+            <div className="card-actions justify-end">
+              <button className="btn btn-primary">
+                Buy Now
+              </button>
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </div>

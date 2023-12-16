@@ -1,254 +1,459 @@
 {
   "sports": [
-    { "sport_name": "야구" },
-    { "sport_name": "축구" },
-    { "sport_name": "농구" }
+    { "sportsId": "야구" },
+    { "sportsId": "축구" },
+    { "sportsId": "농구" }
   ],
   "stadiums": [
     {
-      "sport_name": "야구",
-      "stadium_name": "고척 돔 야구장",
-      "home_team_name": "키움"
+      "sportsId": "야구",
+      "stadiumId": "고척 돔 야구장",
+      "homeTeamId": "키움"
     },
     {
-      "sport_name": "야구",
-      "stadium_name": "광주 챔피언스 필드",
-      "home_team_name": "KIA"
+      "sportsId": "야구",
+      "stadiumId": "광주 챔피언스 필드",
+      "homeTeamId": "KIA"
     },
     {
-      "sport_name": "야구",
-      "stadium_name": "대구 라이온즈 파크",
-      "home_team_name": "삼성"
+      "sportsId": "야구",
+      "stadiumId": "대구 라이온즈 파크",
+      "homeTeamId": "삼성"
     },
     {
-      "sport_name": "야구",
-      "stadium_name": "대전 이글스 파크",
-      "home_team_name": "한화"
+      "sportsId": "야구",
+      "stadiumId": "대전 이글스 파크",
+      "homeTeamId": "한화"
     },
     {
-      "sport_name": "야구",
-      "stadium_name": "부산 사직 야구장",
-      "home_team_name": "롯데"
+      "sportsId": "야구",
+      "stadiumId": "부산 사직 야구장",
+      "homeTeamId": "롯데"
     },
     {
-      "sport_name": "야구",
-      "stadium_name": "수원 위즈 파크",
-      "home_team_name": "KT"
+      "sportsId": "야구",
+      "stadiumId": "수원 위즈 파크",
+      "homeTeamId": "KT"
     },
     {
-      "sport_name": "야구",
-      "stadium_name": "인천 SSG랜더스필드",
-      "home_team_name": "SSG"
+      "sportsId": "야구",
+      "stadiumId": "인천 SSG랜더스필드",
+      "homeTeamId": "SSG"
     },
     {
-      "sport_name": "야구",
-      "stadium_name": "잠실 야구장",
-      "home_team_name": "두산"
+      "sportsId": "야구",
+      "stadiumId": "잠실 야구장",
+      "homeTeamId": "두산"
     },
     {
-      "sport_name": "야구",
-      "stadium_name": "잠실 야구장",
-      "home_team_name": "LG"
+      "sportsId": "야구",
+      "stadiumId": "잠실 야구장",
+      "homeTeamId": "LG"
     },
     {
-      "sport_name": "야구",
-      "stadium_name": "창원NC파크",
-      "home_team_name": "LG"
+      "sportsId": "야구",
+      "stadiumId": "창원NC파크",
+      "homeTeamId": "LG"
     },
     {
-      "sport_name": "축구",
-      "stadium_name": "강릉 종합 운동장",
-      "home_team_name": "강원FC"
+      "sportsId": "축구",
+      "stadiumId": "강릉 종합 운동장",
+      "homeTeamId": "강원FC"
     },
     {
-      "sport_name": "축구",
-      "stadium_name": "광주 축구 전용경기장",
-      "home_team_name": "광주FC"
+      "sportsId": "축구",
+      "stadiumId": "광주 축구 전용경기장",
+      "homeTeamId": "광주FC"
     },
     {
-      "sport_name": "축구",
-      "stadium_name": "DGB대구은행파크",
-      "home_team_name": "대구FC"
+      "sportsId": "축구",
+      "stadiumId": "DGB대구은행파크",
+      "homeTeamId": "대구FC"
     },
     {
-      "sport_name": "축구",
-      "stadium_name": "대전 월드컵 경기장",
-      "home_team_name": "대전 하나 시티즌"
+      "sportsId": "축구",
+      "stadiumId": "대전 월드컵 경기장",
+      "homeTeamId": "대전 하나 시티즌"
     },
     {
-      "sport_name": "축구",
-      "stadium_name": "서울 월드컵 경기장",
-      "home_team_name": "FC서울"
+      "sportsId": "축구",
+      "stadiumId": "서울 월드컵 경기장",
+      "homeTeamId": "FC서울"
     },
     {
-      "sport_name": "축구",
-      "stadium_name": "수원 월드컵 경기장",
-      "home_team_name": "수원 삼성 블루윙즈"
+      "sportsId": "축구",
+      "stadiumId": "수원 월드컵 경기장",
+      "homeTeamId": "수원 삼성 블루윙즈"
     },
     {
-      "sport_name": "축구",
-      "stadium_name": "수원 종합 운동장",
-      "home_team_name": "수원FC"
+      "sportsId": "축구",
+      "stadiumId": "수원 종합 운동장",
+      "homeTeamId": "수원FC"
     },
     {
-      "sport_name": "축구",
-      "stadium_name": "울산 문수 축구경기장",
-      "home_team_name": "울산 현대 축구단"
+      "sportsId": "축구",
+      "stadiumId": "울산 문수 축구경기장",
+      "homeTeamId": "울산 현대 축구단"
     },
     {
-      "sport_name": "축구",
-      "stadium_name": "인천 축구 전용경기장",
-      "home_team_name": "인천 유나이티드"
+      "sportsId": "축구",
+      "stadiumId": "인천 축구 전용경기장",
+      "homeTeamId": "인천 유나이티드"
     },
     {
-      "sport_name": "축구",
-      "stadium_name": "전주 월드컵 경기장",
-      "home_team_name": "전북 현대 모터스"
+      "sportsId": "축구",
+      "stadiumId": "전주 월드컵 경기장",
+      "homeTeamId": "전북 현대 모터스"
     },
     {
-      "sport_name": "축구",
-      "stadium_name": "제주 월드컵 경기장",
-      "home_team_name": "제주 유나이티드"
+      "sportsId": "축구",
+      "stadiumId": "제주 월드컵 경기장",
+      "homeTeamId": "제주 유나이티드"
     },
     {
-      "sport_name": "축구",
-      "stadium_name": "포항 스틸야드",
-      "home_team_name": "포항 스틸러스"
+      "sportsId": "축구",
+      "stadiumId": "포항 스틸야드",
+      "homeTeamId": "포항 스틸러스"
     },
     {
-      "sport_name": "농구",
-      "stadium_name": "고양 소노 아레나",
-      "home_team_name": "고양 소노 스카이거너스"
+      "sportsId": "농구",
+      "stadiumId": "고양 소노 아레나",
+      "homeTeamId": "고양 소노 스카이거너스"
     },
     {
-      "sport_name": "농구",
-      "stadium_name": "대구 체육관",
-      "home_team_name": "대구 한국가스공사 페가수스"
+      "sportsId": "농구",
+      "stadiumId": "대구 체육관",
+      "homeTeamId": "대구 한국가스공사 페가수스"
     },
     {
-      "sport_name": "농구",
-      "stadium_name": "부산 사직 실내체육관",
-      "home_team_name": "부산 KCC 이지스"
+      "sportsId": "농구",
+      "stadiumId": "부산 사직 실내체육관",
+      "homeTeamId": "부산 KCC 이지스"
     },
     {
-      "sport_name": "농구",
-      "stadium_name": "잠실 실내 체육관",
-      "home_team_name": "서울 삼성 썬더스"
+      "sportsId": "농구",
+      "stadiumId": "잠실 실내 체육관",
+      "homeTeamId": "서울 삼성 썬더스"
     },
     {
-      "sport_name": "농구",
-      "stadium_name": "서울 학생 체육관",
-      "home_team_name": "서울 SK 나이츠"
+      "sportsId": "농구",
+      "stadiumId": "서울 학생 체육관",
+      "homeTeamId": "서울 SK 나이츠"
     },
     {
-      "sport_name": "농구",
-      "stadium_name": "수원 KT 소닉붐 아레나",
-      "home_team_name": "수원 KT 소닉붐"
+      "sportsId": "농구",
+      "stadiumId": "수원 KT 소닉붐 아레나",
+      "homeTeamId": "수원 KT 소닉붐"
     },
     {
-      "sport_name": "농구",
-      "stadium_name": "안양 실내 체육관",
-      "home_team_name": "안양 정관장 레드부스터스"
+      "sportsId": "농구",
+      "stadiumId": "안양 실내 체육관",
+      "homeTeamId": "안양 정관장 레드부스터스"
     },
     {
-      "sport_name": "농구",
-      "stadium_name": "울산 동천 체육관",
-      "home_team_name": "울산 현대모비스 피버스"
+      "sportsId": "농구",
+      "stadiumId": "울산 동천 체육관",
+      "homeTeamId": "울산 현대모비스 피버스"
     },
     {
-      "sport_name": "농구",
-      "stadium_name": "원주 종합 체육관",
-      "home_team_name": "원주 DB 프로미"
+      "sportsId": "농구",
+      "stadiumId": "원주 종합 체육관",
+      "homeTeamId": "원주 DB 프로미"
     },
     {
-      "sport_name": "야구",
-      "stadium_name": "창원 실내 체육관",
-      "home_team_name": "창원 LG 세이커스"
+      "sportsId": "야구",
+      "stadiumId": "창원 실내 체육관",
+      "homeTeamId": "창원 LG 세이커스"
     }
   ],
   "teams": [
-    { "sport_name": "야구", "away_team_name": "KIA" },
-    { "sport_name": "야구", "away_team_name": "두산" },
-    { "sport_name": "야구", "away_team_name": "롯데" },
-    { "sport_name": "야구", "away_team_name": "삼성" },
-    { "sport_name": "야구", "away_team_name": "SSG" },
-    { "sport_name": "야구", "away_team_name": "NC" },
-    { "sport_name": "야구", "away_team_name": "LG" },
-    { "sport_name": "야구", "away_team_name": "KT" },
-    { "sport_name": "야구", "away_team_name": "키움" },
-    { "sport_name": "야구", "away_team_name": "한화" },
-    { "sport_name": "축구", "away_team_name": "강원FC" },
-    { "sport_name": "축구", "away_team_name": "광주FC" },
-    { "sport_name": "축구", "away_team_name": "대구FC" },
+    { "sportsId": "야구", "awayTeamId": "KIA" },
+    { "sportsId": "야구", "awayTeamId": "두산" },
+    { "sportsId": "야구", "awayTeamId": "롯데" },
+    { "sportsId": "야구", "awayTeamId": "삼성" },
+    { "sportsId": "야구", "awayTeamId": "SSG" },
+    { "sportsId": "야구", "awayTeamId": "NC" },
+    { "sportsId": "야구", "awayTeamId": "LG" },
+    { "sportsId": "야구", "awayTeamId": "KT" },
+    { "sportsId": "야구", "awayTeamId": "키움" },
+    { "sportsId": "야구", "awayTeamId": "한화" },
+    { "sportsId": "축구", "awayTeamId": "강원FC" },
+    { "sportsId": "축구", "awayTeamId": "광주FC" },
+    { "sportsId": "축구", "awayTeamId": "대구FC" },
     {
-      "sport_name": "축구",
-      "away_team_name": "대전 하나 시티즌"
+      "sportsId": "축구",
+      "awayTeamId": "대전 하나 시티즌"
     },
-    { "sport_name": "축구", "away_team_name": "FC서울" },
+    { "sportsId": "축구", "awayTeamId": "FC서울" },
     {
-      "sport_name": "축구",
-      "away_team_name": "수원 삼성 블루윙즈"
+      "sportsId": "축구",
+      "awayTeamId": "수원 삼성 블루윙즈"
     },
-    { "sport_name": "축구", "away_team_name": "수원FC" },
+    { "sportsId": "축구", "awayTeamId": "수원FC" },
     {
-      "sport_name": "축구",
-      "away_team_name": "울산 현대 축구단"
-    },
-    {
-      "sport_name": "축구",
-      "away_team_name": "인천 유나이티드"
+      "sportsId": "축구",
+      "awayTeamId": "울산 현대 축구단"
     },
     {
-      "sport_name": "축구",
-      "away_team_name": "전북 현대 모터스"
+      "sportsId": "축구",
+      "awayTeamId": "인천 유나이티드"
     },
     {
-      "sport_name": "축구",
-      "away_team_name": "제주 유나이티드"
+      "sportsId": "축구",
+      "awayTeamId": "전북 현대 모터스"
     },
     {
-      "sport_name": "축구",
-      "away_team_name": "포항 스틸러스"
+      "sportsId": "축구",
+      "awayTeamId": "제주 유나이티드"
     },
     {
-      "sport_name": "농구",
-      "away_team_name": "고양 소노 스카이거너스"
+      "sportsId": "축구",
+      "awayTeamId": "포항 스틸러스"
     },
     {
-      "sport_name": "농구",
-      "away_team_name": "대구 한국가스공사 페가수스"
+      "sportsId": "농구",
+      "awayTeamId": "고양 소노 스카이거너스"
     },
     {
-      "sport_name": "농구",
-      "away_team_name": "부산 KCC 이지스"
+      "sportsId": "농구",
+      "awayTeamId": "대구 한국가스공사 페가수스"
     },
     {
-      "sport_name": "농구",
-      "away_team_name": "서울 삼성 썬더스"
+      "sportsId": "농구",
+      "awayTeamId": "부산 KCC 이지스"
     },
     {
-      "sport_name": "농구",
-      "away_team_name": "서울 SK 나이츠"
+      "sportsId": "농구",
+      "awayTeamId": "서울 삼성 썬더스"
     },
     {
-      "sport_name": "농구",
-      "away_team_name": "수원 KT 소닉붐"
+      "sportsId": "농구",
+      "awayTeamId": "서울 SK 나이츠"
     },
     {
-      "sport_name": "농구",
-      "away_team_name": "안양 정관장 레드부스터스"
+      "sportsId": "농구",
+      "awayTeamId": "수원 KT 소닉붐"
     },
     {
-      "sport_name": "농구",
-      "away_team_name": "울산 현대모비스 피버스"
+      "sportsId": "농구",
+      "awayTeamId": "안양 정관장 레드부스터스"
     },
     {
-      "sport_name": "농구",
-      "away_team_name": "원주 DB 프로미"
+      "sportsId": "농구",
+      "awayTeamId": "울산 현대모비스 피버스"
     },
     {
-      "sport_name": "농구",
-      "away_team_name": "창원 LG 세이커스"
+      "sportsId": "농구",
+      "awayTeamId": "원주 DB 프로미"
+    },
+    {
+      "sportsId": "농구",
+      "awayTeamId": "창원 LG 세이커스"
+    }
+  ],
+  "seatInfos": [
+    {
+      "sportsId": "야구",
+      "stadiumId": "고척 돔 야구장",
+      "seatSelect": [
+        "R.d-club(로얄 다이아몬드 클럽)",
+        "1층 테이블석",
+        "내야 커플석(미니테이블의 스탠딩 의자석)",
+        "외야 커플석(미니테이블의 스탠딩 의자석)",
+        "2층 테이블석",
+        "다크버건디석",
+        "3층지정석",
+        "4층지정석",
+        "휠체어석",
+        "외야지정석(하단)",
+        "외야지정석(상단)",
+        "스카이박스"
+      ]
+    },
+    {
+      "sportsId": "야구",
+      "stadiumId": "광주 챔피언스 필드",
+      "seatSelect": [
+        "챔피언석",
+        "타이거즈가족석(4인, 6인)",
+        "에코다이나믹스 가족석(6인)",
+        "KS존",
+        "외야자유석",
+        "높은고창석(2인, 3인)",
+        "높은고창석(4인)",
+        "K9존",
+        "K3존",
+        "서프라이즈존",
+        "스카이피크닉석(4인)",
+        "K7존",
+        "휠체어석"
+      ]
+    },
+    {
+      "sportsId": "야구",
+      "stadiumId": "대구 라이온즈 파크",
+      "seatSelect": [
+        "VIP석",
+        "중앙테이블석",
+        "1,3루 내야테이블석",
+        "1,3루 익사티이석",
+        "SKY하단 지정석",
+        "SKY상당 지정석",
+        "블루족",
+        "1,3루 내야지정석",
+        "원정응원석",
+        "외야지정석",
+        "잔디석",
+        "외야테이블석(4인)",
+        "외야패밀리석",
+        "외야미니테이블석(2인)",
+        "디퍼스트루프탑",
+        "휠체어석"
+      ]
+    },
+    {
+      "sportsId": "야구",
+      "stadiumId": "대전 이글스 파크",
+      "seatSelect": [
+        "1,3루 내야지정석(1층)",
+        "1,3루 내야지정석(2층)",
+        "1,3루 외야지정석",
+        "포수후면석",
+        "포수후면석 TV존",
+        "중앙탁자석",
+        "중앙탁자석A",
+        "중앙가족석(5인)",
+        "미니박스(4, 6, 7, 8인)",
+        "1,3루 익사이팅존",
+        "내야탁자석(1,3루)",
+        "1,3루 익사이팅커플석(2인)",
+        "1,3루 VIP커플석(2인)",
+        "1,3루 덕아웃지정석",
+        "내야응원단석(1루)",
+        "1,3루 내야하단탁자석",
+        "1,3루 내야커플석(2인)",
+        "1,3루 잔디석(4인)",
+        "외야하단탁자석(1루)",
+        "외야볼팬지정석(3루)",
+        "외야자유석",
+        "내야 SKYBOX(15, 10인)",
+        "외야 FIELD BOX(15, 10, 8인)",
+        "외야 홈클라우드존(4, 12인)",
+        "외야라운지석(2, 4인)",
+        "휠체어석"
+      ]
+    },
+    {
+      "sportsId": "야구",
+      "stadiumId": "부산 사직 야구장",
+      "seatSelect": [
+        "중앙탁자석",
+        "1루 응원탁자석",
+        "3루 와이드탁자석",
+        "1루 내야탁자석",
+        "3루 내야탁자석",
+        "1루 내야필드석",
+        "3루 내야필드석",
+        "1루 내야상단석",
+        "3루 내야상단석",
+        "중앙상단석",
+        "3루 단체석",
+        "로케트배터리존",
+        "스카이박스",
+        "외야석"
+      ]
+    },
+    {
+      "sportsId": "야구",
+      "stadiumId": "수원 위즈 파크",
+      "seatSelect": [
+        "지니존",
+        "티몬존",
+        "중앙지정석",
+        "필수팩(1루 테이블)",
+        "KT OTT(3루 테이블)",
+        "1루 응원지정석",
+        "3루 응원지정석",
+        "3루 내야지정석",
+        "1루 스카이존",
+        "3루 스카이존",
+        "1루 하이파이브석",
+        "3루 익사이팅석",
+        "외야 자유잔디석",
+        "외야테이블석",
+        "키즈랜드 캠핑존"
+      ]
+    },
+    {
+      "sportsId": "야구",
+      "stadiumId": "인천 SSG랜더스필드",
+      "seatSelect": [
+        "일반석",
+        "SKY 테이블석",
+        "미니스카이박스",
+        "외야패밀리존",
+        "이마트 프랜들리존",
+        "랜더스 라이브존",
+        "제로데이 라이브존",
+        "피코크 테이블(1층)",
+        "노브랜드 테이블(2층)",
+        "의자지정석",
+        "몰리스 그린존",
+        "응원지정석",
+        "홈런커플존",
+        "스카이박스",
+        "트레이더스 OPEN 바비큐존",
+        "이마트바비큐존",
+        "내야패밀리존",
+        "초가정자",
+        "로케트배터리외야파티덱"
+      ]
+    },
+    {
+      "sportsId": "야구",
+      "stadiumId": "잠실 야구장",
+      "seatSelect": [
+        "중앙석(프리미엄, VIP)",
+        "익사이팅존",
+        "테이블석",
+        "블루지정석",
+        "레드지정석",
+        "네이비지정석",
+        "외야일반석",
+        "응원단석(1루측)",
+        "응원단석(3루측)"
+      ]
+    },
+    {
+      "sportsId": "야구",
+      "stadiumId": "창원NC파크",
+      "seatSelect": [
+        "프리미엄석",
+        "프리미엄 테이블석",
+        "테이블석",
+        "1루 미니테이블석",
+        "3루 미니테이블석",
+        "1루 응원단상앞(104-110구역)",
+        "1층 1루 내야석",
+        "2층 1루 내야석",
+        "1층 3루 내야석",
+        "2층 3루 내야석",
+        "1루 가족석",
+        "3루 라운드테이블석",
+        "1루 외야일반석",
+        "3층 1루 내야석",
+        "4층 1루 내야석",
+        "3층 3루 내야석",
+        "4층 3루 내야석",
+        "외야잔디석",
+        "볼펜석",
+        "볼펜가족석",
+        "3층 테라스석",
+        "포크밸리 바베큐석",
+        "피크닉테이블",
+        "스카이박스",
+        "달&아자부 테라스석"
+      ]
     }
   ]
 }
