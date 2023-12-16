@@ -10,7 +10,7 @@ export default function KakaoRedirect() {
     const code = new URL(document.location.toString()).searchParams.get("code");
 
     useEffect(() => {
-        axios.post(`/auth/kakao/callback`, {code}).then((r) => {
+        axios.post(`/members/kakao/login`, { code }).then((r) => {
           const { token, userInfo } = r.data;
           document.cookie = `token=${token}; path=/`;
           console.log(r.data); // 토큰과 함께 들어오는 정보들
@@ -19,7 +19,7 @@ export default function KakaoRedirect() {
           //만약에 회원정보가 등록이 됐으면(userInfo 객체에 값이 있으면), 메인페이지로 이동(/)
           // 회원정보가 없으면(userInfo 객체에 값이 없으면), ProfileEditPage로 이동
           if (userInfo) {
-            navigate("/"); 
+            navigate("/");
           } else {
             navigate("/signup");
           }

@@ -1,22 +1,61 @@
+import axios from "axios";
 import { useState } from "react";
 import Datepicker from "react-tailwindcss-datepicker";
 
+const signupRequest = async (userInfo) => {
+    const response = await axios.post('/members/signup', userInfo);
+    return response.data;
+};
+
 export default function SignupPage() {
-  const [selectedDate, setSelectedDate] = useState(null);
+
   const [isCheckedAll, setIsCheckedAll] = useState(false);
-  const [value, setValue] = useState({
-    startDate: null,
-    endDate: null,
-  });
 
   const handleAllCheck = () => {
-    setIsCheckedAll(!isCheckedAll);
-  };
+    setUserInfo((prevUserInfo) => ({
+      ...prevUserInfo, 
+      isCheckedAll: !prevUserInfo.isCheckedAll,
+    }));
+  };    
 
-  const handleValueChange = (newValue) => {
-    console.log("newValue:", newValue);
-    setValue(newValue);
-  };
+  // 회원정보를 관리할 상태 객체
+  const [userInfo, setUserInfo] = useState({
+    name: '',
+    birthDate: null,
+    phoneNum: '',
+    isCheckedAll:false,
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "birthDate") {
+      // Datepicker에서 startDate를 추출
+      const { startDate } = e.date;
+
+      setUserInfo((prevInfo) => ({
+        ...prevInfo,
+        [name]: startDate.toISOString(),
+      }));
+    } else {
+      setUserInfo((prevInfo) => ({
+        ...prevInfo,
+        [name]: value,
+      }));
+    }    
+  console.log(userInfo);
+  }
+
+  // const [value, setValue] = useState({
+  //   startDate: null,
+  //   endDate: null,
+  // });
+
+  //   const handleValueChange = (newValue) => {
+  //   console.log("newValue:", newValue);
+  //   setValue(newValue);
+  // };
+
   return (
     <>
       <div className="w-64 lg:w-72 xl:w-80 2xl:w-96">
@@ -29,36 +68,27 @@ export default function SignupPage() {
             <br />
             <input
               type="text"
-              name="username"
+              name="name"
               id="username"
               className="w-full appearance-none border border-4 rounded-lg border-navy-basic text-gray-700 placeholder-gray-400 focus:border-transparent"
               placeholder="김오리"
+              value={userInfo.name}
+              onChange={handleChange}
               required
             />
           </div>
-          <div className="py-4 text-left">
-            <label htmlFor="email">이메일</label>
-            <br />
-            <input
-              type="text"
-              name="email"
-              id="email"
-              placeholder="oriticket@gmail.com"
-              className="w-full appearance-none border border-4 rounded-lg border-navy-basic text-gray-700 placeholder-gray-400 focus:border-transparent"
-              required
-            />
-          </div>
+
           <div className="py-4 text-left w-full">
             <label htmlFor="birthdate">생년월일</label>
             <br />
             <Datepicker
               primaryColor={"indigo"}
               asSingle={true}
-              value={value}
-              onChange={handleValueChange}
+              value={userInfo.birthDate}
+              onChange={handleChange}
               dateFormat="MM-dd-yyyy"
               id="birthdate"
-              name="birthdate"
+              name="birthDate"
               className="w-full"
               required
             />
@@ -68,10 +98,12 @@ export default function SignupPage() {
             <br />
             <input
               type="text"
-              name="phone"
+              name="phoneNum"
               id="phone"
               placeholder="하이픈(-) 제외한 숫자만 입력"
               className="w-full appearance-none border border-4 rounded-lg border-navy-basic text-gray-700 placeholder-gray-400 focus:border-transparent"
+              value={userInfo.phoneNum}
+              onChange={handleChange}
               required
             />
           </div>
@@ -84,10 +116,7 @@ export default function SignupPage() {
                 checked={isCheckedAll}
                 onChange={handleAllCheck}
               />
-              <label
-                htmlFor="total_agree"
-                className="ml-2 mb-2"
-              >
+              <label htmlFor="total_agree" className="ml-2 mb-2">
                 약관 전체동의
               </label>
             </div>
