@@ -1,8 +1,8 @@
 // import axios from "axios";
 import { useEffect, useState } from "react";
-import { getUserInfo, patchUserInfo, deleteUserInfo } from "../api/AuthApi";
+import { getUserInfo, patchUserInfo, deleteUserInfo } from "./api/AuthApi";
 
-export default function AuthTest() {
+export default function ProfileEdit() {
   const [newPhone, setNewPhone] = useState("");
   const [showModal, setShowModal] = useState(false); // 회원 탈퇴 시 띄워줄 모달창
 

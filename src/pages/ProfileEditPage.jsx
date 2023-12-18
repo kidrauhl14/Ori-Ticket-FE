@@ -1,14 +1,14 @@
 import Navbar from "@components/common/Navbar.jsx";
 import Ticket from "@assets/img_ticket.png";
 
-import AuthTest from "@components/MSWtest/AuthTest.jsx";
+import ProfileEdit from "@components/ProfileEdit.jsx";
 
 export default function ProfileEditPage() {
     
   return (
     <>
       <Navbar />
-      <AuthTest />
+      <ProfileEdit />
       <div className="flex-col">
         <div className="flex-col mb-8">
           <div className="flex justify-between items-center w-full border-2 border-blue-950 rounded-xl">

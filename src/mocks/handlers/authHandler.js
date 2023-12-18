@@ -2,11 +2,13 @@ import {http, HttpResponse} from "msw";
 
 export const authHandler = [
 
-
-
   // 회원정보 등록
-  http.post("/members/signup", ({회원정보객체}) => {
-
+  http.post("/members/signup", () => {
+    return HttpResponse.json({
+      nickname: "김오리",
+      accessToken: "1",
+      refreshToken: "2",
+    });
   }),
 
   // 회원정보 수정
