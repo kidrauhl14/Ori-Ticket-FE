@@ -16,10 +16,6 @@ export default function LoginPage() {
 
   return (
     <>
-      <Routes>
-        <Route exact path={kakaoRedirectUri} element={<KakaoRedirect />} />
-      </Routes>
-
       <div className="grid-rows-4 w-72">
         <div className="flex  justify-center h-full w-full">
           <img

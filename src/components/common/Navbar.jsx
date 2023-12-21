@@ -1,4 +1,5 @@
-import React from "react";
+import {useRecoilState, useSetRecoilState, useRecoilValue} from 'recoil';
+import {accessTokenState, isLoginSelector, userInfoState} from '@recoil/LoginState.jsx';
 import { useNavigate, Link } from "react-router-dom";
 
 // image
@@ -8,6 +9,15 @@ import Chat from "@assets/img_chat.png";
 import MyProfile from "@assets/img_myprofile.png";
 
 export default function Navbar() {
+  const setAccessToken = useSetRecoilState(accessTokenState)
+  const isLogin = useRecoilValue(isLoginSelector)
+
+  // if(isLogin){
+
+  // } else {
+  //   navigate('/login')
+  // }
+
   const navigate = useNavigate();
 
   const handleGoBack = () => {

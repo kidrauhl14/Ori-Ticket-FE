@@ -12,15 +12,22 @@ import AdminPage from "@pages/AdminPage";
 import ChatPage from "@pages/ChatPage";
 import ChatlistPage from "@pages/ChatlistPage";
 import ServicePage from "@pages/ServicePage";
+import KakaoRedirect from "@components/KakaoRedirect";
 import { Route, Routes, Navigate } from "react-router-dom";
+import {ProtectedRoute} from "@components/ProtectedRoute.jsx";
 
 export default function Router() {
-  // const currentUserId = "eunchae";
+  // const kakaoRedirectUri = import.meta.env.VITE_KAKAO_REDIRECT_URI;
 
   return (
     <Routes>
-      <Route path="/" element={<MainPage />} />
       <Route path="/login" element={<LoginPage />} />
+
+      {/* `${apiServer}/members/${userId}` */}
+      <Route path="/auth/kakao/callback" element={<KakaoRedirect />} />
+      {/* 유저전용 */}
+      {/* <Route element={<ProtectedRoute />}> */}
+      <Route path="/" element={<MainPage />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/post" element={<PostPage />} />
       <Route path="/category/:category" element={<CategoryPage />} />
@@ -32,7 +39,8 @@ export default function Router() {
       <Route path="/chatlist" element={<ChatlistPage />} />
       <Route path="/chatlist/:room_id" element={<ChatPage />} />
       <Route path={`/service`} element={<ServicePage />} />
-      <Route path="*" element={<Navigate replace to="/login" />} />
+      {/* <Route path="*" element={<Navigate replace to="/login" />} /> */}
+      {/* </Route> */}
     </Routes>
   );
 }

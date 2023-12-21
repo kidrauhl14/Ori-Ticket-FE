@@ -5,7 +5,7 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 8080, 
+    port: 8080,
   },
   resolve: {
     alias: [
@@ -16,6 +16,7 @@ export default defineConfig({
         replacement: "/src/components",
       },
       { find: "@pages", replacement: "/src/pages" },
+      { find: "@recoil", replacement: "/src/recoil" },
     ],
   },
 });

@@ -2,28 +2,37 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import { useState } from "react";
 import Datepicker from "react-tailwindcss-datepicker";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { userInfoState } from "@recoil/LoginState.jsx";
 
 export default function SignupPage(){
-
   const { replace } = useNavigate();
-  const [isCheckedAll, setIsCheckedAll] = useState(false);
+  const [isChecked, setIsChecked] = useState([false,false,false,false]);
 
-  // 회원정보를 관리할 상태 객체
-  const [userInfo, setUserInfo] = useState({
-    name: '',
-    birthDate: '',
-    phoneNum: '',
+  // "등록할" 회원정보를 관리할 상태 객체
+  const [signupInfo, setSignupInfo] = useState({
+    name: "",
+    birthDate: "",
+    phoneNum: "",
   });
 
-  const register = () => {
-    axios.post("/members/signup", userInfo).then((response)=>{
-      localStorage.setItem("회원이름", response.data.user.nickname);
-      localStorage.setItem('accessToken',response.data.accessToken);
-      localStorage.setItem('refreshToken',response.data.refreshToken);
-      replace("/");
-    }).catch((error)=>{
-      console.log('An error occurred:', error);
-    })
+  const toggleCheckbox = (index) => {
+    const newChecked = [...isChecked];
+    newChecked[index] = !newChecked[index];
+    setIsChecked(newChecked);
+  };
+
+  const register = (e) => {
+    e.preventDefault()
+    axios
+      .post("/members/signup", signupInfo)
+      .then((res) => {
+        // userInfo에 id값이 들어온다.
+        replace("/");
+      })
+      .catch((error) => {
+        console.log("An error occurred:", error);
+      });
   }
 
   return (
@@ -31,7 +40,7 @@ export default function SignupPage(){
       <div className="w-64 lg:w-72 xl:w-80 2xl:w-96">
         <h1 className=" font-extrabold">회원가입</h1>
         <div className="grid-rows-6 w-full my-10">
-          <form action="/members/signup" method="post">
+          <form onSubmit={register} action="/members/signup" method="post">
             <div className="py-4 text-left">
               <label htmlFor="username" className="font-bold">
                 이름
@@ -43,9 +52,9 @@ export default function SignupPage(){
                 id="username"
                 className="w-full appearance-none border border-4 rounded-lg border-navy-basic text-gray-700 placeholder-gray-400 focus:border-transparent"
                 placeholder="김오리"
-                value={userInfo.name}
+                value={signupInfo.name}
                 onChange={(e) => {
-                  setUserInfo.name(e.target.value);
+                  setSignupInfo({ ...signupInfo, name: e.target.value });
                 }}
                 required
               />
@@ -57,12 +66,12 @@ export default function SignupPage(){
               <Datepicker
                 primaryColor={"indigo"}
                 asSingle={true}
-                value={userInfo.birthDate}
+                value={signupInfo.birthDate}
                 dateFormat="MM-dd-yyyy"
                 id="birthdate"
                 name="birthDate"
                 onChange={(newDate) => {
-                  setUserInfo({...userInfo, birthDate: newDate});
+                  setSignupInfo({ ...signupInfo, birthDate: newDate });
                 }}
                 className="w-full"
                 required
@@ -77,9 +86,9 @@ export default function SignupPage(){
                 id="phone"
                 placeholder="하이픈(-) 제외한 숫자만 입력"
                 className="w-full appearance-none border border-4 rounded-lg border-navy-basic text-gray-700 placeholder-gray-400 focus:border-transparent"
-                value={userInfo.phoneNum}
+                value={signupInfo.phoneNum}
                 onChange={(e) => {
-                  setUserInfo.phoneNum(e.target.value);
+                  setSignupInfo({ ...signupInfo, phoneNum: e.target.value });
                 }}
                 required
               />
@@ -90,19 +99,21 @@ export default function SignupPage(){
                   type="checkbox"
                   id="total_agree"
                   className="form-checkbox rounded-full bg-yellow-300"
-                  checked={isCheckedAll}
+                  checked={isChecked.every((item) => item)}
+                  onChange={() => setIsChecked((prev) => prev.map(() => true))}
                   required
                 />
                 <label htmlFor="total_agree" className="ml-2 mb-2">
                   약관 전체동의
                 </label>
               </div>
-              <div className="flex items-center mb-2">
+              <div className="bg-pink-100 flex items-center mb-2">
                 <input
-                  checked={isCheckedAll}
+                  checked={isChecked[1]}
                   type="checkbox"
                   id="terms"
                   className="form-checkbox rounded-full bg-yellow-300"
+                  onChange={() => toggleCheckbox(1)}
                   required
                 />
                 <label htmlFor="terms" className="ml-2">
@@ -111,10 +122,11 @@ export default function SignupPage(){
               </div>
               <div className="flex items-center mb-2">
                 <input
-                  checked={isCheckedAll}
+                  checked={isChecked[2]}
                   type="checkbox"
                   id="privacy"
                   className="form-checkbox rounded-full bg-yellow-300"
+                  onChange={() => toggleCheckbox(2)}
                   required
                 />
                 <label htmlFor="privacy" className="ml-2">
@@ -123,10 +135,11 @@ export default function SignupPage(){
               </div>
               <div className="flex items-center">
                 <input
-                  checked={isCheckedAll}
+                  checked={isChecked[3]}
                   type="checkbox"
                   id="age_limit"
                   className="form-checkbox rounded-full bg-yellow-300"
+                  onChange={() => toggleCheckbox(3)}
                   required
                 />
                 <label htmlFor="age_limit" className="ml-2">
@@ -138,7 +151,6 @@ export default function SignupPage(){
               <button
                 type="submit"
                 className="py-4 mt-8 bg-navy-basic text-white"
-                onClick={register}
               >
                 가입하기
               </button>
