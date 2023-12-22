@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
+import axios from "axios";
+
 // 이미지
 import BaseballImg from "@assets/img_baseball.png";
 import SoccerImg from "@assets/img_soccer.png";
@@ -10,14 +12,17 @@ import BasketballImg from "@assets/img_basketball.png";
 import Navbar from "@components/common/Navbar.jsx";
 import SearchBar from "@components/search/SearchBar.jsx";
 
+// Recoil
+import { useRecoilState } from "recoil";
+import {
+  shoppingCartState,
+  likeItemState,
+} from "../store/shoppingCart";
+
 const categories = [
-  { img: BaseballImg, alt: "야구 카테고리", label: "야구" },
-  { img: SoccerImg, alt: "축구 카테고리", label: "축구" },
-  {
-    img: BasketballImg,
-    alt: "농구 카테고리",
-    label: "농구",
-  },
+  { img: BaseballImg, alt: "야구", label: "야구" },
+  { img: SoccerImg, alt: "축구", label: "축구" },
+  { img: BasketballImg, alt: "농구", label: "농구" },
 ];
 
 const categoryLabelMap = {
@@ -32,21 +37,24 @@ export default function MainPage() {
   useEffect(() => {
     async function fetchPostsData() {
       try {
-        const response = await fetch("/posts/list", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await axios.get(
+          "http://13.124.46.138:8080/posts/search",
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-        if (!response.ok) {
+        // HTTP 상태 코드가 200이 아닌 경우 오류가 발생
+        if (response.status !== 200) {
           throw new Error(
             `HTTP error! status: ${response.status}`
           );
         }
 
-        const data = await response.json();
-        setPostsData(data);
+        // 응답 데이터에서 content를 추출하여 상태에 설정
+        setPostsData(response.data.content);
       } catch (error) {
         console.error("Fetching error:", error);
       }
@@ -68,6 +76,74 @@ export default function MainPage() {
       options
     );
   };
+
+  // Recoil 찜하기
+  const [shoppingCart, setShoppingCart] = useRecoilState(
+    shoppingCartState
+  );
+  const [likeItems, setLikeItems] =
+    useRecoilState(likeItemState);
+
+  // Recoil 찜하기에 추가 및 삭제
+  const handleAddToCart = (ticket) => {
+    const currentCart = [...shoppingCart];
+    const existingIndex = currentCart.findIndex(
+      (item) => item.salePostId === ticket.salePostId
+    );
+
+    if (existingIndex !== -1) {
+      // 이미 존재하면 제거
+      currentCart.splice(existingIndex, 1);
+      // 아이템 좋아요 취소
+      setLikeItems(
+        likeItems.filter(
+          (item) => item.salePostId !== ticket.salePostId
+        )
+      );
+    } else {
+      // 존재하지 않으면 추가
+      currentCart.push(ticket);
+      // 아이템 좋아요 추가
+      setLikeItems([...likeItems, ticket]);
+    }
+
+    setShoppingCart(currentCart);
+
+    // Local Storage에 찜한 목록 저장
+    localStorage.setItem(
+      "shoppingCart",
+      JSON.stringify(currentCart)
+    );
+
+    setShoppingCart(currentCart);
+  };
+
+  useEffect(() => {
+    // 페이지가 로드될 때 Local Storage에서 찜한 목록을 불러옴
+    const storedCart = localStorage.getItem("shoppingCart");
+    if (storedCart) {
+      setShoppingCart(JSON.parse(storedCart));
+    }
+  }, [setShoppingCart]);
+
+  // 찜하기 버튼의 색상을 업데이트하는 useEffect
+  useEffect(() => {
+    // 페이지가 처음 로드될 때는 실행되면 안 됨
+    if (postsData.length > 0) {
+      postsData.forEach((data) => {
+        const likeButton = document.getElementById(
+          `likeButton-${data.salePostId}`
+        );
+        if (likeButton) {
+          likeButton.style.fill = shoppingCart.some(
+            (item) => item.salePostId === data.salePostId
+          )
+            ? "currentColor"
+            : "";
+        }
+      });
+    }
+  }, [postsData, shoppingCart]);
 
   return (
     <div>
@@ -91,7 +167,6 @@ export default function MainPage() {
                 />
               </button>
             </Link>
-
             <p className="mb-4 font-extrabold text-base">
               {category.label}
             </p>
@@ -101,94 +176,74 @@ export default function MainPage() {
       <SearchBar />
       <div className="mt-8">
         <Link to={`/post`}>
-          <div className="w-full py-2 border-2 border-blue-950 rounded-xl bg-blue-950 text-yellow-basic font-extrabold text-xl">
+          <div className="w-full py-2 border-2 border-blue-950 rounded-xl bg-blue-950 text-yellow-basic font-extrabold text-xl shadow-xl">
             티켓 판매 등록
           </div>
         </Link>
       </div>
-      <div className="w-full h-full mt-8 rounded-xl border-2 border-blue-950">
-        <ul className="flex justify-between my-4">
-          <li className="w-72 text-sm">상품정보</li>
-          <li className="w-28 text-sm">수량</li>
-          <li className="w-28 text-sm">가격</li>
-          <li className="w-28 text-sm">등록일</li>
-        </ul>
-        <div>
-          {postsData.length > 0 && // 조건부 렌더링 추가
-            postsData.map((data, index) => (
-              <div
-                key={index}
-                className="flex w-full h-full rounded-xl border-2 border-blue-950 mt-1"
-              >
-                <div className="w-72">
-                  <div className="flex m-2">
-                    <p className="text-xs mr-1">
-                      {data.content.length > 0 &&
-                        data.content[0].sportsName}
-                    </p>
-                    <p className="text-xs font-extrabold mr-1">
-                      &gt;
-                    </p>
-                    <p className="text-xs mr-1">
-                      {data.content.length > 0 &&
-                        data.content[0].homeTeamName}
-                    </p>
-                    <p className="text-xs font-extrabold mr-1">
-                      &gt;
-                    </p>
-                    <p className="text-xs">
-                      {data.content.length > 0 &&
-                        data.content[0].stadiumName}
-                    </p>
+      <div className="mt-8">
+        {postsData.length > 0 &&
+          postsData.map((data, index) => (
+            <div
+              className="card-compact w-full my-4 bg-base-100 shadow-xl"
+              key={index}
+            >
+              <div className="card-body">
+                <div className="flex">
+                  <div className="text-xl font-extrabold pt-1">
+                    {data.sportsName}&nbsp;
                   </div>
-                  <div className="flex-col m-2">
-                    <div className="text-xl text-left font-extrabold">
-                      {data.content.length > 0 &&
-                        data.content[0].seatInfo}
-                    </div>
-                    <div className="text-left font-semibold">
-                      {data.content.length > 0 &&
-                        formatDate(
-                          data.content[0].expirationAt
-                        )}
-                    </div>
+                  <div className="text-xl font-extrabold pt-1">
+                    &gt;&nbsp;
+                  </div>
+                  <div className="text-2xl font-extrabold">
+                    {data.stadiumName}&nbsp;[
+                    {data.homeTeamName}] vs&nbsp;
+                    {data.awayTeamName}
                   </div>
                 </div>
-                <div className="w-28 grid justify-center items-center text-sm">
-                  {data.content.length > 0 &&
-                    data.content[0].quantity}
-                </div>
-                <div className="w-28 flex-col">
-                  <div className="text-sm text-end mt-6 pr-6 justify-end">
-                    {data.content.length > 0 &&
-                      data.content[0].originalPrice}
-                  </div>
-                  <div className="font-extrabold text-xl text">
-                    {data.content.length > 0 &&
-                      data.content[0].salePrice}
-                  </div>
-                </div>
-                <div className="w-28 grid justify-center items-center text-sm">
-                  {data.content.length > 0 &&
-                    formatDate(data.content[0].createdAt)}
+                <h2 className="card-title text-3xl">
+                  {data.seatInfo}
+                </h2>
+                <p className="text-left text-base font-extrabold">
+                  사용날짜: {formatDate(data.expirationAt)}
+                </p>
+                <p className="text-sm text-end justify-end">
+                  정가: {data.originalPrice}
+                </p>
+                <p className="font-extrabold text-xl text-end">
+                  수량: {data.quantity}장
+                  &nbsp;&nbsp;판매가:&nbsp;
+                  {data.salePrice}
+                </p>
+                <div className="card-actions justify-end">
+                  <button
+                    className="btn btn-square btn-primary"
+                    onClick={() => handleAddToCart(data)}
+                  >
+                    <svg
+                      id={`likeButton-${data.salePostId}`}
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                      />
+                    </svg>
+                  </button>
+                  <button className="btn btn-primary">
+                    티켓 구매
+                  </button>
                 </div>
               </div>
-            ))}
-        </div>
-        <div className="card-compact w-96 bg-base-100 shadow-xl">
-          <div className="card-body">
-            <h2 className="card-title">Card title!</h2>
-            <p className="">
-              If a dog chews shoes whose shoes does he
-              choose?
-            </p>
-            <div className="card-actions justify-end">
-              <button className="btn btn-primary">
-                Buy Now
-              </button>
             </div>
-          </div>
-        </div>
+          ))}
       </div>
     </div>
   );
