@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 // 이미지
 import Ticket from "@assets/img_ticket.png";
@@ -6,21 +6,12 @@ import Ticket from "@assets/img_ticket.png";
 // 컴포넌트
 import Navbar from "@components/common/Navbar.jsx";
 
-import Test from "@components/MSWtest/Test.jsx";
-
-const myTickets = [
-  {
-    sport_name: "야구",
-    team_name: "키움",
-    stadium_name: "고척 돔 야구장",
-    seat_info: "418구역 k열 4층 3루 지정석",
-    use_date: "사용일: 11-27-2023 (Monday)",
-    quantity: "1개",
-    original_price: "20,000",
-    sale_price: "18,000",
-    post_date: "11-25-2023",
-  },
-];
+// Recoil
+import { useRecoilValue } from "recoil";
+import {
+  shoppingCartState,
+  shoppingCartTotalState,
+} from "../store/shoppingCart";
 
 const saleTicket = [
   {
@@ -48,9 +39,27 @@ const saleTicket = [
 ];
 
 export default function ProfilePage() {
+  // 날짜를 년-월-일 형식으로 변환하는 함수
+  const formatDate = (dateString) => {
+    const options = {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+    };
+    return new Date(dateString).toLocaleDateString(
+      "ko-KR",
+      options
+    );
+  };
+
+  // Recoil
+  const shoppingCartTotal = useRecoilValue(
+    shoppingCartTotalState
+  );
+  const shoppingCart = useRecoilValue(shoppingCartState);
+
   return (
     <div>
-      <Test />
       <Navbar />
 
       <div className="bg-yellow-100 text-navy-basic w-1/6 flex ml-auto mb-4 justify-between px-2">
@@ -94,8 +103,9 @@ export default function ProfilePage() {
               </p>
             </div>
             <div className="flex items-center my-2 w-24">
-              <p className="font-bold text-lg">찜한 티켓</p>
-              <p className="font-bold text-lg">1</p>
+              <p className="font-bold text-lg">
+                찜한 티켓&nbsp;{shoppingCartTotal}
+              </p>
             </div>
             <div className="flex items-center my-2 w-24">
               <p className="font-bold text-lg">거래 완료</p>
@@ -106,53 +116,61 @@ export default function ProfilePage() {
         {/* 내 정보끝 */}
         {/* 찜한 티켓 */}
         <div className="flex-col mb-8">
-          <div className="flex justify-center ml-1 w-32 font-bold text-lg border-4 border-blue-950 bg-blue-950 text-white rounded-xl">
+          <div className="flex justify-center ml-1 w-32 font-bold text-lg border-4 border-blue-950 bg-blue-950 text-white rounded-xl shadow-xl">
             찜한 티켓
           </div>
-          <div>
-            {myTickets.map((ticket, index) => (
-              <div
-                key={index}
-                className="flex w-full h-full rounded-xl border-2 border-blue-950"
-              >
-                <div className="w-72">
-                  <div className="flex m-2">
-                    <p className="text-xs mr-1">{ticket.sport_name}</p>
-                    <p className="text-xs font-extrabold mr-1">&gt;</p>
-                    <p className="text-xs mr-1">{ticket.team_name}</p>
-                    <p className="text-xs font-extrabold mr-1">&gt;</p>
-                    <p className="text-xs">{ticket.stadium_name}</p>
-                  </div>
-                  <div className="flex-col m-2">
-                    <div className="text-xl text-left font-extrabold">
-                      {ticket.seat_info}
+          <div className="mt-4">
+            {shoppingCart.length > 0 ? (
+              shoppingCart.map((ticket, index) => (
+                <div
+                  className="card-compact w-full my-4 bg-base-100 shadow-xl"
+                  key={index}
+                >
+                  <div className="card-body">
+                    <div className="flex">
+                      <div className="text-xl font-extrabold pt-1">
+                        {ticket.sportsName}&nbsp;
+                      </div>
+                      <div className="text-xl font-extrabold pt-1">
+                        &gt;&nbsp;
+                      </div>
+                      <div className="text-2xl font-extrabold">
+                        {ticket.stadiumName}&nbsp;[
+                        {ticket.homeTeamName}] vs&nbsp;
+                        {ticket.awayTeamName}
+                      </div>
                     </div>
-                    <div className="text-left font-semibold">
-                      {ticket.use_date}
-                    </div>
+                    <h2 className="card-title text-3xl">
+                      {ticket.seatInfo}
+                    </h2>
+                    <p className="text-left text-base font-extrabold">
+                      사용날짜:&nbsp;
+                      {formatDate(ticket.expirationAt)}
+                    </p>
+                    <p className="text-sm text-end justify-end">
+                      정가:&nbsp;{ticket.originalPrice}
+                    </p>
+                    <p className="font-extrabold text-xl text-end">
+                      수량: {ticket.quantity}장&nbsp;&nbsp;
+                      판매가:&nbsp;
+                      {ticket.salePrice}
+                    </p>
                   </div>
                 </div>
-                <div className="w-28 grid justify-center items-center text-sm">
-                  {ticket.quantity}
-                </div>
-                <div className="w-28 flex-col">
-                  <div className="text-sm text-end mt-6 pr-6 justify-end">
-                    {ticket.original_price}
-                  </div>
-                  <div className="font-extrabold text-xl text">
-                    {ticket.sale_price}
-                  </div>
-                </div>
-                <div className="w-28 grid justify-center items-center text-sm">
-                  {ticket.post_date}
-                </div>
+              ))
+            ) : (
+              <div className="text-2xl text-center text-gray-500 w-full py-4 bg-base-100 shadow-xl">
+                비어 있습니다.
               </div>
-            ))}
+            )}
           </div>
         </div>
         {/* 찜한 티켓끝 */}
         {/* 거래 완료 */}
-        <div className="flex-col mb-8">
+        <div className="flex-row mb-8">
+          <div className="flex justify-center ml-1 w-32 font-bold text-lg border-4 border-blue-950 bg-blue-950 text-white rounded-xl">
+            거래중
+          </div>
           <div className="flex justify-center ml-1 w-32 font-bold text-lg border-4 border-blue-950 bg-blue-950 text-white rounded-xl">
             거래 완료
           </div>

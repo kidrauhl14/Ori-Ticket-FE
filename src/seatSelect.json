@@ -1,0 +1,264 @@
+[
+  {
+    "stadiumId": 1,
+    "sportsId": 1,
+    "stadiumName": "고척 돔 야구장",
+    "seatSelect": [
+      {
+        "seatId": 1,
+        "seatName": "R.d-클럽 (로얄 다이아몬드 클럽)"
+      },
+      { "seatId": 2, "seatName": "1층 테이블석" },
+      {
+        "seatId": 3,
+        "seatName": "내야 커플석(미니테이블의 스탠딩 의자석)"
+      },
+      {
+        "seatId": 4,
+        "seatName": "외야 커플석(미니테이블의 스탠딩 의자석)"
+      },
+      { "seatId": 5, "seatName": "2층 테이블석" },
+      { "seatId": 6, "seatName": "다크버건디석" },
+      { "seatId": 7, "seatName": "3층지정석" },
+      { "seatId": 8, "seatName": "4층지정석" },
+      { "seatId": 9, "seatName": "휠체어석" },
+      { "seatId": 10, "seatName": "외야지정석(하단)" },
+      { "seatId": 11, "seatName": "외야지정석(상단)" },
+      { "seatId": 12, "seatName": "스카이박스" }
+    ]
+  },
+  {
+    "stadiumId": 2,
+    "sportsId": 1,
+    "stadiumName": "광주 챔피언스 필드",
+    "seatSelect": [
+      { "seatId": 1, "seatName": "챔피언석" },
+      {
+        "seatId": 2,
+        "seatName": "타이거즈가족석(4인, 6인)"
+      },
+      {
+        "seatId": 3,
+        "seatName": "에코다이나믹스 가족석(6인)"
+      },
+      { "seatId": 4, "seatName": "KS존" },
+      { "seatId": 5, "seatName": "외야자유석" },
+      { "seatId": 6, "seatName": "높은고창석(2인, 3인)" },
+      { "seatId": 7, "seatName": "높은고창석(4인)" },
+      { "seatId": 8, "seatName": "K9존" },
+      { "seatId": 9, "seatName": "K3존" },
+      { "seatId": 10, "seatName": "서프라이즈존" },
+      { "seatId": 11, "seatName": "스카이피크닉석(4인)" },
+      { "seatId": 12, "seatName": "K7존" },
+      { "seatId": 13, "seatName": "휠체어석" }
+    ]
+  },
+  {
+    "stadiumId": 3,
+    "sportsId": 1,
+    "stadiumName": "대구 라이온즈 파크",
+    "seatSelect": [
+      { "seatId": 1, "seatName": "VIP석" },
+      { "seatId": 2, "seatName": "중앙테이블석" },
+      { "seatId": 3, "seatName": "1,3루 내야테이블석" },
+      { "seatId": 4, "seatName": "1,3루 익사티이석" },
+      { "seatId": 5, "seatName": "SKY하단 지정석" },
+      { "seatId": 6, "seatName": "SKY상당 지정석" },
+      { "seatId": 7, "seatName": "블루족" },
+      { "seatId": 8, "seatName": "1,3루 내야지정석" },
+      { "seatId": 9, "seatName": "원정응원석" },
+      { "seatId": 10, "seatName": "외야지정석" },
+      { "seatId": 11, "seatName": "잔디석" },
+      { "seatId": 12, "seatName": "외야테이블석(4인)" },
+      { "seatId": 13, "seatName": "외야패밀리석" },
+      { "seatId": 14, "seatName": "외야미니테이블석(2인)" },
+      { "seatId": 15, "seatName": "디퍼스트루프탑" },
+      { "seatId": 16, "seatName": "휠체어석" }
+    ]
+  },
+  {
+    "stadiumId": 4,
+    "sportsId": 1,
+    "stadiumName": "대전 이글스 파크",
+    "seatSelect": [
+      { "seatId": 1, "seatName": "1,3루 내야지정석(1층)" },
+      { "seatId": 2, "seatName": "1,3루 내야지정석(2층)" },
+      { "seatId": 3, "seatName": "1,3루 외야지정석" },
+      { "seatId": 4, "seatName": "포수후면석" },
+      { "seatId": 5, "seatName": "포수후면석 TV존" },
+      { "seatId": 6, "seatName": "중앙탁자석" },
+      { "seatId": 7, "seatName": "중앙탁자석A" },
+      { "seatId": 8, "seatName": "중앙가족석(5인)" },
+      { "seatId": 9, "seatName": "미니박스(4, 6, 7, 8인)" },
+      { "seatId": 10, "seatName": "1,3루 익사이팅존" },
+      { "seatId": 11, "seatName": "내야탁자석(1,3루)" },
+      {
+        "seatId": 12,
+        "seatName": "1,3루 익사이팅커플석(2인)"
+      },
+      { "seatId": 13, "seatName": "1,3루 VIP커플석(2인)" },
+      { "seatId": 14, "seatName": "1,3루 덕아웃지정석" },
+      { "seatId": 15, "seatName": "1,3루 내야하단탁자석" },
+      { "seatId": 16, "seatName": "1,3루 잔디석(4인)" },
+      { "seatId": 17, "seatName": "외야하단탁자석(1루)" },
+      { "seatId": 18, "seatName": "외야볼팬지정석(3루)" },
+      { "seatId": 19, "seatName": "외야자유석" },
+      { "seatId": 20, "seatName": "내야 SKYBOX(15, 10인)" },
+      {
+        "seatId": 21,
+        "seatName": "외야 FIELD BOX(15, 10, 8인)"
+      },
+      {
+        "seatId": 22,
+        "seatName": "외야 FIELD BOX(15, 10, 8인)"
+      },
+      {
+        "seatId": 23,
+        "seatName": "외야 홈클라우드존(4, 12인)"
+      },
+      { "seatId": 24, "seatName": "휠체어석" }
+    ]
+  },
+  {
+    "stadiumId": 5,
+    "sportsId": 1,
+    "stadiumName": "부산 사직 야구장",
+    "seatSelect": [
+      { "seatId": 1, "seatName": "중앙탁자석" },
+      { "seatId": 2, "seatName": "1루 응원탁자석" },
+      { "seatId": 3, "seatName": "3루 와이드탁자석" },
+      { "seatId": 4, "seatName": "1루 내야탁자석" },
+      { "seatId": 5, "seatName": "3루 내야탁자석" },
+      { "seatId": 6, "seatName": "1루 내야필드석" },
+      { "seatId": 7, "seatName": "3루 내야필드석" },
+      { "seatId": 8, "seatName": "1루 내야상단석" },
+      { "seatId": 9, "seatName": "3루 내야상단석" },
+      { "seatId": 10, "seatName": "중앙상단석" },
+      { "seatId": 11, "seatName": "3루 단체석" },
+      { "seatId": 12, "seatName": "로케트배터리존" },
+      { "seatId": 13, "seatName": "스카이박스" },
+      { "seatId": 14, "seatName": "외야석" }
+    ]
+  },
+  {
+    "stadiumId": 6,
+    "sportsId": 1,
+    "stadiumName": "수원 위즈 파크",
+    "seatSelect": [
+      { "seatId": 1, "seatName": "지니존" },
+      { "seatId": 2, "seatName": "티몬존" },
+      { "seatId": 3, "seatName": "중앙지정석" },
+      { "seatId": 4, "seatName": "필수팩(1루 테이블)" },
+      { "seatId": 5, "seatName": "KT OTT(3루 테이블)" },
+      { "seatId": 6, "seatName": "1루 응원지정석" },
+      { "seatId": 7, "seatName": "3루 응원지정석" },
+      { "seatId": 8, "seatName": "3루 내야지정석" },
+      { "seatId": 9, "seatName": "1루 스카이존" },
+      { "seatId": 10, "seatName": "3루 스카이존" },
+      { "seatId": 11, "seatName": "1루 하이파이브석" },
+      { "seatId": 12, "seatName": "3루 익사이팅석" },
+      { "seatId": 13, "seatName": "외야 자유잔디석" },
+      { "seatId": 14, "seatName": "외야테이블석" },
+      { "seatId": 15, "seatName": "키즈랜드 캠핑존" }
+    ]
+  },
+  {
+    "stadiumId": 7,
+    "sportsId": 1,
+    "stadiumName": "인천 SSG랜더스필드",
+    "seatSelect": [
+      { "seatId": 1, "seatName": "일반석" },
+      { "seatId": 2, "seatName": "SKY 테이블석" },
+      { "seatId": 3, "seatName": "미니스카이박스" },
+      { "seatId": 4, "seatName": "외야패밀리존" },
+      { "seatId": 5, "seatName": "마트 프랜들리존" },
+      { "seatId": 6, "seatName": "랜더스 라이브존" },
+      { "seatId": 7, "seatName": "제로데이 라이브존" },
+      { "seatId": 8, "seatName": "피코크 테이블(1층)" },
+      { "seatId": 9, "seatName": "노브랜드 테이블(2층)" },
+      { "seatId": 10, "seatName": "의자지정석" },
+      { "seatId": 11, "seatName": "몰리스 그린존" },
+      { "seatId": 12, "seatName": "응원지정석" },
+      { "seatId": 13, "seatName": "홈런커플존" },
+      { "seatId": 14, "seatName": "스카이박스" },
+      {
+        "seatId": 15,
+        "seatName": "트레이더스 OPEN 바비큐존"
+      },
+      { "seatId": 16, "seatName": "이마트바비큐존" },
+      { "seatId": 17, "seatName": "내야패밀리존" },
+      { "seatId": 18, "seatName": "초가정자" },
+      {
+        "seatId": 19,
+        "seatName": "로케트배터리외야파티덱"
+      }
+    ]
+  },
+  {
+    "stadiumId": 8,
+    "sportsId": 1,
+    "stadiumName": "잠실 야구장",
+    "seatSelect": [
+      { "seatId": 1, "seatName": "중앙석(프리미엄, VIP)" },
+      { "seatId": 2, "seatName": "익사이팅존" },
+      { "seatId": 3, "seatName": "테이블석" },
+      { "seatId": 4, "seatName": "블루지정석" },
+      { "seatId": 5, "seatName": "레드지정석" },
+      { "seatId": 6, "seatName": "네이비지정석" },
+      { "seatId": 7, "seatName": "외야일반석" },
+      { "seatId": 8, "seatName": "응원단석(1루측)" },
+      { "seatId": 9, "seatName": "응원단석(3루측)" }
+    ]
+  },
+  {
+    "stadiumId": 9,
+    "sportsId": 1,
+    "stadiumName": "잠실 야구장",
+    "seatSelect": [
+      { "seatId": 1, "seatName": "중앙석(프리미엄, VIP)" },
+      { "seatId": 2, "seatName": "익사이팅존" },
+      { "seatId": 3, "seatName": "테이블석" },
+      { "seatId": 4, "seatName": "블루지정석" },
+      { "seatId": 5, "seatName": "레드지정석" },
+      { "seatId": 6, "seatName": "네이비지정석" },
+      { "seatId": 7, "seatName": "외야일반석" },
+      { "seatId": 8, "seatName": "응원단석(1루측)" },
+      { "seatId": 9, "seatName": "응원단석(3루측)" }
+    ]
+  },
+  {
+    "stadiumId": 10,
+    "sportsId": 1,
+    "stadiumName": "창원NC파크",
+    "seatSelect": [
+      { "seatId": 1, "seatName": "프리미엄석" },
+      { "seatId": 2, "seatName": "프리미엄 테이블석" },
+      { "seatId": 3, "seatName": "테이블석" },
+      { "seatId": 4, "seatName": "1루 미니테이블석" },
+      { "seatId": 5, "seatName": "3루 미니테이블석" },
+      {
+        "seatId": 6,
+        "seatName": "1루 응원단상앞(104-110구역)"
+      },
+      { "seatId": 7, "seatName": "1층 1루 내야석" },
+      { "seatId": 8, "seatName": "2층 1루 내야석" },
+      { "seatId": 9, "seatName": "1층 3루 내야석" },
+      { "seatId": 10, "seatName": "2층 3루 내야석" },
+      { "seatId": 11, "seatName": "1루 가족석" },
+      { "seatId": 12, "seatName": "3루 라운드테이블석" },
+      { "seatId": 13, "seatName": "1루 외야일반석" },
+      { "seatId": 14, "seatName": "3층 1루 내야석" },
+      { "seatId": 15, "seatName": "4층 1루 내야석" },
+      { "seatId": 16, "seatName": "3층 3루 내야석" },
+      { "seatId": 17, "seatName": "4층 3루 내야석" },
+      { "seatId": 18, "seatName": "외야잔디석" },
+      { "seatId": 19, "seatName": "볼펜석" },
+      { "seatId": 20, "seatName": "볼펜가족석" },
+      { "seatId": 21, "seatName": "3층 테라스석" },
+      { "seatId": 22, "seatName": "포크밸리 바베큐석" },
+      { "seatId": 23, "seatName": "피크닉테이블" },
+      { "seatId": 24, "seatName": "스카이박스" },
+      { "seatId": 25, "seatName": "달&아자부 테라스석" }
+    ]
+  }
+]

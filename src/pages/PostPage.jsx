@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Datepicker from "react-tailwindcss-datepicker";
-import Axios from "axios";
+
+import axios from "axios";
+
 import { useDropzone } from "react-dropzone";
 
 // 이미지
@@ -8,7 +10,9 @@ import Exclamation from "@assets/img_exclamation.png";
 
 // 컴포넌트
 import Navbar from "@components/common/Navbar.jsx";
-// import categoryDummy from "@components/categoryDummy.json";
+
+// 좌석 dummy
+import seatDummy from "../seatSelect.json";
 
 export default function PostPage() {
   // Mock API
@@ -17,21 +21,24 @@ export default function PostPage() {
   useEffect(() => {
     async function fetchSportsData() {
       try {
-        const response = await fetch("/sports/list", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await axios.get(
+          "http://13.124.46.138:8080/sports/list",
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-        if (!response.ok) {
+        // HTTP 상태코드가 200이 아닌 경우 에러 발생
+        if (response.status !== 200) {
           throw new Error(
             `HTTP error! status: ${response.status}`
           );
         }
 
-        const data = await response.json();
-        setSportsData(data); // 응답 데이터를 userData 상태에 저장
+        // 응답 데이터를 state에 설정
+        setSportsData(response.data);
       } catch (error) {
         console.error("Fetching error:", error);
       }
@@ -39,27 +46,29 @@ export default function PostPage() {
 
     fetchSportsData();
   }, []);
+  console.log(sportsData);
 
   // 경기장 리스트
   const [stadiumData, setStadiumData] = useState(null);
   useEffect(() => {
     async function fetchStadiumData() {
       try {
-        const response = await fetch("/stadium/list", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await axios.get(
+          "http://13.124.46.138:8080/stadium/list",
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-        if (!response.ok) {
+        if (response.status !== 200) {
           throw new Error(
             `HTTP error! status: ${response.status}`
           );
         }
 
-        const data = await response.json();
-        setStadiumData(data); // 응답 데이터를 userData 상태에 저장
+        setStadiumData(response.data);
       } catch (error) {
         console.error("Fetching error:", error);
       }
@@ -67,27 +76,29 @@ export default function PostPage() {
 
     fetchStadiumData();
   }, []);
+  console.log(stadiumData);
 
   // 상대팀 리스트
   const [awayteamData, setAwayteamData] = useState(null);
   useEffect(() => {
     async function fetchAwayteamData() {
       try {
-        const response = await fetch("/awayteam/list", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await axios.get(
+          "http://13.124.46.138:8080/awayteam/list",
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-        if (!response.ok) {
+        if (response.status !== 200) {
           throw new Error(
             `HTTP error! status: ${response.status}`
           );
         }
 
-        const data = await response.json();
-        setAwayteamData(data); // 응답 데이터를 userData 상태에 저장
+        setAwayteamData(response.data);
       } catch (error) {
         console.error("Fetching error:", error);
       }
@@ -95,33 +106,12 @@ export default function PostPage() {
 
     fetchAwayteamData();
   }, []);
+  console.log(awayteamData);
 
   // 좌석 리스트
   const [seatData, setSeatData] = useState(null);
   useEffect(() => {
-    async function fetchSeatData() {
-      try {
-        const response = await fetch("/seat/list", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error(
-            `HTTP error! status: ${response.status}`
-          );
-        }
-
-        const data = await response.json();
-        setSeatData(data); // 응답 데이터를 userData 상태에 저장
-      } catch (error) {
-        console.error("Fetching error:", error);
-      }
-    }
-
-    fetchSeatData();
+    setSeatData(seatDummy);
   }, []);
 
   // 선택된 sportsId에 해당하는 경기장, 상대팀 데이터 가져오기
@@ -250,64 +240,96 @@ export default function PostPage() {
     const selectedSeatType = event.target.value;
     // curb가 선택되면 true, 그 외의 경우에는 false 반환
     const isSuccessive = selectedSeatType === "연석";
-    setIsCurb(isCurb);
+    setIsCurb(isSuccessive);
     // 어떤 작업을 수행하고 싶다면 여기에 추가
     console.log("isSuccessive:", isSuccessive);
   };
 
-  // 이미지 업로드 상태
-  const [images, setImages] = useState([]);
+  // // 이미지 업로드 상태
+  // const [images, setImages] = useState([]);
 
-  // Dropzone 설정
-  const { acceptedFiles, getRootProps, getInputProps } =
-    useDropzone({
-      accept: "image/*",
-      onDrop: (acceptedFiles) => {
-        setImages(acceptedFiles);
-      },
-    });
+  // // Dropzone 설정
+  // const { acceptedFiles, getRootProps, getInputProps } =
+  //   useDropzone({
+  //     accept: "image/*",
+  //     onDrop: (acceptedFiles) => {
+  //       setImages(acceptedFiles);
+  //     },
+  //   });
 
   // 등록하기
   const handleTicketRegistration = async () => {
     try {
-      // 이미지 업로드
-      const formData = new FormData();
-      images.forEach((image, index) => {
-        formData.append(`image${index + 1}`, image);
-      });
+      // // 이미지 업로드
+      // const formData = new FormData();
+      // images.forEach((image, index) => {
+      //   formData.append(`image${index + 1}`, image);
+      // });
 
-      const uploadResponse = await Axios.post(
-        "YOUR_S3_UPLOAD_ENDPOINT",
-        formData
-      );
+      // const uploadResponse = await axios.post(
+      //   "YOUR_S3_UPLOAD_ENDPOINT",
+      //   formData
+      // );
 
-      // S3에 업로드된 이미지의 URL을 받아옴
-      const imageUrls = uploadResponse.data.imageUrls;
+      // // S3에 업로드된 이미지의 URL을 받아옴
+      // const imageUrls = uploadResponse.data.imageUrls;
 
-      const response = await Axios.post(
-        "http://13.124.46.138:8080/api/posts",
+      const sportsId = `${
+        sportsData.length > 0 ? sportsData[0].sportsId : ""
+      }`;
+
+      const stadiumId = `${
+        filteredStadiums.length > 0
+          ? filteredStadiums[0].stadiumId
+          : ""
+      }`;
+
+      const awayTeamId = `${
+        filteredAwayteams.length > 0
+          ? filteredAwayteams[0].awayTeamId
+          : ""
+      }`;
+
+      // 좌석 정보를 문자열로 구성
+      const seatInfo = `${zone} ${line} ${
+        filteredSeats.length > 0
+          ? filteredSeats[0].seatSelect[0].seatName
+          : ""
+      }`;
+
+      // Datepicker에서 선택된 날짜
+      const expirationDate = value.startDate;
+      // 입력 시간
+      const expirationTime = `${expirationHour}:${expirationMinute}`;
+      // expirationAt을 완성된 형태로 구성
+      const expirationAt = expirationDate
+        ? `${expirationDate}T${expirationTime}:00`
+        : null;
+
+      const response = await axios.post(
+        "http://13.124.46.138:8080/posts",
         {
-          sportsData,
-          stadiumData,
-          awayteamData,
-          seatData,
-          filteredStadiums,
-          filteredAwayteams,
-          value,
-          expirationHour,
-          expirationMinute,
-          zone,
-          line,
-          note,
-          quantity,
-          originalPrice,
-          salePrice,
-          isCurb,
-          images: imageUrls,
-          // 다른 state 값들도 필요에 따라 추가
+          memberId: "1",
+          sportsId: sportsId,
+          stadiumId: stadiumId,
+          awayTeamId: awayTeamId,
+          quantity: parseInt(quantity),
+          salePrice: parseInt(salePrice),
+          originalPrice: parseInt(originalPrice),
+          expirationAt: expirationAt,
+          isSuccessive: isCurb,
+          seatInfo: seatInfo,
+          imgUrl: "empty",
+          note: note,
         }
       );
 
+      // 서버 응답에 대한 정보를 클라이언트에서 확인
+      console.log("Response Status:", response.status);
+      console.log("Response Headers:", response.headers);
+      console.log("Response Data:", response.data);
+
+      console.log(response.data);
       // 서버 응답 처리
       if (response.status === 200) {
         console.log("티켓 등록 성공:", response.data);
@@ -317,8 +339,22 @@ export default function PostPage() {
         // 등록 실패 시 수행할 작업 추가
       }
     } catch (error) {
-      console.error("티켓 등록 오류:", error);
-      // 오류 발생 시 수행할 작업 추가
+      // 에러 처리
+      console.error("에러:", error.message);
+      if (error.response) {
+        console.error("응답 데이터:", error.response.data);
+        console.error("응답 상태:", error.response.status);
+        console.error("응답 헤더:", error.response.headers);
+      } else if (error.request) {
+        // 요청은 되었지만 응답이 받아지지 않은 경우
+        console.error(
+          "응답을 받지 못했습니다:",
+          error.request
+        );
+      } else {
+        // 요청 설정 중에 에러가 발생한 경우
+        console.error("요청 설정 에러:", error.message);
+      }
     }
   };
 
@@ -411,8 +447,11 @@ export default function PostPage() {
                     {info.seatSelect &&
                       info.seatSelect.map(
                         (seat, seatIndex) => (
-                          <option key={seatIndex}>
-                            {seat}
+                          <option
+                            key={seatIndex}
+                            value={seat.seatName}
+                          >
+                            {seat.seatName}
                           </option>
                         )
                       )}
@@ -609,7 +648,7 @@ export default function PostPage() {
       </div>
       {/* 연석 여부끝 */}
       {/* 상품 이미지 */}
-      <div className="flex-col mb-16">
+      {/* <div className="flex-col mb-16">
         <div className="flex items-center mb-1">
           <p className="font-extrabold text-lg">
             상품 이미지&nbsp;
@@ -650,7 +689,7 @@ export default function PostPage() {
             게시자 본인에게 있습니다.
           </p>
         </div>
-      </div>
+      </div> */}
       {/* 상품 이미지끝 */}
       <div>
         <button

@@ -3,7 +3,10 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 
-// MSW 적용
+// Recoil
+import { RecoilRoot } from "recoil";
+
+// // MSW 적용
 // async function enableMocking() {
 //   if (process.env.NODE_ENV !== "development") {
 //     return;
@@ -20,15 +23,25 @@ import "./index.css";
 //   ReactDOM.createRoot(
 //     document.getElementById("root")
 //   ).render(
+<<<<<<< HEAD
 //     <React.StrictMode>
 //       <App />
 //     </React.StrictMode>
+=======
+//     <RecoilRoot>
+//       <React.StrictMode>
+//         <App />
+//       </React.StrictMode>
+//     </RecoilRoot>
+>>>>>>> upstream/dev
 //   );
 // });
 
 // msw 적용 해제시 밑에 활성화
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <RecoilRoot>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </RecoilRoot>
 );
