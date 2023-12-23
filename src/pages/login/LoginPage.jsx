@@ -1,5 +1,3 @@
-import {Route, Routes} from "react-router-dom";
-import KakaoRedirect from "@components/KakaoRedirect";
 import TicketImg from "@assets/img_ticket.png";
 import KakaoImg from "@assets/img_kakao.png";
 import NaverImg from "@assets/img_naver.png";

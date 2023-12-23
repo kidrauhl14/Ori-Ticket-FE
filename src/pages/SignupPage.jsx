@@ -3,7 +3,6 @@ import {useNavigate} from "react-router-dom";
 import { useState } from "react";
 import Datepicker from "react-tailwindcss-datepicker";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { userInfoState } from "@recoil/LoginState.jsx";
 
 export default function SignupPage(){
   const { replace } = useNavigate();

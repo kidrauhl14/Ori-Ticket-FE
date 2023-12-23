@@ -1,5 +1,5 @@
 import { useState } from "react";
-import LoginPage from "@pages/LoginPage";
+import LoginPage from "@pages/login/LoginPage";
 import SignupPage from "@pages/SignupPage";
 import MainPage from "@pages/MainPage";
 import PostPage from "@pages/PostPage";
@@ -12,7 +12,7 @@ import AdminPage from "@pages/AdminPage";
 import ChatPage from "@pages/ChatPage";
 import ChatlistPage from "@pages/ChatlistPage";
 import ServicePage from "@pages/ServicePage";
-import KakaoRedirect from "@components/KakaoRedirect";
+import KakaoRedirect from "@pages/login/KakaoRedirect";
 import { Route, Routes, Navigate } from "react-router-dom";
 import {ProtectedRoute} from "@components/ProtectedRoute.jsx";
 

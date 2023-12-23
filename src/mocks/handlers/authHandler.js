@@ -55,4 +55,12 @@ export const authHandler = [
       },
     ]);
   }),
+
+
+  // 로그아웃
+  http.post("/api/logout", () => {
+    return HttpResponse.json([
+      
+    ]);
+  })
 ];
