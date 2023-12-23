@@ -23,17 +23,11 @@ import { RecoilRoot } from "recoil";
 //   ReactDOM.createRoot(
 //     document.getElementById("root")
 //   ).render(
-<<<<<<< HEAD
-//     <React.StrictMode>
-//       <App />
-//     </React.StrictMode>
-=======
 //     <RecoilRoot>
 //       <React.StrictMode>
 //         <App />
 //       </React.StrictMode>
 //     </RecoilRoot>
->>>>>>> upstream/dev
 //   );
 // });
 
