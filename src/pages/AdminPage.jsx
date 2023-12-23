@@ -42,7 +42,7 @@ export default function AdminPage() {
             type="search"
             name="search"
             aria-label="검색어 입력"
-            placeholder="접수자 또는 PIN번호"
+            placeholder="접수자 또는 사유, 날짜"
             className="w-full h-20 mr-1 p-3 rounded-xl"
           ></input>
         </div>
@@ -58,7 +58,7 @@ export default function AdminPage() {
                   : "text-sky-basic"
               } rounded-xl cursor-pointer`}
             >
-              신고 관리
+              판매글 신고
             </div>
             <div
               onClick={() => handleTabChange("trade")}
@@ -68,7 +68,7 @@ export default function AdminPage() {
                   : "text-sky-basic"
               } rounded-xl cursor-pointer`}
             >
-              거래 관리
+              거래중 신고
             </div>
           </div>
           <div className="flex-col border-2 border-sky-basic text-sky-basic rounded-xl">

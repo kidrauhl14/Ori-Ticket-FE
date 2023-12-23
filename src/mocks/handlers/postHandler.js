@@ -91,7 +91,7 @@ export const postHandler = [
             salePostId: 3,
             memberName: "김두식",
             sportsName: "야구",
-            stadiumName: "고척 돔 야구정",
+            stadiumName: "고척 돔 야구장",
             homeTeamName: "키움",
             awayTeamName: "두산",
             quantity: 1,
