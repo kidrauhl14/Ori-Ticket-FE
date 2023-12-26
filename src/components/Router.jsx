@@ -31,7 +31,7 @@ export default function Router() {
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/post" element={<PostPage />} />
       <Route path="/category/:category" element={<CategoryPage />} />
-      <Route path="/detail" element={<DetailPage />} />
+      <Route path="/detail/:salePostId" element={<DetailPage />} />
       <Route path="/payment" element={<PaymentPage />} />
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/profile/edit" element={<ProfileEditPage />} />
