@@ -1,8 +1,43 @@
+import {useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
+import {useParams} from "react-router-dom";
+import {useRecoilValue, useRecoilState} from "recoil";
+import fetchPostsData from "@utils/fetchPostsData.jsx";
+import {postsDataState} from "@recoil/postsDataState.jsx";
 import Navbar from "@components/common/Navbar.jsx";
 import ReportBtn from "@assets/img_btn_report.png"
+import { formatDate } from "@utils/formatDate.js";
 
 export default function DetailPage() {
+  const { salePostId } = useParams();
+  const numericSalePostId = Number(salePostId);
+
+  const [postsData, setPostsData] = useRecoilState(postsDataState);
+
+  const [filteredData, setFilteredData] = useState({});
+
+    useEffect(() => {
+      const loadData = async () => {
+        try {
+          await fetchPostsData(setPostsData); 
+        } catch (error) {
+          console.error("Fetching posts data failed:", error);
+        }
+      };
+
+      loadData();
+    }, [setPostsData]);
+
+    useEffect(() => {
+      if (postsData) {
+        const data = postsData.find(
+          (post) => post.salePostId === numericSalePostId
+        );
+
+        setFilteredData(data); // 찾은 데이터로 상태 업데이트
+      }
+    }, [postsData, numericSalePostId]); 
+
   return (
     <div>
       <Navbar />
@@ -10,65 +45,55 @@ export default function DetailPage() {
         <h1 className="text-navy-basic font-extrabold text-5xl">ORI-TICKET</h1>
         <h1 className="text-navy-basic font-extrabold text-5xl">상품정보</h1>
 
-        <div className="mt-8 rounded-xl border-4 border-blue-950">
-          <ul className="flex justify-between my-4">
-            <li className="w-72 text-sm">상품정보</li>
-            <li className="w-28 text-sm">수량</li>
-            <li className="w-28 text-sm">가격</li>
-            <li className="w-28 text-sm">등록일</li>
-          </ul>
-          <div>
-            <div className="flex w-full h-full rounded-xl border-2 border-blue-950 mt-1">
-              <div className="w-72">
-                <div className="flex m-2 text-sm breadcrumbs">
-                  <ul>
-                    <li>
-                      <a className="text-navy-basic hover:text-navy-basic">
-                        sport_name
-                      </a>
-                    </li>
-                    <li>
-                      <a className="text-navy-basic hover:text-navy-basic">
-                        team_name
-                      </a>
-                    </li>
-                    <li>
-                      <a className="text-navy-basic hover:text-navy-basic">
-                        stadium_name
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-
-                <div className="flex-col m-2">
-                  <div className="text-xl text-left font-extrabold">
-                    seat_info
-                  </div>
-                  <div className="text-left font-semibold">use_date</div>
-                </div>
+        <div className="card-compact w-full my-4 bg-base-100 shadow-xl">
+          <div className="card-body">
+            <div className="flex">
+              <div className="text-xl font-extrabold pt-1">
+                {filteredData.sportsName}&nbsp;
               </div>
-              <div className="w-28 grid justify-center items-center text-sm">
-                quantity
-              </div>
-              <div className="w-28 flex-col">
-                <div className="text-sm text-end mt-6 pr-6 justify-end">
-                  original_price
-                </div>
-                <div className="font-extrabold text-xl text">sale_price</div>
-              </div>
-              <div className="w-28 grid justify-center items-center text-sm">
-                post_date
+              <div className="text-xl font-extrabold pt-1">&gt;&nbsp;</div>
+              <div className="text-2xl font-extrabold">
+                {filteredData.stadiumName}&nbsp;[
+                {filteredData.homeTeamName}] vs&nbsp;
+                {filteredData.awayTeamName}
               </div>
             </div>
-            <div className="flex justify-center">
-              <div className="flex-col  mb-4 w-4/5">
-                <div className="my-4 font-extrabold text-navy-basic font-extrabold text-xl w-1/3 ml-auto">
-                  총 가격: 36,000원
-                </div>
-                <button className="w-full border rounded-lg bg-navy-basic text-white font-extrabold text-xl">
-                  구매하기
-                </button>
-              </div>
+            <h2 className="card-title text-3xl">{filteredData.seatInfo}</h2>
+            <p className="text-left text-base font-extrabold">
+              사용날짜: {formatDate(filteredData.expirationAt)}
+            </p>
+            <p className="text-left text-base font-extrabold">
+              판매자: {filteredData.memberName}
+            </p>
+            <p className="text-sm text-end justify-end">
+              정가: {filteredData.originalPrice}
+            </p>
+            <p className="font-extrabold text-xl text-end">
+              수량: {filteredData.quantity}장 &nbsp;&nbsp;판매가:&nbsp;
+              {filteredData.salePrice}
+            </p>
+            <div className="card-actions justify-end">
+              <button
+                className="btn btn-square btn-primary"
+                // onClick={() => handleAddToCart(data)}
+              >
+                <svg
+                  id={`likeButton-${filteredData.salePostId}`}
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                  />
+                </svg>
+              </button>
+              <button className="btn btn-primary">티켓 구매</button>
             </div>
           </div>
         </div>

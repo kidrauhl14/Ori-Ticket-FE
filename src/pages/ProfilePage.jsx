@@ -61,6 +61,14 @@ export default function ProfilePage() {
   return (
     <div>
       <Navbar />
+
+      <div className="bg-yellow-100 text-navy-basic w-1/6 flex ml-auto mb-4 justify-between px-2">
+        <Link to="/profile/edit">
+          <span>정보수정</span>
+        </Link>
+        <span className="text-navy-basic">로그아웃</span>
+      </div>
+
       <div className="flex-col">
         {/* 내 정보 */}
         <div className="flex-col mb-8">
@@ -82,25 +90,16 @@ export default function ProfilePage() {
           <div className="flex-col border-2 border-blue-950 rounded-xl px-4">
             <div className="flex items-center justify-between my-2">
               <div className="flex items-center w-24">
-                <p className="font-bold text-lg">
-                  경고 현황
-                </p>
+                <p className="font-bold text-lg">경고 현황</p>
                 <p className="font-bold text-lg">3</p>
               </div>
               <div className="flex justify-between w-20 items-center">
-                <div className="bg-blue-950 rounded-full w-5 h-5">
-                  &nbsp;
-                </div>
-                <div className="bg-blue-950 rounded-full w-5 h-5">
-                  &nbsp;
-                </div>
-                <div className="bg-blue-200 rounded-full w-5 h-5">
-                  &nbsp;
-                </div>
+                <div className="bg-blue-950 rounded-full w-5 h-5">&nbsp;</div>
+                <div className="bg-blue-950 rounded-full w-5 h-5">&nbsp;</div>
+                <div className="bg-blue-200 rounded-full w-5 h-5">&nbsp;</div>
               </div>
               <p className="text-sm">
-                경고를 한번 더 받으면 활동이 어려울 수
-                있습니다.
+                경고를 한번 더 받으면 활동이 어려울 수 있습니다.
               </p>
             </div>
             <div className="flex items-center my-2 w-24">
@@ -183,21 +182,11 @@ export default function ProfilePage() {
               >
                 <div className="w-72">
                   <div className="flex m-2">
-                    <p className="text-xs mr-1">
-                      {ticket.sport_name}
-                    </p>
-                    <p className="text-xs font-extrabold mr-1">
-                      &gt;
-                    </p>
-                    <p className="text-xs mr-1">
-                      {ticket.team_name}
-                    </p>
-                    <p className="text-xs font-extrabold mr-1">
-                      &gt;
-                    </p>
-                    <p className="text-xs">
-                      {ticket.stadium_name}
-                    </p>
+                    <p className="text-xs mr-1">{ticket.sport_name}</p>
+                    <p className="text-xs font-extrabold mr-1">&gt;</p>
+                    <p className="text-xs mr-1">{ticket.team_name}</p>
+                    <p className="text-xs font-extrabold mr-1">&gt;</p>
+                    <p className="text-xs">{ticket.stadium_name}</p>
                   </div>
                   <div className="flex-col m-2">
                     <div className="text-xl text-left font-extrabold">

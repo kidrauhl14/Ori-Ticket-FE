@@ -1,5 +1,13 @@
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+
+import fetchPostsData from "@utils/fetchPostsData.jsx";
+import useAxios from '@hooks/useAxios.jsx';
+import {formatDate} from "@utils/formatDate.js"
+import { useRecoilState } from "recoil";
+import {postsDataState} from "@recoil/postsDataState.jsx";
+// import { shoppingCartState, likeItemState } from "../store/shoppingCart";
 
 import Navbar from '@components/common/Navbar.jsx'
 import DoubleSeatBtn from '@assets/img_btn_double.png'
@@ -9,50 +17,79 @@ import BasketballImg from "@assets/img_basketball.png";
 import TicketImg from "@assets/img_ticket.png";
 
 export default function CategoryPage() {
-  const {category} = useParams();
+  const { category } = useParams();
 
-const categories = [
-  { img: BaseballImg, alt: "야구 카테고리", label: "야구" },
-  { img: SoccerImg, alt: "축구 카테고리", label: "축구" },
-  { img: BasketballImg, alt: "농구 카테고리", label: "농구"},
-];
+  const [postsData, setPostsData] = useRecoilState(postsDataState);
+  const [filteredData, setFilteredData] = useState([]);
 
-const tickets = [
-  {
-    sport_name: "야구",
-    team_name: "키움",
-    stadium_name: "고척 돔 야구장",
-    seat_info: "418구역 k열 4층 3루 지정석",
-    use_date: "사용일: 11-27-2023 (Monday)",
-    quantity: "1개",
-    original_price: "20,000",
-    sale_price: "18,000",
-    post_date: "11-25-2023",
-  },
-  {
-    sport_name: "야구",
-    team_name: "삼성",
-    stadium_name: "대구 라이온즈 파크",
-    seat_info: "7구역 b열 3층 1루 지정석",
-    use_date: "사용일: 11-25-2023 (Saturday)",
-    quantity: "1개",
-    original_price: "20,000",
-    sale_price: "20,000",
-    post_date: "11-25-2023",
-  },
-  {
-    sport_name: "야구",
-    team_name: "롯데",
-    stadium_name: "부산 사직 야구장",
-    seat_info: "35구역 e열 2층 2루 지정석",
-    use_date: "사용일: 11-23-2023 (Thursday)",
-    quantity: "1개",
-    original_price: "20,000",
-    sale_price: "17,000",
-    post_date: "11-25-2023",
-  },
-];
+    const sportsNameMapping = {
+      baseball: "야구",
+      soccer: "축구",
+      basketball: "농구",
+    };
 
+  useEffect(() => {
+    fetchPostsData(setPostsData);
+  }, [setPostsData]);
+
+  useEffect(() => {
+    // 카테고리에 해당하는 스포츠 이름을 매핑 객체에서 가져옴
+    const sportsName = sportsNameMapping[category];
+
+    // postsData를 필터링하여 해당 스포츠 이름과 일치하는 데이터만 추출
+    const filtered = postsData.filter((post) => post.sportsName === sportsName);
+
+    // 필터링된 데이터로 상태 업데이트
+    setFilteredData(filtered);
+    console.log(filteredData);
+  }, [postsData, category]); // postsData 또는 category가 변경될 때마다 실행
+
+  const categories = [
+    { img: BaseballImg, alt: "야구 카테고리", label: "야구" },
+    { img: SoccerImg, alt: "축구 카테고리", label: "축구" },
+    { img: BasketballImg, alt: "농구 카테고리", label: "농구" },
+  ];
+
+  // // Recoil 찜하기
+  // const [shoppingCart, setShoppingCart] = useRecoilState(shoppingCartState);
+  // const [likeItems, setLikeItems] = useRecoilState(likeItemState);
+
+  // // Recoil 찜하기에 추가 및 삭제
+  // const handleAddToCart = (ticket) => {
+  //   const currentCart = [...shoppingCart];
+  //   const existingIndex = currentCart.findIndex(
+  //     (item) => item.salePostId === ticket.salePostId
+  //   );
+
+  //   if (existingIndex !== -1) {
+  //     // 이미 존재하면 제거
+  //     currentCart.splice(existingIndex, 1);
+  //     // 아이템 좋아요 취소
+  //     setLikeItems(
+  //       likeItems.filter((item) => item.salePostId !== ticket.salePostId)
+  //     );
+  //   } else {
+  //     // 존재하지 않으면 추가
+  //     currentCart.push(ticket);
+  //     // 아이템 좋아요 추가
+  //     setLikeItems([...likeItems, ticket]);
+  //   }
+
+  //   setShoppingCart(currentCart);
+
+  //   // Local Storage에 찜한 목록 저장
+  //   localStorage.setItem("shoppingCart", JSON.stringify(currentCart));
+
+  //   setShoppingCart(currentCart);
+  // };
+
+  // useEffect(() => {
+  //   // 페이지가 로드될 때 Local Storage에서 찜한 목록을 불러옴
+  //   const storedCart = localStorage.getItem("shoppingCart");
+  //   if (storedCart) {
+  //     setShoppingCart(JSON.parse(storedCart));
+  //   }
+  // }, [setShoppingCart]);
 
   return (
     <div>
@@ -72,7 +109,10 @@ const tickets = [
         <div className="bg-white flex max-w-5xl mb-4">
           <div className="navbar bg-navy-basic flex rounded-box">
             <div className="text-white">
-              <img src={TicketImg} className="border-none rounded-xl w-12 h-12" />
+              <img
+                src={TicketImg}
+                className="border-none rounded-xl w-12 h-12"
+              />
             </div>
             <div className="text-white text-base mx-4 text-lg font-extrabold">
               {category === "baseball" && "야구"}
@@ -136,71 +176,65 @@ const tickets = [
           </div>
         </div>
 
-        <div className="mt-8 rounded-xl border-4 border-blue-950">
-          <ul className="flex justify-between my-4">
-            <li className="w-72 text-sm">상품정보</li>
-            <li className="w-28 text-sm">수량</li>
-            <li className="w-28 text-sm">가격</li>
-            <li className="w-28 text-sm">등록일</li>
-          </ul>
-          <div>
-            <Link
-              to="/detail"
-              className="text-navy-basic hover:text-navy-basic"
-            >
-              {tickets.map((ticket, index) => (
-                <div
-                  key={index}
-                  className="flex w-full h-full rounded-xl border-2 border-blue-950 mt-1"
-                >
-                  <div className="w-72">
-                    <div className="flex m-2 text-sm breadcrumbs">
-                      <ul>
-                        <li>
-                          <a className="text-navy-basic hover:text-navy-basic">
-                            {ticket.sport_name}
-                          </a>
-                        </li>
-                        <li>
-                          <a className="text-navy-basic hover:text-navy-basic">
-                            {ticket.team_name}
-                          </a>
-                        </li>
-                        <li>
-                          <a className="text-navy-basic hover:text-navy-basic">
-                            {ticket.stadium_name}
-                          </a>
-                        </li>
-                      </ul>
+        <div className="mt-8 shadow-lg">
+          {filteredData.length > 0 &&
+            filteredData.map((data) => (
+              <Link
+                to={{ pathname: `/detail/${data.salePostId}` }}
+                className="text-navy-basic card-compact w-full my-4 bg-base-100 shadow-xl"
+                key={data.salePostId}
+              >
+                <div className="card-body">
+                  <div className="flex">
+                    <div className="text-xl font-extrabold pt-1">
+                      {data.sportsName}&nbsp;
                     </div>
-
-                    <div className="flex-col m-2">
-                      <div className="text-xl text-left font-extrabold">
-                        {ticket.seat_info}
-                      </div>
-                      <div className="text-left font-semibold">
-                        {ticket.use_date}
-                      </div>
+                    <div className="text-xl font-extrabold pt-1">
+                      &gt;&nbsp;
+                    </div>
+                    <div className="text-2xl font-extrabold">
+                      {data.stadiumName}&nbsp;[
+                      {data.homeTeamName}] vs&nbsp;
+                      {data.awayTeamName}
                     </div>
                   </div>
-                  <div className="w-28 grid justify-center items-center text-sm">
-                    {ticket.quantity}
-                  </div>
-                  <div className="w-28 flex-col">
-                    <div className="text-sm text-end mt-6 pr-6 justify-end">
-                      {ticket.original_price}
-                    </div>
-                    <div className="font-extrabold text-xl text">
-                      {ticket.sale_price}
-                    </div>
-                  </div>
-                  <div className="w-28 grid justify-center items-center text-sm">
-                    {ticket.post_date}
+                  <h2 className="card-title text-3xl">{data.seatInfo}</h2>
+                  <p className="text-left text-base font-extrabold">
+                    사용날짜: {formatDate(data.expirationAt)}
+                  </p>
+                  <p className="text-sm text-end justify-end">
+                    정가: {data.originalPrice}
+                  </p>
+                  <p className="font-extrabold text-xl text-end">
+                    수량: {data.quantity}장 &nbsp;&nbsp;판매가:&nbsp;
+                    {data.salePrice}
+                  </p>
+                  <div className="card-actions justify-end">
+                    {/* <button
+                      className="btn btn-square btn-primary"
+                      onClick={() => handleAddToCart(data)}
+                    >
+                      <svg
+                        id={`likeButton-${data.salePostId}`}
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                        />
+                      </svg>
+                    </button> */}
+                    <button className="btn btn-primary">티켓 구매</button>
                   </div>
                 </div>
-              ))}
-            </Link>
-          </div>
+              </Link>
+            ))}
         </div>
       </div>
     </div>
