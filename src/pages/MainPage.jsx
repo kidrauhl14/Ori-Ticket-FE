@@ -4,8 +4,7 @@ import {
   useCallback,
   useRef,
 } from "react";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 // 이미지
@@ -23,6 +22,7 @@ import {
   shoppingCartState,
   likeItemState,
 } from "../store/shoppingCart";
+import { postsDataState } from "@recoil/postsDataState.jsx";
 
 const categories = [
   { img: BaseballImg, alt: "야구", label: "야구" },
@@ -37,8 +37,11 @@ const categoryLabelMap = {
 };
 
 export default function MainPage() {
+  const navigate = useNavigate();
+
   // 판매글 리스트
-  const [postsData, setPostsData] = useState([]);
+  const [postsData, setPostsData] =
+    useRecoilState(postsDataState);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
@@ -96,7 +99,7 @@ export default function MainPage() {
   };
 
   useEffect(() => {
-    fetchPostsData();
+    fetchPostsData(setPostsData);
   }, []);
 
   // 날짜를 년-월-일 형식으로 변환하는 함수
@@ -189,19 +192,23 @@ export default function MainPage() {
             key={index}
             className="justify-center h-full w-full"
           >
-            <Link
-              to={`/category/${
-                categoryLabelMap[category.label]
-              }`}
+            <button
+              className="p-0 rounded-full mx-6"
+              onClick={() => {
+                navigate(
+                  `/category/${
+                    categoryLabelMap[category.label]
+                  }`
+                );
+              }}
             >
-              <button className="p-0 rounded-full">
-                <img
-                  src={category.img}
-                  alt={category.alt}
-                  className="flex justify-center h-full w-full rounded-full shadow-xl"
-                />
-              </button>
-            </Link>
+              <img
+                src={category.img}
+                alt={category.alt}
+                className="flex justify-center h-full w-full rounded-full shadow-xl"
+              />
+            </button>
+
             <p className="mt-1 mb-4 font-extrabold text-xl">
               {category.label}
             </p>
@@ -277,9 +284,14 @@ export default function MainPage() {
                       />
                     </svg>
                   </button>
-                  <button className="btn btn-primary text-base">
-                    티켓 구매
-                  </button>
+                  <Link
+                    to={`/detail/${data.salePostId}`}
+                    key={data.salePostId}
+                  >
+                    <button className="btn btn-primary text-base">
+                      티켓 구매
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>

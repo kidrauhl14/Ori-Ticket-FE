@@ -16,6 +16,9 @@ export default defineConfig({
         replacement: "/src/components",
       },
       { find: "@pages", replacement: "/src/pages" },
+      { find: "@recoil", replacement: "/src/recoil" },
+      { find: "@utils", replacement: "/src/utils" },
+      { find: "@hooks", replacement: "/src/hooks" },
     ],
   },
 });
