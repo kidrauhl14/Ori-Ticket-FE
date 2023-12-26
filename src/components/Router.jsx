@@ -37,7 +37,8 @@ export default function Router() {
       <Route path="/profile/edit" element={<ProfileEditPage />} />
       <Route path="/admin" element={<AdminPage />} />
       <Route path="/chatlist" element={<ChatlistPage />} />
-      <Route path="/chatlist/:room_id" element={<ChatPage />} />
+      {/* <Route path="/chatlist/:room_id" element={<ChatPageByDummy />} /> */}
+      <Route path="/chatlist/chatRoomId" element={<ChatPage />} />
       <Route path={`/service`} element={<ServicePage />} />
       {/* <Route path="*" element={<Navigate replace to="/login" />} /> */}
       {/* </Route> */}
