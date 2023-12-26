@@ -1,4 +1,9 @@
-import { useState, useEffect } from "react";
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+} from "react";
 import { Link } from "react-router-dom";
 
 import axios from "axios";
@@ -34,35 +39,65 @@ const categoryLabelMap = {
 export default function MainPage() {
   // 판매글 리스트
   const [postsData, setPostsData] = useState([]);
-  useEffect(() => {
-    async function fetchPostsData() {
-      try {
-        const response = await axios.get(
-          "http://13.124.46.138:8080/posts/search",
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const observer = useRef();
+
+  const lastPostRef = useCallback(
+    (node) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting && hasMore) {
+            fetchPostsData();
           }
-        );
-
-        // HTTP 상태 코드가 200이 아닌 경우 오류가 발생
-        if (response.status !== 200) {
-          throw new Error(
-            `HTTP error! status: ${response.status}`
-          );
         }
+      );
+      if (node) observer.current.observe(node);
+    },
+    [loading, hasMore]
+  );
 
-        // 응답 데이터에서 content를 추출하여 상태에 설정
-        setPostsData(response.data.content);
-      } catch (error) {
-        console.error("Fetching error:", error);
+  const fetchPostsData = async () => {
+    try {
+      setLoading(true);
+
+      const response = await axios.get(
+        `http://13.124.46.138:8080/posts/search?&page=${page}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status !== 200) {
+        throw new Error(
+          `HTTP error! status: ${response.status}`
+        );
       }
-    }
 
+      const newData = response.data.content;
+
+      if (newData.length === 0) {
+        setHasMore(false);
+        return;
+      }
+
+      setPostsData((prevData) => [...prevData, ...newData]);
+      setPage((prevPage) => prevPage + 1);
+    } catch (error) {
+      console.error("Fetching error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchPostsData();
   }, []);
-  console.log(postsData);
 
   // 날짜를 년-월-일 형식으로 변환하는 함수
   const formatDate = (dateString) => {
@@ -148,7 +183,7 @@ export default function MainPage() {
   return (
     <div>
       <Navbar />
-      <div className="flex max-w-5xl mb-4">
+      <div className="flex w-full mb-4">
         {categories.map((category, index) => (
           <div
             key={index}
@@ -159,15 +194,15 @@ export default function MainPage() {
                 categoryLabelMap[category.label]
               }`}
             >
-              <button className="p-0 rounded-xl mx-6">
+              <button className="p-0 rounded-full">
                 <img
                   src={category.img}
                   alt={category.alt}
-                  className="flex justify-center h-full w-full rounded-xl"
+                  className="flex justify-center h-full w-full rounded-full shadow-xl"
                 />
               </button>
             </Link>
-            <p className="mb-4 font-extrabold text-base">
+            <p className="mt-1 mb-4 font-extrabold text-xl">
               {category.label}
             </p>
           </div>
@@ -186,6 +221,11 @@ export default function MainPage() {
           postsData.map((data, index) => (
             <div
               className="card-compact w-full my-4 bg-base-100 shadow-xl"
+              ref={
+                index === postsData.length - 1
+                  ? lastPostRef
+                  : null
+              }
               key={index}
             >
               <div className="card-body">
@@ -237,7 +277,7 @@ export default function MainPage() {
                       />
                     </svg>
                   </button>
-                  <button className="btn btn-primary">
+                  <button className="btn btn-primary text-base">
                     티켓 구매
                   </button>
                 </div>
