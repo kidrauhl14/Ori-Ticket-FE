@@ -1,7 +1,7 @@
 import Stomp from 'stompjs';
 import SockJS from 'sockjs-client';
 
-import {useEffect, useState, useRef} from "react";
+import {useEffect, useState} from "react";
 import axios from 'axios';
 import { useRecoilValue } from "recoil";
 import { useParams } from "react-router-dom";
@@ -19,61 +19,55 @@ export default function ChatPage() {
   const userId = userInfo.id;
 
   const [transactionId, setTransactionId] = useState();
-  const [message, setMessage] = useState(""); // 단일 메시지
+  const [message, setMessage] = useState(""); // 메시지 입력창(InputField)에서 보낼 메시지
   const [messageList, setMessageList] = useState([]); //해당 채팅방에 있는 모든 메시지
 
-  // useRef를 사용하여 socket을 참조하면, 이 socket은 컴포넌트의 전체 수명 주기 동안 유지
-  const socket = useRef();
+  const [client, setClient] = useState(null);
 
   useEffect(() => {
     console.log("useEffect called");
+
     // SockJS클라이언트를 생성하여 서버의 웹소켓 세팅
-    socket.current = Stomp.over(
-      new SockJS("http://13.124.46.138:8080/ws-stomp")
-    );
+    const socket = new SockJS("https://oriticket.link/ws-stomp");
 
-    // 웹소켓 서버 연결
-    socket.current.connect({}, function () {
+    const stompClient = Stomp.over(socket);
+
+    // Stomp를 이용해 웹소켓 서버에 연결
+    stompClient.connect({}, () => {
       console.log("Connected to server");
-      // 특정 채팅방의 메시지 구독
-      socket.current.subscribe(
-        `http://13.124.46.138:8080/ws-stomp/send/${chatRoomId}`,
-        (message) => {
-            setMessageList((prevState) => [
-              ...prevState,
-              JSON.parse(message.body),
-            ]);
-        },
 
-        // function () {
-        //   console.log("New message arrived: ", message);
-        //   // 새로운 메시지가 도착할 때마다, 메시지 리스트에 메시지 추가
-        //   setMessageList((prevState) => [
-        //     ...prevState,
-        //     JSON.parse(message.body),
-        //   ]);
-        // }
-      );
-    });
+      // 특정 채팅방의 메시지 구독
+      client.subscribe(
+        `/send/${chatRoomId}`,
+        (message) => {
+          setMessageList((prevState) => [
+            ...prevState,
+            JSON.parse(message.body),
+          ]);
+        });
+
+        setClient(stompClient);
+    },
+    (error) => {
+      console.log('Failed to connect:', error);
+    }
+    );
 
     // 컴포넌트 unmount 시에 웹소켓 연결 종료 (채팅 페이지를 벗어날 때)
     // return () => {
-    //   socket.current.disconnect();
+    //   if(stompClient) {stompClient.disconnect();}
     // };
   }, []);
 
   const sendMessage = (event) => {
     event.preventDefault();
-    if (message && socket.current) {
-      const msg = { memberId: userId, message: message };
-      socket.current.send(
-        `http://13.124.46.138:8080/ws-stomp/chat/${chatRoomId}`,
-        {},
-        JSON.stringify(msg)
-      );
+    if(message && client) {
+      const msg = {"memberId": userId, "message": message};
+      client.send(``, {}, JSON.stringify(msg));
       setMessage("");
     }
   };
+
 
   // 채팅방 상단에, 거래번호 띄워주기
   const fetchChatRoom = async () => {
