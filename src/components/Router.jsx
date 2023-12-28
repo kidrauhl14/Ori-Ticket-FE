@@ -17,7 +17,6 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import {ProtectedRoute} from "@components/ProtectedRoute.jsx";
 
 export default function Router() {
-  // const kakaoRedirectUri = import.meta.env.VITE_KAKAO_REDIRECT_URI;
 
   return (
     <Routes>
@@ -37,8 +36,7 @@ export default function Router() {
       <Route path="/profile/edit" element={<ProfileEditPage />} />
       <Route path="/admin" element={<AdminPage />} />
       <Route path="/chatlist" element={<ChatlistPage />} />
-      {/* <Route path="/chatlist/:room_id" element={<ChatPageByDummy />} /> */}
-      <Route path="/chatlist/chatRoomId" element={<ChatPage />} />
+      <Route path="/chatlist/:chatRoomId" element={<ChatPage />} />
       <Route path={`/service`} element={<ServicePage />} />
       {/* <Route path="*" element={<Navigate replace to="/login" />} /> */}
       {/* </Route> */}

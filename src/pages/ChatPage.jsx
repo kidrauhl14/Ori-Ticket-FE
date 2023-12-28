@@ -1,45 +1,72 @@
-import {useEffect, useState} from "react";
+import Stomp from 'stompjs';
+import SockJS from 'sockjs-client';
+
+import {useEffect, useState, useRef} from "react";
 import { useRecoilValue } from "recoil";
 import { useParams } from "react-router-dom";
+
+// import fetchChatRoom  from '@utils/fetchChatRoom.jsx';
 
 import Navbar from "@components/common/Navbar.jsx";
 import ReportBtn from "@assets/img_btn_report.png";
 import TicketImg from "@assets/img_ticket.png";
 
 import InputField from "@components/InputField.jsx";
-import socket from "../server.js"
 
 import { userInfoState } from "@recoil/userInfoState";
-// import fetchChatRoom from "@utils/fetchChatRoom.jsx";
 
-export default function ChatPage({chatRoomId}) {
+export default function ChatPage() {
+  const { chatRoomId } = useParams();
+  // const chatRoomIdNumber = Number(chatRoomId);
 
-  const userInfo = useRecoilValue(userInfoState); 
+  const userInfo = useRecoilValue(userInfoState);
   const userId = userInfo.id;
 
-  const [user, setUser] = useState(null); // 상대방 정보
   const [message, setMessage] = useState(""); // 단일 메시지
   const [messageList, setMessageList] = useState([]); //해당 채팅방에 있는 모든 메시지
 
-  const sendMessage = (event) => {
-    event.preventDefault();
-    //{"memberId":"","message":""} memberId를 추가해야함
-    socket.emit("sendMessage", message, (res) => {
-      console.log("sendMessage response값", res);
-    });
-  }
-
-
-  console.log('모든 메시지 내용', messageList);
+  // useRef를 사용하여 socket을 참조하면, 이 socket은 컴포넌트의 전체 수명 주기 동안 유지
+  const socket = useRef();
 
   useEffect(() => {
-    socket.on('message', (message) => { // message라는 이름으로 들어온 게 있으면, 듣겠다!
-        setMessageList((prevState) => prevState.concat(message));
-        console.log("res", message);
-    });
-  }, []);
-  
+    // SockJS클라이언트를 생성하여 서버의 웹소켓 엔드포인트에 연결 (세팅)
+    socket.current = Stomp.over(
+      new SockJS("http://13.124.46.138:8080/ws-stomp")
+    );
 
+    // 웹소켓 서버 연결
+    socket.current.connect({}, function () {
+      // 특정 채팅방의 메시지 구독
+      socket.current.subscribe(
+        `http://13.124.46.138:8080/ws-stomp/send/${chatRoomId}`,
+        function (message) {
+          // 새로운 메시지가 도착할 때마다, 메시지 리스트에 메시지 추가
+          setMessageList((prevState) => [
+            ...prevState,
+            JSON.parse(message.body),
+          ]);
+        }
+      );
+    });
+
+    // 컴포넌트 unmount 시에 웹소켓 연결 종료 (채팅 페이지를 벗어날 때)
+    return () => {
+      if (socket.current) socket.current.disconnect();
+    };
+  }, [chatRoomId]);
+
+  const sendMessage = (event) => {
+    event.preventDefault();
+    if (message && socket.current) {
+      const msg = { memberId: userId, message: message };
+      socket.current.send(
+        `http://13.124.46.138:8080/ws-stomp/chat/${chatRoomId}`,
+        {},
+        JSON.stringify(msg)
+      );
+      setMessage("");
+    }
+  };
 
   return (
     <div className="h-screen">
@@ -73,10 +100,7 @@ export default function ChatPage({chatRoomId}) {
                 <div
                   key={index}
                   className={`chat ${
-                    // msg.from === messageList.participants[0].id
-                    userId === msg.user.id
-                      ? "chat-end"
-                      : "chat-start"
+                    userId === msg.memberId ? "chat-end" : "chat-start"
                   }`}
                 >
                   <div className="chat-image avatar">
@@ -105,7 +129,11 @@ export default function ChatPage({chatRoomId}) {
                   )} */}
                 </div>
               ))}
-              <InputField />
+              <InputField
+                message={message}
+                setMessage={setMessage}
+                sendMessage={sendMessage}
+              />
             </div>
           </div>
         </div>

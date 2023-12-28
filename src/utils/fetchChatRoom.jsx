@@ -1,9 +1,9 @@
 import fetchDataUseAxios from "@hooks/useAxios";
 
-const fetchChatList = async (chatRoomId) => {
+const fetchChatRoom = async (chatRoomId) => {
   const response = await fetchDataUseAxios("useTokenAxios", {
     method: "get",
-    url: `http://13.124.46.138:8080/ws-stomp/chat/${chatRoomId}`,
+    url: `http://13.124.46.138:8080/chatroom?&id=${chatRoomId}`,
   });
 
   if (response && response.status === 200) {
@@ -13,4 +13,4 @@ const fetchChatList = async (chatRoomId) => {
   }
 };
 
-export default fetchChatList;
+export default fetchChatRoom;

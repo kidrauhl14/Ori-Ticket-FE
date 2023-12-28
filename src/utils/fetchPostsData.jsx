@@ -15,7 +15,7 @@ async function fetchPostsData(setPostsData) {
     }
 
     setPostsData(response.data.content);
-    console.log(response.data.content);
+    console.log(response.data);
   } catch (error) {
     console.error("Fetching error:", error);
   }

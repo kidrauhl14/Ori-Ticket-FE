@@ -1,29 +1,45 @@
+import axios from 'axios';
 import {useEffect, useState} from "react";
 import { Link } from 'react-router-dom';
+import { useRecoilValue } from "recoil";
 import Navbar from "@components/common/Navbar.jsx";
-import fetchChatList from "@utils/fetchChatList.jsx";
-// import chatDummy from "@components/chatDummy.json";
-
-// function getLastMessageText(messages) {
-//   const lastMessage = messages[messages.length-1];
-//   return lastMessage ? (lastMessage.type === 'image' ? '[사진]' : lastMessage.text) : '';
-// }
+import { userInfoState } from "@recoil/userInfoState";
 
 export default function ChatlistPage() {
+  const userInfo = useRecoilValue(userInfoState);
+  const userId = userInfo.id;
   const [chatList, setChatList] = useState([]);
-  const [error, setError] = useState(null);
+
+  async function fetchChatList() {
+    try {
+      const response = await axios.get(
+        `http://13.124.46.138:8080/chatroom/member?&id=${userId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status !== 200) {
+        throw new Error(`HTTP 에러! 상태: ${response.status}`);
+      }
+
+      setChatList(response.data);
+      console.log("해당 유저의 채팅목록", response.data);
+    } catch (error) {
+      console.error("Fetching error:", error);
+    }
+  }
 
   useEffect(() => {
-    const loadChatList = async () => {
-      try {
-        const data = await fetchChatList();
-        setChatList(data);
-      } catch (error){
-        setError(error);
-      }
-    }
-    loadChatList();
-  }, []);  
+    fetchChatList();
+  }, []);
+
+  // function getLastMessageText(messages) {
+  //   const lastMessage = messages[messages.length-1];
+  //   return lastMessage ? (lastMessage.type === 'image' ? '[사진]' : lastMessage.text) : '';
+  // }
 
   return (
     <div className="h-screen">
@@ -45,9 +61,15 @@ export default function ChatlistPage() {
                   className="bg-white m-4 h-20 flex items-center border rounded-lg"
                 >
                   <div className=" w-16 h-16 bg-slate-300 ml-2 rounded-full"></div>
-                  <div className="bg-pink-200 truncate flex-shrink-0 max-w-lg flex flex-col items-start ml-4 ">
+                  <div className="bg-yellow-100 truncate flex-shrink-0 max-w-lg flex flex-col items-start ml-4 ">
                     <div className="text-xl font-extrabold mb-2">
-                      {chatRoom.members[0]}
+                      {chatRoom.chatRoomId}번방
+                      {/* {chatRoom.members[0] === userId
+                        ? chatRoom.members[1]
+                        : chatRoom.members[0]} */}
+                    </div>
+                    <div className="text-xl font-extrabold mb-2">
+                      거래번호: {chatRoom.transactionId}
                     </div>
                     {/* <div className="bg-yellow-100 whitespace-nowrap truncate text-md font-extrabold">
                       {getLastMessageText(chatRoom.messages)}
