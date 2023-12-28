@@ -4,7 +4,6 @@ import Ticket from "@assets/img_ticket.png";
 import ProfileEdit from "@components/ProfileEdit.jsx";
 
 export default function ProfileEditPage() {
-    
   return (
     <>
       <Navbar />
@@ -37,7 +36,7 @@ export default function ProfileEditPage() {
               name="email"
               id="email"
               placeholder="oriticket@gmail.com"
-              className="w-full appearance-none border border-4 rounded-lg border-navy-basic text-gray-700 placeholder-gray-400 focus:border-transparent"
+              className="w-full appearance-none border-4 rounded-lg border-navy-basic text-gray-700 placeholder-gray-400 focus:border-transparent"
               required
             />
           </div>
@@ -55,11 +54,10 @@ export default function ProfileEditPage() {
               name="phone"
               id="phone"
               placeholder="하이픈(-) 제외한 숫자만 입력"
-              className="w-full appearance-none border border-4 rounded-lg border-navy-basic text-gray-700 placeholder-gray-400 focus:border-transparent"
+              className="w-full appearance-none border-4 rounded-lg border-navy-basic text-gray-700 placeholder-gray-400 focus:border-transparent"
               required
             />
           </div>
-
           <button>탈퇴하기</button>
         </div>
       </div>
