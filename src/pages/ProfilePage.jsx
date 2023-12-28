@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 // 이미지
 import Ticket from "@assets/img_ticket.png";
@@ -13,30 +14,30 @@ import {
   shoppingCartTotalState,
 } from "../store/shoppingCart";
 
-const saleTicket = [
-  {
-    sport_name: "야구",
-    team_name: "삼성",
-    stadium_name: "대구 라이온즈 파크",
-    seat_info: "7구역 b열 3층 1루 지정석",
-    use_date: "사용일: 11-25-2023 (Saturday)",
-    quantity: "1개",
-    original_price: "20,000",
-    sale_price: "20,000",
-    post_date: "11-25-2023",
-  },
-  {
-    sport_name: "야구",
-    team_name: "롯데",
-    stadium_name: "부산 사직 야구장",
-    seat_info: "35구역 e열 2층 2루 지정석",
-    use_date: "사용일: 11-23-2023 (Thursday)",
-    quantity: "1개",
-    original_price: "20,000",
-    sale_price: "17,000",
-    post_date: "11-25-2023",
-  },
-];
+// const saleTicket = [
+//   {
+//     sport_name: "야구",
+//     team_name: "삼성",
+//     stadium_name: "대구 라이온즈 파크",
+//     seat_info: "7구역 b열 3층 1루 지정석",
+//     use_date: "사용일: 11-25-2023 (Saturday)",
+//     quantity: "1개",
+//     original_price: "20,000",
+//     sale_price: "20,000",
+//     post_date: "11-25-2023",
+//   },
+//   {
+//     sport_name: "야구",
+//     team_name: "롯데",
+//     stadium_name: "부산 사직 야구장",
+//     seat_info: "35구역 e열 2층 2루 지정석",
+//     use_date: "사용일: 11-23-2023 (Thursday)",
+//     quantity: "1개",
+//     original_price: "20,000",
+//     sale_price: "17,000",
+//     post_date: "11-25-2023",
+//   },
+// ];
 
 export default function ProfilePage() {
   // 날짜를 년-월-일 형식으로 변환하는 함수
@@ -58,65 +59,72 @@ export default function ProfilePage() {
   );
   const shoppingCart = useRecoilValue(shoppingCartState);
 
+  // 탭 메뉴
+  const [selectedTab, setSelectedTab] = useState("sell");
+
+  const handleTabChange = (tab) => {
+    setSelectedTab(tab);
+  };
+
   return (
     <div>
       <Navbar />
-
-      <div className="bg-yellow-100 text-navy-basic w-1/6 flex ml-auto mb-4 justify-between px-2">
+      <div className="flex justify-end mb-4">
         <Link to="/profile/edit">
-          <span>정보수정</span>
+          <button className="bg-blue-950 text-white font-semibold shadow-xl">
+            정보수정
+          </button>
         </Link>
-        <span className="text-navy-basic">로그아웃</span>
       </div>
-
       <div className="flex-col">
         {/* 내 정보 */}
         <div className="flex-col mb-8">
-          <div className="flex justify-between items-center w-full border-2 border-blue-950 rounded-xl">
-            <div className="flex">
-              <img
-                src={Ticket}
-                alt="로고"
-                className="w-20 h-20 rounded-xl"
-              ></img>
-              <p className="font-extrabold text-3xl text-center py-5 px-24 h-20 w-full">
-                나의 오리티켓
-              </p>
+          <div className="flex justify-between items-center w-full border-2 border-blue-950 rounded-xl shadow-xl mb-4">
+            <img
+              src={Ticket}
+              alt="Ori-Ticket logo"
+              className="w-16 h-16 rounded-l-md"
+            ></img>
+            <div className="font-extrabold text-3xl text-center py-3 px-24 h-16 w-full bg-white">
+              나의 오리티켓
             </div>
-            <p className="font-extrabold text-2xl text-center py-6 px-6 bg-blue-950 border-2 border-blue-950 rounded-xl h-20 text-yellow-basic">
+            <div className="font-extrabold text-2xl text-center py-3 w-48 h-16 bg-blue-950 border-2 border-blue-950 rounded-r-md text-yellow-basic">
               김오리
-            </p>
+            </div>
           </div>
-          <div className="flex-col border-2 border-blue-950 rounded-xl px-4">
+          <div className="flex-col rounded-xl py-4 px-4 shadow-xl">
             <div className="flex items-center justify-between my-2">
-              <div className="flex items-center w-24">
-                <p className="font-bold text-lg">경고 현황</p>
-                <p className="font-bold text-lg">3</p>
+              <div className="flex justify-center w-32 font-bold text-lg border-4 shadow-xl border-blue-950 bg-blue-950 text-white rounded-xl">
+                경고 현황&nbsp;2
               </div>
               <div className="flex justify-between w-20 items-center">
-                <div className="bg-blue-950 rounded-full w-5 h-5">&nbsp;</div>
-                <div className="bg-blue-950 rounded-full w-5 h-5">&nbsp;</div>
-                <div className="bg-blue-200 rounded-full w-5 h-5">&nbsp;</div>
+                <div className="bg-blue-950 rounded-full w-5 h-5 shadow-xl">
+                  &nbsp;
+                </div>
+                <div className="bg-blue-950 rounded-full w-5 h-5 shadow-xl">
+                  &nbsp;
+                </div>
+                <div className="bg-sky-200 rounded-full w-5 h-5 shadow-xl">
+                  &nbsp;
+                </div>
               </div>
-              <p className="text-sm">
-                경고를 한번 더 받으면 활동이 어려울 수 있습니다.
-              </p>
+              <div className="font-bold text-sm border-4 shadow-xl border-blue-950 bg-blue-950 text-white rounded-xl px-2">
+                경고를 한번 더 받으면 활동이 어려울 수
+                있습니다.
+              </div>
             </div>
-            <div className="flex items-center my-2 w-24">
-              <p className="font-bold text-lg">
-                찜한 티켓&nbsp;{shoppingCartTotal}
-              </p>
+            <div className="flex justify-center w-32 font-bold text-lg border-4 shadow-xl border-blue-950 bg-blue-950 text-white rounded-xl my-2">
+              찜한 티켓&nbsp;{shoppingCartTotal}
             </div>
-            <div className="flex items-center my-2 w-24">
-              <p className="font-bold text-lg">거래 완료</p>
-              <p className="font-bold text-lg">2</p>
+            <div className="flex justify-center w-32 font-bold text-lg border-4 shadow-xl border-blue-950 bg-blue-950 text-white rounded-xl my-2">
+              거래 완료&nbsp;2
             </div>
           </div>
         </div>
         {/* 내 정보끝 */}
         {/* 찜한 티켓 */}
         <div className="flex-col mb-8">
-          <div className="flex justify-center ml-1 w-32 font-bold text-lg border-4 border-blue-950 bg-blue-950 text-white rounded-xl shadow-xl">
+          <div className="flex justify-center ml-1 w-32 font-bold text-lg border-4 shadow-xl border-blue-950 bg-blue-950 text-white rounded-xl">
             찜한 티켓
           </div>
           <div className="mt-4">
@@ -166,12 +174,58 @@ export default function ProfilePage() {
           </div>
         </div>
         {/* 찜한 티켓끝 */}
+
+        {/* 탭 리스트 수정필요 */}
+        <div className="flex-col">
+          <div className="flex justify-between">
+            <div
+              onClick={() => handleTabChange("sell")}
+              className={`flex justify-center ml-1 w-32 font-bold text-lg border-4 shadow-xl ${
+                selectedTab === "sell"
+                  ? "border-blue-950 bg-blue-950 text-white"
+                  : "border-gray-50 bg-white text-blue-950"
+              } rounded-xl cursor-pointer`}
+            >
+              판매중
+            </div>
+            <div
+              onClick={() => handleTabChange("sold")}
+              className={`flex justify-center ml-1 w-32 font-bold text-lg border-4 shadow-xl ${
+                selectedTab === "sold"
+                  ? "border-blue-950 bg-blue-950 text-white"
+                  : "border-gray-50 bg-white text-blue-950"
+              } rounded-xl cursor-pointer`}
+            >
+              판매종료
+            </div>
+            <div
+              onClick={() => handleTabChange("trade")}
+              className={`flex justify-center ml-1 w-32 font-bold text-lg border-4 shadow-xl ${
+                selectedTab === "trade"
+                  ? "border-blue-950 bg-blue-950 text-white"
+                  : "border-gray-50 bg-white text-blue-950"
+              } rounded-xl cursor-pointer`}
+            >
+              거래중
+            </div>
+            <div
+              onClick={() => handleTabChange("complete")}
+              className={`flex justify-center ml-1 w-32 font-bold text-lg border-4 shadow-xl ${
+                selectedTab === "complete"
+                  ? "border-blue-950 bg-blue-950 text-white"
+                  : "border-gray-50 bg-white text-blue-950"
+              } rounded-xl cursor-pointer`}
+            >
+              거래종료
+            </div>
+          </div>
+        </div>
         {/* 거래 완료 */}
-        <div className="flex-row mb-8">
-          <div className="flex justify-center ml-1 w-32 font-bold text-lg border-4 border-blue-950 bg-blue-950 text-white rounded-xl">
+        {/* <div className="flex-row mb-8">
+          <div className="flex justify-center ml-1 w-32 font-bold text-lg border-4 shadow-xl border-blue-950 bg-blue-950 text-white rounded-xl">
             거래중
           </div>
-          <div className="flex justify-center ml-1 w-32 font-bold text-lg border-4 border-blue-950 bg-blue-950 text-white rounded-xl">
+          <div className="flex justify-center ml-1 w-32 font-bold text-lg border-4 shadow-xl border-blue-950 bg-blue-950 text-white rounded-xl">
             거래 완료
           </div>
           <div>
@@ -182,11 +236,21 @@ export default function ProfilePage() {
               >
                 <div className="w-72">
                   <div className="flex m-2">
-                    <p className="text-xs mr-1">{ticket.sport_name}</p>
-                    <p className="text-xs font-extrabold mr-1">&gt;</p>
-                    <p className="text-xs mr-1">{ticket.team_name}</p>
-                    <p className="text-xs font-extrabold mr-1">&gt;</p>
-                    <p className="text-xs">{ticket.stadium_name}</p>
+                    <p className="text-xs mr-1">
+                      {ticket.sport_name}
+                    </p>
+                    <p className="text-xs font-extrabold mr-1">
+                      &gt;
+                    </p>
+                    <p className="text-xs mr-1">
+                      {ticket.team_name}
+                    </p>
+                    <p className="text-xs font-extrabold mr-1">
+                      &gt;
+                    </p>
+                    <p className="text-xs">
+                      {ticket.stadium_name}
+                    </p>
                   </div>
                   <div className="flex-col m-2">
                     <div className="text-xl text-left font-extrabold">
@@ -214,7 +278,7 @@ export default function ProfilePage() {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
         {/* 거래 완료끝 */}
       </div>
     </div>

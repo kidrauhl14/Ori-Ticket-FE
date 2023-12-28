@@ -68,7 +68,7 @@ export default function MainPage() {
       setLoading(true);
 
       const response = await axios.get(
-        `http://13.124.46.138:8080/posts/search?&page=${page}`,
+        `https://oriticket.link/posts/search?&page=${page}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -215,7 +215,7 @@ export default function MainPage() {
           </div>
         ))}
       </div>
-      <SearchBar />
+      <SearchBar setPostsData={setPostsData} />
       <div className="mt-8">
         <Link to={`/post`}>
           <div className="w-full py-2 border-2 border-blue-950 rounded-xl bg-blue-950 text-yellow-basic font-extrabold text-xl shadow-xl">
