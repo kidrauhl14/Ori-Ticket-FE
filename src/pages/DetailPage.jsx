@@ -1,49 +1,54 @@
-import {useState, useEffect} from 'react';
-import {Link} from "react-router-dom";
-import {useParams} from "react-router-dom";
-import {useRecoilValue, useRecoilState} from "recoil";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useRecoilValue, useRecoilState } from "recoil";
 import fetchPostsData from "@utils/fetchPostsData.jsx";
-import {postsDataState} from "@recoil/postsDataState.jsx";
+import { postsDataState } from "@recoil/postsDataState.jsx";
 import Navbar from "@components/common/Navbar.jsx";
-import ReportBtn from "@assets/img_btn_report.png"
+import ReportBtn from "@assets/img_btn_report.png";
 import { formatDate } from "@utils/formatDate.js";
 
 export default function DetailPage() {
   const { salePostId } = useParams();
   const numericSalePostId = Number(salePostId);
 
-  const [postsData, setPostsData] = useRecoilState(postsDataState);
+  const [postsData, setPostsData] =
+    useRecoilState(postsDataState);
 
   const [filteredData, setFilteredData] = useState({});
 
-    useEffect(() => {
-      const loadData = async () => {
-        try {
-          await fetchPostsData(setPostsData); 
-        } catch (error) {
-          console.error("Fetching posts data failed:", error);
-        }
-      };
-
-      loadData();
-    }, [setPostsData]);
-
-    useEffect(() => {
-      if (postsData) {
-        const data = postsData.find(
-          (post) => post.salePostId === numericSalePostId
-        );
-
-        setFilteredData(data); // 찾은 데이터로 상태 업데이트
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        await fetchPostsData(setPostsData);
+      } catch (error) {
+        console.error("Fetching posts data failed:", error);
       }
-    }, [postsData, numericSalePostId]); 
+    };
+
+    loadData();
+  }, [setPostsData]);
+
+  useEffect(() => {
+    if (postsData) {
+      const data = postsData.find(
+        (post) => post.salePostId === numericSalePostId
+      );
+
+      setFilteredData(data); // 찾은 데이터로 상태 업데이트
+    }
+  }, [postsData, numericSalePostId]);
 
   return (
     <div>
       <Navbar />
       <div className="max-w-5xl mb-4">
-        <h1 className="text-navy-basic font-extrabold text-5xl">ORI-TICKET</h1>
-        <h1 className="text-navy-basic font-extrabold text-5xl">상품정보</h1>
+        <h1 className="text-navy-basic font-extrabold text-5xl">
+          ORI-TICKET
+        </h1>
+        <h1 className="text-navy-basic font-extrabold text-5xl">
+          상품정보
+        </h1>
 
         <div className="card-compact w-full my-4 bg-base-100 shadow-xl">
           <div className="card-body">
@@ -51,16 +56,21 @@ export default function DetailPage() {
               <div className="text-xl font-extrabold pt-1">
                 {filteredData.sportsName}&nbsp;
               </div>
-              <div className="text-xl font-extrabold pt-1">&gt;&nbsp;</div>
+              <div className="text-xl font-extrabold pt-1">
+                &gt;&nbsp;
+              </div>
               <div className="text-2xl font-extrabold">
                 {filteredData.stadiumName}&nbsp;[
                 {filteredData.homeTeamName}] vs&nbsp;
                 {filteredData.awayTeamName}
               </div>
             </div>
-            <h2 className="card-title text-3xl">{filteredData.seatInfo}</h2>
+            <h2 className="card-title text-3xl">
+              {filteredData.seatInfo}
+            </h2>
             <p className="text-left text-base font-extrabold">
-              사용날짜: {formatDate(filteredData.expirationAt)}
+              사용날짜:{" "}
+              {formatDate(filteredData.expirationAt)}
             </p>
             <p className="text-left text-base font-extrabold">
               판매자: {filteredData.memberName}
@@ -69,7 +79,8 @@ export default function DetailPage() {
               정가: {filteredData.originalPrice}
             </p>
             <p className="font-extrabold text-xl text-end">
-              수량: {filteredData.quantity}장 &nbsp;&nbsp;판매가:&nbsp;
+              수량: {filteredData.quantity}장
+              &nbsp;&nbsp;판매가:&nbsp;
               {filteredData.salePrice}
             </p>
             <div className="card-actions justify-end">
@@ -93,7 +104,9 @@ export default function DetailPage() {
                   />
                 </svg>
               </button>
-              <button className="btn btn-primary">티켓 구매</button>
+              <button className="btn btn-primary">
+                티켓 구매
+              </button>
             </div>
           </div>
         </div>
@@ -118,7 +131,10 @@ export default function DetailPage() {
             id="fake_item"
             className="form-checkbox rounded-full bg-yellow-300"
           />
-          <label htmlFor="fake_item" className="font-extrabold text-navy-basic">
+          <label
+            htmlFor="fake_item"
+            className="font-extrabold text-navy-basic"
+          >
             허위 매물 의심
           </label>
         </div>

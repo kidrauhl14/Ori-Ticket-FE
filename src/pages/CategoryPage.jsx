@@ -1,16 +1,16 @@
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 import fetchPostsData from "@utils/fetchPostsData.jsx";
-import useAxios from '@hooks/useAxios.jsx';
-import {formatDate} from "@utils/formatDate.js"
+import useAxios from "@hooks/useAxios.jsx";
+import { formatDate } from "@utils/formatDate.js";
 import { useRecoilState } from "recoil";
-import {postsDataState} from "@recoil/postsDataState.jsx";
+import { postsDataState } from "@recoil/postsDataState.jsx";
 // import { shoppingCartState, likeItemState } from "../store/shoppingCart";
 
-import Navbar from '@components/common/Navbar.jsx'
-import DoubleSeatBtn from '@assets/img_btn_double.png'
+import Navbar from "@components/common/Navbar.jsx";
+import DoubleSeatBtn from "@assets/img_btn_double.png";
 import BaseballImg from "@assets/img_baseball.png";
 import SoccerImg from "@assets/img_soccer.png";
 import BasketballImg from "@assets/img_basketball.png";
@@ -19,14 +19,15 @@ import TicketImg from "@assets/img_ticket.png";
 export default function CategoryPage() {
   const { category } = useParams();
 
-  const [postsData, setPostsData] = useRecoilState(postsDataState);
+  const [postsData, setPostsData] =
+    useRecoilState(postsDataState);
   const [filteredData, setFilteredData] = useState([]);
 
-    const sportsNameMapping = {
-      baseball: "야구",
-      soccer: "축구",
-      basketball: "농구",
-    };
+  const sportsNameMapping = {
+    baseball: "야구",
+    soccer: "축구",
+    basketball: "농구",
+  };
 
   useEffect(() => {
     fetchPostsData(setPostsData);
@@ -37,7 +38,9 @@ export default function CategoryPage() {
     const sportsName = sportsNameMapping[category];
 
     // postsData를 필터링하여 해당 스포츠 이름과 일치하는 데이터만 추출
-    const filtered = postsData.filter((post) => post.sportsName === sportsName);
+    const filtered = postsData.filter(
+      (post) => post.sportsName === sportsName
+    );
 
     // 필터링된 데이터로 상태 업데이트
     setFilteredData(filtered);
@@ -45,9 +48,17 @@ export default function CategoryPage() {
   }, [postsData, category]); // postsData 또는 category가 변경될 때마다 실행
 
   const categories = [
-    { img: BaseballImg, alt: "야구 카테고리", label: "야구" },
+    {
+      img: BaseballImg,
+      alt: "야구 카테고리",
+      label: "야구",
+    },
     { img: SoccerImg, alt: "축구 카테고리", label: "축구" },
-    { img: BasketballImg, alt: "농구 카테고리", label: "농구" },
+    {
+      img: BasketballImg,
+      alt: "농구 카테고리",
+      label: "농구",
+    },
   ];
 
   // // Recoil 찜하기
@@ -95,7 +106,10 @@ export default function CategoryPage() {
     <div>
       <Navbar />
       <div className="flex justify-center items-center">
-        <img src={BaseballImg} className="border rounded-lg" />
+        <img
+          src={BaseballImg}
+          className="border rounded-lg"
+        />
         <div className="text-7xl font-extrabold ml-4">
           {category === "baseball" && "야구"}
           {category === "soccer" && "축구"}
@@ -164,7 +178,10 @@ export default function CategoryPage() {
                         "KT > 수원 위즈파크",
                         "LG > 잠실 야구장",
                       ].map((item, index) => (
-                        <li key={index} className="col-span-2 w-full px-2 py-1">
+                        <li
+                          key={index}
+                          className="col-span-2 w-full px-2 py-1"
+                        >
                           <a>{item}</a>
                         </li>
                       ))}
@@ -178,11 +195,10 @@ export default function CategoryPage() {
 
         <div className="mt-8 shadow-lg">
           {filteredData.length > 0 &&
-            filteredData.map((data) => (
-              <Link
-                to={{ pathname: `/detail/${data.salePostId}` }}
+            filteredData.map((data, index) => (
+              <div
                 className="text-navy-basic card-compact w-full my-4 bg-base-100 shadow-xl"
-                key={data.salePostId}
+                key={index}
               >
                 <div className="card-body">
                   <div className="flex">
@@ -198,15 +214,19 @@ export default function CategoryPage() {
                       {data.awayTeamName}
                     </div>
                   </div>
-                  <h2 className="card-title text-3xl">{data.seatInfo}</h2>
+                  <h2 className="card-title text-3xl">
+                    {data.seatInfo}
+                  </h2>
                   <p className="text-left text-base font-extrabold">
-                    사용날짜: {formatDate(data.expirationAt)}
+                    사용날짜:{" "}
+                    {formatDate(data.expirationAt)}
                   </p>
                   <p className="text-sm text-end justify-end">
                     정가: {data.originalPrice}
                   </p>
                   <p className="font-extrabold text-xl text-end">
-                    수량: {data.quantity}장 &nbsp;&nbsp;판매가:&nbsp;
+                    수량: {data.quantity}장
+                    &nbsp;&nbsp;판매가:&nbsp;
                     {data.salePrice}
                   </p>
                   <div className="card-actions justify-end">
@@ -230,10 +250,19 @@ export default function CategoryPage() {
                         />
                       </svg>
                     </button> */}
-                    <button className="btn btn-primary">티켓 구매</button>
+                    <Link
+                      to={{
+                        pathname: `/detail/${data.salePostId}`,
+                      }}
+                      key={data.salePostId}
+                    >
+                      <button className="btn btn-primary">
+                        티켓 구매
+                      </button>
+                    </Link>
                   </div>
                 </div>
-              </Link>
+              </div>
             ))}
         </div>
       </div>
