@@ -39,7 +39,10 @@ export default function ChatPage() {
       socket.current.subscribe(
         `http://13.124.46.138:8080/ws-stomp/send/${chatRoomId}`,
         (message) => {
-          setMessage(JSON.parse(message.body));
+            setMessageList((prevState) => [
+              ...prevState,
+              JSON.parse(message.body),
+            ]);
         },
 
         // function () {
