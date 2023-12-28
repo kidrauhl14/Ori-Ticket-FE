@@ -2,26 +2,24 @@ import Stomp from 'stompjs';
 import SockJS from 'sockjs-client';
 
 import {useEffect, useState, useRef} from "react";
+import axios from 'axios';
 import { useRecoilValue } from "recoil";
 import { useParams } from "react-router-dom";
 
-// import fetchChatRoom  from '@utils/fetchChatRoom.jsx';
-
+import InputField from "@components/InputField.jsx";
 import Navbar from "@components/common/Navbar.jsx";
 import ReportBtn from "@assets/img_btn_report.png";
 import TicketImg from "@assets/img_ticket.png";
-
-import InputField from "@components/InputField.jsx";
 
 import { userInfoState } from "@recoil/userInfoState";
 
 export default function ChatPage() {
   const { chatRoomId } = useParams();
-  // const chatRoomIdNumber = Number(chatRoomId);
 
   const userInfo = useRecoilValue(userInfoState);
   const userId = userInfo.id;
 
+  const [transactionId, setTransactionId] = useState();
   const [message, setMessage] = useState(""); // 단일 메시지
   const [messageList, setMessageList] = useState([]); //해당 채팅방에 있는 모든 메시지
 
@@ -68,6 +66,26 @@ export default function ChatPage() {
     }
   };
 
+  // 채팅방 상단에, 거래번호 띄워주기
+  const fetchChatRoom = async () => {
+    const response = await axios.get(`http://13.124.46.138:8080/chatroom?&id=${chatRoomId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+    if (response && response.status === 200) {
+      setTransactionId(response.data.transactionId)
+      console.log("이 채팅방의 거래번호", response.data.transactionId);
+    }
+  }
+  
+  useEffect(() => {
+    fetchChatRoom();
+  }, [])
+  
+
   return (
     <div className="h-screen">
       <Navbar />
@@ -85,7 +103,7 @@ export default function ChatPage() {
               거래중인 티켓정보
             </div>
             <div className="text-black font-extrabold text-3xl">
-              PIN번호: C98998898
+              거래번호: {transactionId}
             </div>
           </div>
           <div className="w-1/6 mt-4 bg-navy-basic border rounded-lg">
@@ -141,3 +159,4 @@ export default function ChatPage() {
     </div>
   );
 }
+
