@@ -9,7 +9,6 @@ import { useParams } from "react-router-dom";
 import InputField from "@components/InputField.jsx";
 import Navbar from "@components/common/Navbar.jsx";
 import ReportBtn from "@assets/img_btn_report.png";
-import TicketImg from "@assets/img_ticket.png";
 
 import { userInfoState } from "@recoil/userInfoState";
 
@@ -27,31 +26,38 @@ export default function ChatPage() {
   const socket = useRef();
 
   useEffect(() => {
-    // SockJS클라이언트를 생성하여 서버의 웹소켓 엔드포인트에 연결 (세팅)
+    console.log("useEffect called");
+    // SockJS클라이언트를 생성하여 서버의 웹소켓 세팅
     socket.current = Stomp.over(
       new SockJS("http://13.124.46.138:8080/ws-stomp")
     );
 
     // 웹소켓 서버 연결
     socket.current.connect({}, function () {
+      console.log("Connected to server");
       // 특정 채팅방의 메시지 구독
       socket.current.subscribe(
         `http://13.124.46.138:8080/ws-stomp/send/${chatRoomId}`,
-        function (message) {
-          // 새로운 메시지가 도착할 때마다, 메시지 리스트에 메시지 추가
-          setMessageList((prevState) => [
-            ...prevState,
-            JSON.parse(message.body),
-          ]);
-        }
+        (message) => {
+          setMessage(JSON.parse(message.body));
+        },
+
+        // function () {
+        //   console.log("New message arrived: ", message);
+        //   // 새로운 메시지가 도착할 때마다, 메시지 리스트에 메시지 추가
+        //   setMessageList((prevState) => [
+        //     ...prevState,
+        //     JSON.parse(message.body),
+        //   ]);
+        // }
       );
     });
 
     // 컴포넌트 unmount 시에 웹소켓 연결 종료 (채팅 페이지를 벗어날 때)
-    return () => {
-      if (socket.current) socket.current.disconnect();
-    };
-  }, [chatRoomId]);
+    // return () => {
+    //   socket.current.disconnect();
+    // };
+  }, []);
 
   const sendMessage = (event) => {
     event.preventDefault();
