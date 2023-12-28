@@ -260,6 +260,30 @@ export default function PostPage() {
   // 등록하기
   const handleTicketRegistration = async () => {
     try {
+      const checkRequiredFields = () => {
+        if (
+          !sportsData ||
+          !filteredStadiums ||
+          !filteredAwayteams ||
+          !zone ||
+          !line ||
+          !filteredSeats ||
+          !value.startDate ||
+          !expirationHour ||
+          !expirationMinute ||
+          !quantity ||
+          !originalPrice ||
+          !salePrice
+        ) {
+          return false; // 하나라도 비어 있다면 false 반환
+        }
+        return true; // 모든 필수 항목이 채워져 있다면 true 반환
+      };
+      // 필수 항목이 비어 있는지 확인
+      if (!checkRequiredFields()) {
+        alert("필수 항목을 모두 입력해주세요.");
+        return;
+      }
       // // 이미지 업로드
       // const formData = new FormData();
       // images.forEach((image, index) => {
@@ -333,7 +357,8 @@ export default function PostPage() {
       // 서버 응답 처리
       if (response.status === 200) {
         console.log("티켓 등록 성공:", response.data);
-        // 성공적으로 등록되었을 때 수행할 작업 추가
+        alert("티켓 등록 성공");
+        window.location.href = "/";
       } else {
         console.error("티켓 등록 실패:", response.data);
         // 등록 실패 시 수행할 작업 추가
@@ -380,7 +405,9 @@ export default function PostPage() {
               className="block appearance-none w-40 mr-4 bg-white border-2 border-blue-950 hover:border-blue-950 px-4 py-2 pr-8 rounded-xl shadow leading-tight focus:outline-none focus:shadow-outline"
               onChange={handleSportChange}
             >
-              <option>선택</option>
+              <option disabled selected>
+                선택
+              </option>
               {sportsData &&
                 sportsData.map((info, index) => (
                   <option key={index} value={info.sportsId}>
@@ -392,6 +419,9 @@ export default function PostPage() {
               className="block appearance-none w-96 bg-white border-2 border-blue-950 hover:border-blue-950 px-4 py-2 pr-8 rounded-xl shadow leading-tight focus:outline-none focus:shadow-outline"
               onChange={handleStadiumChange}
             >
+              <option disabled selected>
+                스포츠 종목을 먼저 선택하세요.
+              </option>
               {filteredStadiums &&
                 filteredStadiums.map((info, index) => (
                   <option
@@ -442,6 +472,9 @@ export default function PostPage() {
                 좌석:
               </p>
               <select className="block appearance-none w-64 bg-white border-2 border-blue-950 hover:border-blue-950 px-4 py-2 pr-8 rounded-xl shadow leading-tight focus:outline-none focus:shadow-outline">
+                <option disabled selected>
+                  경기장을 먼저 선택하세요.
+                </option>
                 {filteredSeats.map((info, index) => (
                   <React.Fragment key={index}>
                     {info.seatSelect &&
@@ -464,6 +497,9 @@ export default function PostPage() {
                 상대팀:
               </p>
               <select className="block appearance-none w-64 bg-white border-2 border-blue-950 hover:border-blue-950 px-4 py-2 pr-8 rounded-xl shadow leading-tight focus:outline-none focus:shadow-outline">
+                <option disabled selected>
+                  스포츠 종목을 먼저 선택하세요.
+                </option>
                 {filteredAwayteams &&
                   filteredAwayteams.map((info, index) => (
                     <option
