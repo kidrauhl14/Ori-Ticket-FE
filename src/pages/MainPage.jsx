@@ -1,7 +1,11 @@
-import { useState, useEffect } from "react";
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+} from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-import fetchPostsData from "@utils/fetchPostsData.jsx";
+import axios from "axios";
 
 // 이미지
 import BaseballImg from "@assets/img_baseball.png";
@@ -14,8 +18,11 @@ import SearchBar from "@components/search/SearchBar.jsx";
 
 // Recoil
 import { useRecoilState } from "recoil";
+import {
+  shoppingCartState,
+  likeItemState,
+} from "../store/shoppingCart";
 import { postsDataState } from "@recoil/postsDataState.jsx";
-import { shoppingCartState, likeItemState } from "../store/shoppingCart";
 
 const categories = [
   { img: BaseballImg, alt: "야구", label: "야구" },
@@ -30,15 +37,70 @@ const categoryLabelMap = {
 };
 
 export default function MainPage() {
-
   const navigate = useNavigate();
 
   // 판매글 리스트
-  const [postsData, setPostsData] = useRecoilState(postsDataState);
+  const [postsData, setPostsData] =
+    useRecoilState(postsDataState);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const observer = useRef();
+
+  const lastPostRef = useCallback(
+    (node) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting && hasMore) {
+            fetchPostsData();
+          }
+        }
+      );
+      if (node) observer.current.observe(node);
+    },
+    [loading, hasMore]
+  );
+
+  const fetchPostsData = async () => {
+    try {
+      setLoading(true);
+
+      const response = await axios.get(
+        `https://oriticket.link/posts/search?&page=${page}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status !== 200) {
+        throw new Error(
+          `HTTP error! status: ${response.status}`
+        );
+      }
+
+      const newData = response.data.content;
+
+      if (newData.length === 0) {
+        setHasMore(false);
+        return;
+      }
+
+      setPostsData((prevData) => [...prevData, ...newData]);
+      setPage((prevPage) => prevPage + 1);
+    } catch (error) {
+      console.error("Fetching error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     fetchPostsData(setPostsData);
-  }, [setPostsData]);
+  }, []);
 
   // 날짜를 년-월-일 형식으로 변환하는 함수
   const formatDate = (dateString) => {
@@ -47,12 +109,18 @@ export default function MainPage() {
       month: "numeric",
       day: "numeric",
     };
-    return new Date(dateString).toLocaleDateString("ko-KR", options);
+    return new Date(dateString).toLocaleDateString(
+      "ko-KR",
+      options
+    );
   };
 
   // Recoil 찜하기
-  const [shoppingCart, setShoppingCart] = useRecoilState(shoppingCartState);
-  const [likeItems, setLikeItems] = useRecoilState(likeItemState);
+  const [shoppingCart, setShoppingCart] = useRecoilState(
+    shoppingCartState
+  );
+  const [likeItems, setLikeItems] =
+    useRecoilState(likeItemState);
 
   // Recoil 찜하기에 추가 및 삭제
   const handleAddToCart = (ticket) => {
@@ -66,7 +134,9 @@ export default function MainPage() {
       currentCart.splice(existingIndex, 1);
       // 아이템 좋아요 취소
       setLikeItems(
-        likeItems.filter((item) => item.salePostId !== ticket.salePostId)
+        likeItems.filter(
+          (item) => item.salePostId !== ticket.salePostId
+        )
       );
     } else {
       // 존재하지 않으면 추가
@@ -78,7 +148,10 @@ export default function MainPage() {
     setShoppingCart(currentCart);
 
     // Local Storage에 찜한 목록 저장
-    localStorage.setItem("shoppingCart", JSON.stringify(currentCart));
+    localStorage.setItem(
+      "shoppingCart",
+      JSON.stringify(currentCart)
+    );
 
     setShoppingCart(currentCart);
   };
@@ -113,26 +186,36 @@ export default function MainPage() {
   return (
     <div>
       <Navbar />
-      <div className="flex max-w-5xl mb-4">
+      <div className="flex w-full mb-4">
         {categories.map((category, index) => (
-          <div key={index} className="justify-center h-full w-full">
+          <div
+            key={index}
+            className="justify-center h-full w-full"
+          >
             <button
-              className="p-0 rounded-xl mx-6"
+              className="p-0 rounded-full mx-6"
               onClick={() => {
-                navigate(`/category/${categoryLabelMap[category.label]}`);
+                navigate(
+                  `/category/${
+                    categoryLabelMap[category.label]
+                  }`
+                );
               }}
             >
               <img
                 src={category.img}
                 alt={category.alt}
-                className="flex justify-center h-full w-full rounded-xl"
+                className="flex justify-center h-full w-full rounded-full shadow-xl"
               />
             </button>
-            <p className="mb-4 font-extrabold text-base">{category.label}</p>
+
+            <p className="mt-1 mb-4 font-extrabold text-xl">
+              {category.label}
+            </p>
           </div>
         ))}
       </div>
-      <SearchBar />
+      <SearchBar setPostsData={setPostsData} />
       <div className="mt-8">
         <Link to={`/post`}>
           <div className="w-full py-2 border-2 border-blue-950 rounded-xl bg-blue-950 text-yellow-basic font-extrabold text-xl shadow-xl">
@@ -142,25 +225,33 @@ export default function MainPage() {
       </div>
       <div className="mt-8">
         {postsData.length > 0 &&
-          postsData.map((data) => (
-            <Link
-              to={{ pathname: `/detail/${data.salePostId}` }}
-              className="text-navy-basic card-compact w-full my-4 bg-base-100 shadow-xl"
-              key={data.salePostId}
+          postsData.map((data, index) => (
+            <div
+              className="card-compact w-full my-4 bg-base-100 shadow-xl"
+              ref={
+                index === postsData.length - 1
+                  ? lastPostRef
+                  : null
+              }
+              key={index}
             >
               <div className="card-body">
                 <div className="flex">
                   <div className="text-xl font-extrabold pt-1">
                     {data.sportsName}&nbsp;
                   </div>
-                  <div className="text-xl font-extrabold pt-1">&gt;&nbsp;</div>
+                  <div className="text-xl font-extrabold pt-1">
+                    &gt;&nbsp;
+                  </div>
                   <div className="text-2xl font-extrabold">
                     {data.stadiumName}&nbsp;[
                     {data.homeTeamName}] vs&nbsp;
                     {data.awayTeamName}
                   </div>
                 </div>
-                <h2 className="card-title text-3xl">{data.seatInfo}</h2>
+                <h2 className="card-title text-3xl">
+                  {data.seatInfo}
+                </h2>
                 <p className="text-left text-base font-extrabold">
                   사용날짜: {formatDate(data.expirationAt)}
                 </p>
@@ -168,7 +259,8 @@ export default function MainPage() {
                   정가: {data.originalPrice}
                 </p>
                 <p className="font-extrabold text-xl text-end">
-                  수량: {data.quantity}장 &nbsp;&nbsp;판매가:&nbsp;
+                  수량: {data.quantity}장
+                  &nbsp;&nbsp;판매가:&nbsp;
                   {data.salePrice}
                 </p>
                 <div className="card-actions justify-end">
@@ -192,10 +284,17 @@ export default function MainPage() {
                       />
                     </svg>
                   </button>
-                  <button className="btn btn-primary">티켓 구매</button>
+                  <Link
+                    to={`/detail/${data.salePostId}`}
+                    key={data.salePostId}
+                  >
+                    <button className="btn btn-primary text-base">
+                      티켓 구매
+                    </button>
+                  </Link>
                 </div>
               </div>
-            </Link>
+            </div>
           ))}
       </div>
     </div>
