@@ -31,13 +31,13 @@ export default function ChatPage() {
     const socket = new SockJS("https://oriticket.link/ws-stomp");
 
     const stompClient = Stomp.over(socket);
-
+    console.log("웹소켓 세팅완료");
     // Stomp를 이용해 웹소켓 서버에 연결
     stompClient.connect({}, () => {
       console.log("Connected to server");
 
       // 특정 채팅방의 메시지 구독
-      client.subscribe(
+      stompClient.subscribe(
         `/send/${chatRoomId}`,
         (message) => {
           setMessageList((prevState) => [
