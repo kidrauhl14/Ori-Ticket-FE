@@ -68,7 +68,7 @@ export default function SearchBar() {
     // 서버로 검색어를 전송 후 결과를 받아옴
     try {
       const response = await axios.get(
-        `http://13.124.46.138:8080/posts/search?value=${encodeURIComponent(
+        `https://oriticket.link/posts/search?value=${encodeURIComponent(
           searchTerm
         )}`,
         {
