@@ -22,7 +22,7 @@ export default function PostPage() {
     async function fetchSportsData() {
       try {
         const response = await axios.get(
-          "http://13.124.46.138:8080/sports/list",
+          "https://oriticket.link/sports/list",
           {
             headers: {
               "Content-Type": "application/json",
@@ -54,7 +54,7 @@ export default function PostPage() {
     async function fetchStadiumData() {
       try {
         const response = await axios.get(
-          "http://13.124.46.138:8080/stadium/list",
+          "https://oriticket.link/stadium/list",
           {
             headers: {
               "Content-Type": "application/json",
@@ -84,7 +84,7 @@ export default function PostPage() {
     async function fetchAwayteamData() {
       try {
         const response = await axios.get(
-          "http://13.124.46.138:8080/awayteam/list",
+          "https://oriticket.link/awayteam/list",
           {
             headers: {
               "Content-Type": "application/json",
@@ -331,7 +331,7 @@ export default function PostPage() {
         : null;
 
       const response = await axios.post(
-        "http://13.124.46.138:8080/posts",
+        "https://oriticket.link/posts",
         {
           memberId: "1",
           sportsId: sportsId,
