@@ -61,15 +61,14 @@ export default function ChatlistPage() {
                   className="bg-white m-4 h-20 flex items-center border rounded-lg"
                 >
                   <div className=" w-16 h-16 bg-slate-300 ml-2 rounded-full"></div>
-                  <div className="bg-yellow-100 truncate flex-shrink-0 max-w-lg flex flex-col items-start ml-4 ">
+                  <div className="bg-yellow-100 truncate flex-shrink-0 max-w-lg flex flex-row items-start ml-4 ">
                     <div className="text-xl font-extrabold mb-2">
-                      {chatRoom.chatRoomId}번방
-                      {/* {chatRoom.members[0] === userId
-                        ? chatRoom.members[1]
-                        : chatRoom.members[0]} */}
+                      {chatRoom.members[0].membersId === userId
+                        ? chatRoom.members[1].nickName
+                        : chatRoom.members[0].nickName}
                     </div>
                     <div className="text-xl font-extrabold mb-2">
-                      거래번호: {chatRoom.transactionId}
+                      (거래번호: {chatRoom.transactionId})
                     </div>
                     {/* <div className="bg-yellow-100 whitespace-nowrap truncate text-md font-extrabold">
                       {getLastMessageText(chatRoom.messages)}
