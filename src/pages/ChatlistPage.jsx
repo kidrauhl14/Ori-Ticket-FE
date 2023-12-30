@@ -13,7 +13,7 @@ export default function ChatlistPage() {
   async function fetchChatList() {
     try {
       const response = await axios.get(
-        `http://13.124.46.138:8080/chatroom/member?&id=${userId}`,
+        `https://oriticket.link/chatroom/member?&id=${userId}`,
         {
           headers: {
             "Content-Type": "application/json",

@@ -18,76 +18,117 @@ export default function ChatPage() {
   const userInfo = useRecoilValue(userInfoState);
   const userId = userInfo.id;
 
-  const [transactionId, setTransactionId] = useState();
+  const [isFetched, setIsFetched] = useState(false); // fetchChatRoom이 완료되었는지 확인
+
+  // const [transactionId, setTransactionId] = useState();
+
   const [message, setMessage] = useState(""); // 메시지 입력창(InputField)에서 보낼 메시지
   const [messageList, setMessageList] = useState([]); //해당 채팅방에 있는 모든 메시지
 
   const [client, setClient] = useState(null);
 
   useEffect(() => {
+    // if (!isFetched){
+    //   return;
+    // }
     console.log("useEffect called");
 
-    // SockJS클라이언트를 생성하여 서버의 웹소켓 세팅
-    const socket = new SockJS("https://oriticket.link/ws-stomp");
+    try{
+      // SockJS클라이언트를 생성하여 서버의 웹소켓 세팅
+      const socket = new SockJS(`https://oriticket.link/ws-stomp`);
+      const stompClient = Stomp.over(socket);
+      console.log("웹소켓 세팅완료");
+      console.log(socket);
+      console.log(stompClient);
 
-    const stompClient = Stomp.over(socket);
-    console.log("웹소켓 세팅완료");
-    // Stomp를 이용해 웹소켓 서버에 연결
-    stompClient.connect({}, () => {
-      console.log("Connected to server");
+      // Stomp를 이용해 웹소켓 서버에 연결
+      if (socket.readyState === WebSocket.OPEN) {
+        console.log("웹소켓 연결됨 (socket.readyState === WebSocket.OPEN)");
+        
 
-      // 특정 채팅방의 메시지 구독
-      stompClient.subscribe(
-        `/send/${chatRoomId}`,
-        (message) => {
-          setMessageList((prevState) => [
-            ...prevState,
-            JSON.parse(message.body),
-          ]);
-        });
+      } else {
+        console.log("웹소켓 연결시도중");
+      }
 
-        setClient(stompClient);
-    },
-    (error) => {
-      console.log('Failed to connect:', error);
+      // 웹소켓 연결
+      socket.onopen = () => {
+        console.log("웹소켓 열려있다!");
+      };
+
+
+      stompClient.connect(
+        {},
+        () => {
+          try {
+          console.log("Connected to server");
+
+          stompClient.subscribe(`/send/${chatRoomId}`, (message) => {
+              setMessageList((prevState) => [
+                ...prevState,
+                JSON.parse(message.body),
+              ]);
+            });
+
+            setClient(stompClient);
+          } catch (error) {
+            console.error("Error in success callback:", error);
+          }
+        },
+        (error) => {
+          console.log("Failed to connect:", error);
+        }
+      );
+  
+
+      // 웹소켓 연결 종료
+      socket.onclose = () => {
+        console.log("웹소켓 연결 종료");
+      };
+
+      // 웹소켓에서 메시지 받기
+      socket.onmessage = (e) => {
+        console.log("메시지 수신:", e.data);
+      };
+    } catch (error) {
+      console.error("SockJS 인스턴스 생성 중 에러 발생:", error);
     }
-    );
 
     // 컴포넌트 unmount 시에 웹소켓 연결 종료 (채팅 페이지를 벗어날 때)
     // return () => {
     //   if(stompClient) {stompClient.disconnect();}
     // };
-  }, []);
+  }, [isFetched]);
 
   const sendMessage = (event) => {
     event.preventDefault();
-    if(message && client) {
-      const msg = {"memberId": userId, "message": message};
+    if (message && client) {
+      const msg = { memberId: userId, message: message };
       client.send(``, {}, JSON.stringify(msg));
       setMessage("");
     }
   };
 
-
   // 채팅방 상단에, 거래번호 띄워주기
-  const fetchChatRoom = async () => {
-    const response = await axios.get(`http://13.124.46.138:8080/chatroom?&id=${chatRoomId}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+  // const fetchChatRoom = async () => {
+  //   const response = await axios.get(
+  //     `https://oriticket.link/chatroom?&id=${chatRoomId}`,
+  //     {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     }
+  //   );
 
-    if (response && response.status === 200) {
-      setTransactionId(response.data.transactionId)
-      console.log("이 채팅방의 거래번호", response.data.transactionId);
-    }
-  }
-  
-  useEffect(() => {
-    fetchChatRoom();
-  }, [])
-  
+  //   if (response && response.status === 200) {
+  //     setTransactionId(response.data.transactionId);
+  //     console.log("이 채팅방의 거래번호", response.data.transactionId);
+  //     setIsFetched(true); 
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchChatRoom();
+  // }, []);
 
   return (
     <div className="h-screen">
@@ -106,12 +147,12 @@ export default function ChatPage() {
               거래중인 티켓정보
             </div>
             <div className="text-black font-extrabold text-3xl">
-              거래번호: {transactionId}
+              {/* 거래번호: {transactionId} */}
             </div>
           </div>
           <div className="w-1/6 mt-4 bg-navy-basic border rounded-lg">
             {/* 채팅 상대방 정보 */}
-            <p className="text-white font-extrabold text-xl">헬로키티</p>
+            <p className="text-white font-extrabold text-xl">채팅</p>
           </div>
 
           <div className="relative overflow-y-auto h-96 border-navy-basic border-4 rounded-lg max-w-5xl">
