@@ -1,5 +1,5 @@
 import Stomp from 'stompjs';
-import SockJS from 'sockjs-client';
+// import SockJS from 'sockjs-client';
 
 import {useEffect, useState} from "react";
 import axios from 'axios';
@@ -28,82 +28,43 @@ export default function ChatPage() {
   const [client, setClient] = useState(null);
 
   useEffect(() => {
-    // if (!isFetched){
-    //   return;
-    // }
+
     console.log("useEffect called");
 
-    try{
-      // SockJS클라이언트를 생성하여 서버의 웹소켓 세팅
-      const socket = new SockJS(`https://oriticket.link/ws-stomp`);
-      const stompClient = Stomp.over(socket);
-      console.log("웹소켓 세팅완료");
-      console.log(socket);
-      console.log(stompClient);
+    const connect = () => {
+      try {
+        const stompClient = Stomp.over(
+          new WebSocket("wss://oriticket.link/ws-stomp")
+        );
 
-      // Stomp를 이용해 웹소켓 서버에 연결
-      if (socket.readyState === WebSocket.OPEN) {
-        console.log("웹소켓 연결됨 (socket.readyState === WebSocket.OPEN)");
-        
+        let connectHeader = {};
 
-      } else {
-        console.log("웹소켓 연결시도중");
-      }
-
-      // 웹소켓 연결
-      socket.onopen = () => {
-        console.log("웹소켓 열려있다!");
-      };
-
-
-      stompClient.connect(
-        {},
-        () => {
-          try {
-          console.log("Connected to server");
+        stompClient.connect(connectHeader, () => {
+          console.log("good");
 
           stompClient.subscribe(`/send/${chatRoomId}`, (message) => {
-              setMessageList((prevState) => [
-                ...prevState,
-                JSON.parse(message.body),
-              ]);
-            });
+            setMessageList((prevState) => [
+              ...prevState,
+              JSON.parse(message.body),
+            ]);
+          });
 
-            setClient(stompClient);
-          } catch (error) {
-            console.error("Error in success callback:", error);
-          }
-        },
-        (error) => {
-          console.log("Failed to connect:", error);
-        }
-      );
-  
-
-      // 웹소켓 연결 종료
-      socket.onclose = () => {
-        console.log("웹소켓 연결 종료");
-      };
-
-      // 웹소켓에서 메시지 받기
-      socket.onmessage = (e) => {
-        console.log("메시지 수신:", e.data);
-      };
-    } catch (error) {
-      console.error("SockJS 인스턴스 생성 중 에러 발생:", error);
+          setClient(stompClient);
+        });
+      } catch (error) {
+        console.error("connect error:", error);
+        return;
+      }
     }
+    connect();
 
-    // 컴포넌트 unmount 시에 웹소켓 연결 종료 (채팅 페이지를 벗어날 때)
-    // return () => {
-    //   if(stompClient) {stompClient.disconnect();}
-    // };
-  }, [isFetched]);
+  }, []);
 
   const sendMessage = (event) => {
     event.preventDefault();
     if (message && client) {
       const msg = { memberId: userId, message: message };
-      client.send(``, {}, JSON.stringify(msg));
+      client.send(`/chat/${chatRoomId}`, {}, JSON.stringify(msg));
       setMessage("");
     }
   };
@@ -155,33 +116,34 @@ export default function ChatPage() {
             <p className="text-white font-extrabold text-xl">채팅</p>
           </div>
 
-          <div className="relative overflow-y-auto h-96 border-navy-basic border-4 rounded-lg max-w-5xl">
-            <div>
-              {/* 채팅 내용 */}
-              {messageList.map((msg, index) => (
-                <div
-                  key={index}
-                  className={`chat ${
-                    userId === msg.memberId ? "chat-end" : "chat-start"
-                  }`}
-                >
-                  <div className="chat-image avatar">
-                    <div className="w-10 rounded-full">
-                      <img
-                        alt="Tailwind CSS chat bubble component"
-                        src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                      />
+          <div className="border-navy-basic border-8 rounded-lg max-w-5xl">
+            <div className="bg-yellow-100 relative overflow-y-auto h-96  max-w-5xl">
+              <div>
+                {/* 채팅 내용 */}
+                {messageList.map((msg, index) => (
+                  <div
+                    key={index}
+                    className={`chat ${
+                      userId === msg.memberId ? "chat-end" : "chat-start"
+                    }`}
+                  >
+                    <div className="chat-image avatar">
+                      <div className="w-10 rounded-full">
+                        <img
+                          alt="Tailwind CSS chat bubble component"
+                          src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                        />
+                      </div>
                     </div>
-                  </div>
-                  <div className="chat-header">
-                    {msg.sender_name}
-                    <time className="text-xs opacity-50">12:46</time>
-                  </div>
-                  <div className="text-left max-w-sm chat-bubble chat-bubble-warning">
-                    {msg.text}
-                  </div>
+                    <div className="chat-header">
+                      {msg.sender_name}
+                      <time className="text-xs opacity-50">12:46</time>
+                    </div>
+                    <div className="text-left max-w-sm chat-bubble chat-bubble-warning">
+                      {msg.message}
+                    </div>
 
-                  {/* {msg.type === "text" ? (
+                    {/* {msg.type === "text" ? (
                     <p>{msg.text}</p>
                   ) : (
                     <img
@@ -189,14 +151,15 @@ export default function ChatPage() {
                       alt={msg.attachment.caption}
                     />
                   )} */}
-                </div>
-              ))}
-              <InputField
-                message={message}
-                setMessage={setMessage}
-                sendMessage={sendMessage}
-              />
+                  </div>
+                ))}
+              </div>
             </div>
+            <InputField
+              message={message}
+              setMessage={setMessage}
+              sendMessage={sendMessage}
+            />
           </div>
         </div>
       </div>

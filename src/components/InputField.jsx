@@ -1,6 +1,6 @@
 const InputField = ({ message, setMessage, sendMessage }) => {
   return (
-    <div className="absolute bottom-0 w-full h-16 bg-blue-100 input-area flex items-center p-4">
+    <div className="bottom-0 w-full h-16 bg-blue-100 input-area flex items-center p-4">
       {/* <button className="h-6 plus-button text-2xl text-gray-500 mr-2">+</button> */}
       <form onSubmit={sendMessage} className=" input-container flex flex-grow">
         <input
