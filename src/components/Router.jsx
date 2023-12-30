@@ -24,7 +24,7 @@ export default function Router() {
       <Route path="/login" element={<LoginPage />} />
 
       {/* `${apiServer}/members/${userId}` */}
-      <Route path="/auth/kakao/callback" element={<KakaoRedirect />} />
+      <Route path="/members/kakao/login" element={<KakaoRedirect />} />
 
       
       {/* 유저전용 */}
