@@ -65,11 +65,25 @@ export default function ProfilePage() {
         );
         setSoldoutTickets(response.data);
       } else if (tab === "trading") {
-        // 거래 중인 티켓 정보 가져오기
-        // ...
+        response = await axios.get(
+          `https://oriticket.link/members/${memberId}/transactions?status=pending,received`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        setTradingTickets(response.data);
       } else if (tab === "traded") {
-        // 거래 종료된 티켓 정보 가져오기
-        // ...
+        response = await axios.get(
+          `https://oriticket.link/members/${memberId}/transactions?status=completed,canceled`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        setTradedTickets(response.data);
       }
 
       if (response.status !== 200) {
@@ -159,6 +173,110 @@ export default function ProfilePage() {
                   수량: {ticket.ticket.quantity}장 판매가:
                   {ticket.ticket.salePrice}
                 </p>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="text-2xl text-center text-gray-500 w-full py-4 bg-base-100 shadow-xl">
+            해당하는 티켓이 없습니다.
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  // 거래 중인 티켓 정보를 담을 상태
+  const [tradingTickets, setTradingTickets] = useState([]);
+  // 거래 종료된 티켓 정보를 담을 상태
+  const [tradedTickets, setTradedTickets] = useState([]);
+
+  useEffect(() => {
+    // 거래 중인 티켓 정보를 가져오는 함수
+    const fetchTradingTickets = async () => {
+      try {
+        const response = await axios.get(
+          `https://oriticket.link/members/${memberId}/transactions?status=pending,received`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (response.status !== 200) {
+          throw new Error(
+            `서버 응답 오류: ${response.status}`
+          );
+        }
+
+        setTradingTickets(response.data);
+      } catch (error) {
+        console.error(
+          "거래 중인 티켓 정보를 불러오는 중 에러:",
+          error.message
+        );
+      }
+    };
+
+    // 거래 종료된 티켓 정보를 가져오는 함수
+    const fetchTradedTickets = async () => {
+      try {
+        const response = await axios.get(
+          `https://oriticket.link/members/${memberId}/transactions?status=completed,canceled`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (response.status !== 200) {
+          throw new Error(
+            `서버 응답 오류: ${response.status}`
+          );
+        }
+
+        setTradedTickets(response.data);
+      } catch (error) {
+        console.error(
+          "거래 종료된 티켓 정보를 불러오는 중 에러:",
+          error.message
+        );
+      }
+    };
+
+    fetchTradingTickets();
+    fetchTradedTickets();
+  }, [memberId]);
+
+  const showTradingTicketList = (tickets) => {
+    return (
+      <div className="mt-4">
+        {tickets.length > 0 ? (
+          tickets.map((ticket, index) => (
+            <div
+              className="card-compact w-full my-4 bg-base-100 shadow-xl"
+              key={index}
+            >
+              <div className="card-body">
+                <div className="flex-col text-center">
+                  <div className="flex mb-8">
+                    <div className="text-xl font-extrabold pt-1 mr-8">
+                      판매자: {ticket.sellerId}
+                    </div>
+                    <div className="text-xl font-extrabold pt-1">
+                      구매자: {ticket.buyerId}
+                    </div>
+                  </div>
+                  <div className="flex justify-between">
+                    <div className="text-left text-xl font-extrabold">
+                      {ticket.status}
+                    </div>
+                    <div className="text-2xl font-extrabold">
+                      금액: {ticket.payAmount}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           ))
@@ -330,7 +448,13 @@ export default function ProfilePage() {
           {/* 판매종료 티켓 리스트 */}
           {selectedTab === "soldout" &&
             showSellTicketList(soldoutTickets)}
-          {/* 판매중인 티켓 리스트 끝 */}
+          {/* 거래중인 티켓 리스트 */}
+          {selectedTab === "trading" &&
+            showTradingTicketList(tradingTickets)}
+
+          {/* 거래종료 티켓 리스트 */}
+          {selectedTab === "traded" &&
+            showTradingTicketList(tradedTickets)}
         </div>
         {/* 거래 완료 */}
       </div>
