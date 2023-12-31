@@ -105,7 +105,7 @@ export default function ChatPage() {
 
           <div className="border rounded-md border-navy-basic">
             <div className=" text-navy-basic font-extrabold text-4xl">
-              거래중인 티켓정보
+              거래중인 상대
             </div>
             <div className="text-black font-extrabold text-3xl">
               {/* 거래번호: {transactionId} */}
