@@ -43,7 +43,7 @@ export default function SignupPage(){
 
   const sendVerification = () => {
     axios
-      .post("http://13.124.46.138:8080/send-one", {
+      .post("https://oriticket.link/send-one", {
         phoneNum: signupInfo.phoneNum,
       })
       .then((res) => {
@@ -62,7 +62,7 @@ export default function SignupPage(){
   const register = (e) => {
     e.preventDefault();
     axios
-      .post("http://13.124.46.138:8080/members/signup", signupInfo)
+      .post("https://oriticket.link/members/signup", signupInfo)
       .then((res) => {
         replace("/");
         console.log("로그인 성공!");
