@@ -21,12 +21,12 @@ export default function KakaoRedirect() {
     const fetchData = async () => {
       try {
         const response1 = await axios.get(
-          `http://13.124.46.138:8080/members/kakao/login?code=${code}`,
+          `https://oriticket.link/members/kakao/login?code=${code}`
         );
         console.log("인가코드 제대로 보내졌고, response 받음", response1);
 
         const response2 = await axios.post(
-          "http://13.124.46.138:8080/members/signin",
+          "https://oriticket.link/members/signin",
           {
             email: response1.data.email,
           }
