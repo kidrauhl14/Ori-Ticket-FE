@@ -4,11 +4,13 @@ import { Link } from 'react-router-dom';
 import { useRecoilValue } from "recoil";
 import Navbar from "@components/common/Navbar.jsx";
 import { userInfoState } from "@recoil/userInfoState";
+import Spinner from "@components/common/Spinner.jsx";
 
 export default function ChatlistPage() {
   const userInfo = useRecoilValue(userInfoState);
   const userId = userInfo.id;
   const [chatList, setChatList] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   async function fetchChatList() {
     try {
@@ -26,6 +28,7 @@ export default function ChatlistPage() {
       }
 
       setChatList(response.data);
+      setLoading(false);
       console.log("해당 유저의 채팅목록", response.data);
     } catch (error) {
       console.error("Fetching error:", error);
@@ -49,7 +52,7 @@ export default function ChatlistPage() {
           채팅
         </h1>
         <div className="shadow-lg border rounded-lg max-w-5xl mt-4">
-          {chatList.length > 0 ? (
+          {loading ? <Spinner /> : chatList.length > 0 ? (
             chatList.map((chatRoom) => (
               <Link
                 key={chatRoom.chatRoomId}

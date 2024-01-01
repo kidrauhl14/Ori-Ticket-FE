@@ -20,8 +20,8 @@ export default function ChatPage() {
 
   const [isFetched, setIsFetched] = useState(false); // fetchChatRoom이 완료되었는지 확인
 
-  // const [transactionId, setTransactionId] = useState();
-
+  const [transactionId, setTransactionId] = useState();
+  const [members, setMembers] = useState([]);
   const [message, setMessage] = useState(""); // 메시지 입력창(InputField)에서 보낼 메시지
   const [messageList, setMessageList] = useState([]); //해당 채팅방에 있는 모든 메시지
 
@@ -70,26 +70,27 @@ export default function ChatPage() {
   };
 
   // 채팅방 상단에, 거래번호 띄워주기
-  // const fetchChatRoom = async () => {
-  //   const response = await axios.get(
-  //     `https://oriticket.link/chatroom?&id=${chatRoomId}`,
-  //     {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     }
-  //   );
+  const fetchChatRoom = async () => {
+    const response = await axios.get(
+      `https://oriticket.link/chatroom?&id=${chatRoomId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-  //   if (response && response.status === 200) {
-  //     setTransactionId(response.data.transactionId);
-  //     console.log("이 채팅방의 거래번호", response.data.transactionId);
-  //     setIsFetched(true); 
-  //   }
-  // };
+    if (response && response.status === 200) {
+      setTransactionId(response.data.transactionId);
+      setMembers(response.data.members);
+      console.log("이 채팅방의 거래번호", response.data.transactionId);
+      setIsFetched(true); 
+    }
+  };
 
-  // useEffect(() => {
-  //   fetchChatRoom();
-  // }, []);
+  useEffect(() => {
+    fetchChatRoom();
+  }, []);
 
   return (
     <div className="h-screen">
@@ -103,20 +104,24 @@ export default function ChatPage() {
             </button>
           </div>
 
-          <div className="border rounded-md border-navy-basic">
+          <div className="border border-8 rounded-md border-navy-basic">
             <div className=" text-navy-basic font-extrabold text-4xl">
-              거래중인 상대
+              거래중인 티켓
             </div>
-            <div className="text-black font-extrabold text-3xl">
-              {/* 거래번호: {transactionId} */}
+            <div className="text-navy-basic font-extrabold font-extrabold text-xl">
+              거래번호: {transactionId}
             </div>
           </div>
           <div className="w-1/6 mt-4 bg-navy-basic border rounded-lg">
             {/* 채팅 상대방 정보 */}
-            <p className="text-white font-extrabold text-xl">채팅</p>
+            <p className="text-white font-extrabold text-xl">
+              {members[0].nickName == userId
+                ? members[1].nickName
+                : members[0].nickName}
+            </p>
           </div>
 
-          <div className="border-navy-basic border-8 rounded-lg max-w-5xl">
+          <div className=" rounded-lg max-w-5xl">
             <div className="bg-yellow-100 relative overflow-y-auto h-96  max-w-5xl">
               <div>
                 {/* 채팅 내용 */}
@@ -136,8 +141,11 @@ export default function ChatPage() {
                       </div>
                     </div>
                     <div className="chat-header">
-                      {msg.sender_name}
-                      <time className="text-xs opacity-50">12:46</time>
+                      <div className="text-xs opacity-50">
+                        {members[0].nickName === msg.memberId
+                          ? members[0].nickName
+                          : members[1].nickName}
+                      </div>
                     </div>
                     <div className="text-left max-w-sm chat-bubble chat-bubble-warning">
                       {msg.message}
