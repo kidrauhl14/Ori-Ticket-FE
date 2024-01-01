@@ -150,9 +150,11 @@ export default function ProfilePage() {
               <div className="card-body">
                 <div className="flex">
                   <div className="text-xl font-extrabold pt-1">
-                    {ticket.ticket.sportsName}
+                    {ticket.ticket.sportsName}&nbsp;
                   </div>
-                  <div className="text-xl font-extrabold pt-1"></div>
+                  <div className="text-xl font-extrabold pt-1">
+                    &gt;&nbsp;
+                  </div>
                   <div className="text-2xl font-extrabold">
                     {ticket.ticket.stadiumName} [
                     {ticket.ticket.homeTeamName}] vs
@@ -166,7 +168,7 @@ export default function ProfilePage() {
                   사용날짜:{" "}
                   {formatDate(ticket.ticket.expirationAt)}
                 </p>
-                <p className="text-sm text-end justify-end">
+                <p className="text-base text-end justify-end">
                   정가: {ticket.ticket.originalPrice}
                 </p>
                 <p className="font-extrabold text-xl text-end">
