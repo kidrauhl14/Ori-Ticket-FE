@@ -5,7 +5,7 @@ import { postsDataState } from "@recoil/postsDataState.jsx";
 async function fetchPostsData(setPostsData) {
   try {
     const response = await axios.get(
-      "http://13.124.46.138:8080/posts/search",
+      "https://oriticket.link/posts/search",
       {
         headers: {
           "Content-Type": "application/json",
