@@ -22,7 +22,9 @@ export default function DetailPage() {
       );
 
       if (response.status !== 200) {
-        throw new Error(`서버 응답 오류: ${response.status}`);
+        throw new Error(
+          `서버 응답 오류: ${response.status}`
+        );
       }
 
       if (!response.data || !response.data.ticket) {
@@ -32,7 +34,10 @@ export default function DetailPage() {
       const newData = response.data;
       setDetailData(newData);
     } catch (error) {
-      console.error("API 호출 중 에러가 발생했습니다:", error.message);
+      console.error(
+        "API 호출 중 에러가 발생했습니다:",
+        error.message
+      );
       setError(error.message);
     }
   };
@@ -57,18 +62,26 @@ export default function DetailPage() {
               <div className="card-body">
                 <div className="flex">
                   <div className="text-xl font-extrabold pt-1">
-                    {detailData.ticket.sportsName}
+                    {detailData.ticket.sportsName}&nbsp;
                   </div>
-                  <div className="text-xl font-extrabold pt-1"></div>
+                  <div className="text-xl font-extrabold pt-1">
+                    &gt;&nbsp;
+                  </div>
                   <div className="text-2xl font-extrabold">
-                    {detailData.ticket.stadiumName} [
-                    {detailData.ticket.homeTeamName}] vs
+                    {detailData.ticket.stadiumName}&nbsp;[
+                    {detailData.ticket.homeTeamName}]
+                    vs&nbsp;
                     {detailData.ticket.awayTeamName}
                   </div>
                 </div>
-                <h2 className="card-title text-3xl">{detailData.seatInfo}</h2>
+                <h2 className="card-title text-3xl">
+                  {detailData.seatInfo}
+                </h2>
                 <p className="text-left text-base font-extrabold">
-                  사용날짜: {formatDate(detailData.ticket.expirationAt)}
+                  사용날짜:{" "}
+                  {formatDate(
+                    detailData.ticket.expirationAt
+                  )}
                 </p>
                 <p className="text-left text-base font-extrabold">
                   판매자 id: {detailData.memberId}
@@ -77,7 +90,8 @@ export default function DetailPage() {
                   정가: {detailData.ticket.originalPrice}
                 </p>
                 <p className="font-extrabold text-xl text-end">
-                  수량: {detailData.ticket.quantity}장 판매가:
+                  수량: {detailData.ticket.quantity}장
+                  &nbsp;&nbsp;판매가:&nbsp;
                   {detailData.ticket.salePrice}
                 </p>
                 <div className="card-actions justify-end">
@@ -101,7 +115,9 @@ export default function DetailPage() {
                       />
                     </svg>
                   </button>
-                  <button className="btn btn-primary">티켓 구매</button>
+                  <button className="btn btn-primary">
+                    티켓 구매
+                  </button>
                 </div>
               </div>
             )}
@@ -155,7 +171,10 @@ export default function DetailPage() {
               id="etc"
               className="form-checkbox rounded-full bg-yellow-300"
             />
-            <label htmlFor="etc" className="font-extrabold text-navy-basic">
+            <label
+              htmlFor="etc"
+              className="font-extrabold text-navy-basic"
+            >
               기타
             </label>
           </div>
