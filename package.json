@@ -12,6 +12,7 @@
   "dependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.7",
+    "@vercel/node": "^3.0.10",
     "autoprefixer": "^10.4.16",
     "aws-sdk": "^2.1520.0",
     "axios": "^1.6.2",
@@ -40,6 +41,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.4",
     "msw": "^2.0.10",
+    "vercel": "^33.0.1",
     "vite": "^5.0.0"
   },
   "msw": {
