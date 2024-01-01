@@ -3,9 +3,17 @@ import react from "@vitejs/plugin-react";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  define: {
+    global: {},
+  },
   plugins: [react()],
   server: {
     port: 8080,
+    // https: true,
+    // hmr: {
+    //   host: "oriticket.link",
+    //   protocol: "wss",
+    // },
   },
   resolve: {
     alias: [
