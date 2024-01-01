@@ -28,7 +28,7 @@ export default function DetailPage() {
       }
 
       if (!response.data || !response.data.ticket) {
-        throw new Error("Invalid data structure");
+        throw new Error("잘못된 데이터 구조");
       }
 
       const newData = response.data;
@@ -44,7 +44,88 @@ export default function DetailPage() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [salePostId]);
+
+  // 결제 함수 추가
+  const jsf__pay = (form) => {
+    try {
+      KCP_Pay_Execute_Web(form);
+    } catch (e) {
+      /* IE에서 결제 정상 종료시 throw로 스크립트 종료 */
+    }
+  };
+
+  const handlePurchase = () => {
+    // 여기에서 PC 결제 창을 호출하는 코드를 추가
+    const orderInfoForm = document.createElement("form");
+    orderInfoForm.name = "order_info";
+    orderInfoForm.method = "post";
+
+    // 필요한 데이터 설정
+    orderInfoForm.innerHTML = `
+      <input type="hidden" name="ordr_idxx" value="Ori-Ticket"/>
+      <input type="hidden" name="good_name" value="Test-Ticket 상품"/>
+      <input type="hidden" name="good_mny" value="5252"/>
+      <input type="hidden" name="pay_method" value="100000000000"/> <!-- 결제수단(신용카드) -->
+      <input type="hidden" name="site_cd" value="T0000"/>
+      <input type="hidden" name="site_key" value="3grptw1.zW0GSo4PQdaGvsF__"/>
+    `;
+
+    document.body.appendChild(orderInfoForm);
+
+    // 결제 창 호출
+    jsf__pay(orderInfoForm);
+  };
+
+  // 신고 체크 박스
+  const [checkboxState, setCheckboxState] = useState({
+    overpriced_registration: false,
+    suspected_false_information: false,
+    inappropriate_photo: false,
+    other_issues: false,
+  });
+
+  const handleCheckboxChange = (checkboxName) => {
+    setCheckboxState((prevState) => ({
+      ...Object.keys(prevState).reduce((acc, key) => {
+        acc[key] = key === checkboxName;
+        return acc;
+      }, {}),
+    }));
+  };
+
+  // 신고하기
+  const handleReport = async () => {
+    const selectedReason = Object.keys(checkboxState).find(
+      (key) => checkboxState[key]
+    );
+
+    console.log(selectedReason);
+
+    try {
+      const response = await axios.post(
+        `https://oriticket.link/posts/${salePostId}/report`,
+        {
+          memberId: "3",
+          reason: selectedReason,
+        }
+      );
+
+      // 성공적으로 신고 요청이 처리된 경우의 처리
+      console.log(
+        "신고 요청이 성공했습니다.",
+        response.data
+      );
+      alert("신고 되었습니다.");
+      window.location.href = "/";
+    } catch (error) {
+      // 오류 발생 시의 처리
+      console.error(
+        "신고 요청 중 오류가 발생했습니다.",
+        error.message
+      );
+    }
+  };
 
   return (
     <div>
@@ -83,9 +164,6 @@ export default function DetailPage() {
                     detailData.ticket.expirationAt
                   )}
                 </p>
-                <p className="text-left text-base font-extrabold">
-                  판매자 id: {detailData.memberId}
-                </p>
                 <p className="text-sm text-end justify-end">
                   정가: {detailData.ticket.originalPrice}
                 </p>
@@ -115,8 +193,11 @@ export default function DetailPage() {
                       />
                     </svg>
                   </button>
-                  <button className="btn btn-primary">
-                    티켓 구매
+                  <button
+                    className="btn btn-primary"
+                    onClick={handlePurchase}
+                  >
+                    구매 하기
                   </button>
                 </div>
               </div>
@@ -125,62 +206,93 @@ export default function DetailPage() {
         )}
       </div>
       <div className="flex">
-        <div className="ml-auto flex items-center justify-end w-5/6 mr-4">
-          <div className="mr-4">
+        <div className="ml-auto flex items-center justify-between w-5/6 mr-4">
+          <div className="mr-2">
             <input
               type="checkbox"
-              id="over_price"
-              className="form-checkbox rounded-full bg-yellow-300"
+              id="Overpriced registration"
+              className="form-checkbox rounded-full bg-yellow-300 mr-2"
+              checked={
+                checkboxState.overpriced_registration
+              }
+              onChange={() =>
+                handleCheckboxChange(
+                  "overpriced_registration"
+                )
+              }
+              value="overpriced_registration"
             />
             <label
-              htmlFor="over_price"
+              htmlFor="Overpriced registration"
               className="font-extrabold text-navy-basic"
             >
               정가 이상 등록
             </label>
           </div>
-          <div className="mr-4">
+          <div className="mr-2">
             <input
               type="checkbox"
-              id="fake_item"
-              className="form-checkbox rounded-full bg-yellow-300"
+              id="Suspected false information"
+              className="form-checkbox rounded-full bg-yellow-300 mr-2"
+              checked={
+                checkboxState.suspected_false_information
+              }
+              onChange={() =>
+                handleCheckboxChange(
+                  "suspected_false_information"
+                )
+              }
+              value="suspected_false_information"
             />
             <label
-              htmlFor="fake_item"
+              htmlFor="Suspected false information"
               className="font-extrabold text-navy-basic"
             >
               허위 매물 의심
             </label>
           </div>
-          <div className="mr-4">
+          <div className="mr-2">
             <input
               type="checkbox"
-              id="inappropriate_pic"
-              className="form-checkbox rounded-full bg-yellow-300"
+              id="Inappropriate photo"
+              className="form-checkbox rounded-full bg-yellow-300 mr-2"
+              checked={checkboxState.inappropriate_photo}
+              onChange={() =>
+                handleCheckboxChange("inappropriate_photo")
+              }
+              value="inappropriate_photo"
             />
             <label
-              htmlFor="inappropriate_pic"
+              htmlFor="Inappropriate photo"
               className="font-extrabold text-navy-basic"
             >
               부적절한 사진
             </label>
           </div>
-          <div className="mr-4">
+          <div className="mr-2">
             <input
               type="checkbox"
-              id="etc"
-              className="form-checkbox rounded-full bg-yellow-300"
+              id="Other issues"
+              className="form-checkbox rounded-full bg-yellow-300 mr-2"
+              checked={checkboxState.other_issues}
+              onChange={() =>
+                handleCheckboxChange("other_issues")
+              }
+              value="other_issues"
             />
             <label
-              htmlFor="etc"
+              htmlFor="Other issues"
               className="font-extrabold text-navy-basic"
             >
               기타
             </label>
           </div>
         </div>
-        <button className="p-0">
-          <img src={ReportBtn} className="w-24" />
+        <button
+          className="p-0 w-24 h-2"
+          onClick={handleReport}
+        >
+          <img src={ReportBtn} className="w-full" />
         </button>
       </div>
     </div>

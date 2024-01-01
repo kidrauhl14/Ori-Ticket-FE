@@ -2,37 +2,44 @@
 // 인가코드를 받아서, axios를 활용해 해당 코드를 백엔드에게 넘겨주는 역할!
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
-import useAxios from "@hooks/useAxios";
-import SuccessLogin from "@/utils/successLogin";
+import axios from "axios";
+// import { useSetRecoilState } from "recoil";
+// import useAxios from "@hooks/useAxios";
+// import SuccessLogin from "@/utils/successLogin";
 import Spinner from "@components/common/Spinner";
 
 export default function KakaoRedirect() {
   const navigate = useNavigate();
-  const code = new URL(
-    document.location.toString()
-  ).searchParams.get("code");
-  const { fetchDataUseAxios } = useAxios();
-
+  const code = new URL(document.location.toString()).searchParams.get("code");
+  // const {fetchDataUseAxios}= useAxios();
+  console.log("KakaoRedirect컴포넌트가 실행이 된걸까?");
+  
   useEffect(() => {
-    fetchDataUseAxios("defaultAxios", {
-      method: "post",
-      url: "https://oriticket.link/members/kakao/login",
-      data: { code },
-    })
-      .then((response) => {
-        if (response && response.status === 200) {
-          <SuccessLogin response={response} />;
+    const fetchData = async () => {
+      try {
+        const response1 = await axios.get(
+          `http://13.124.46.138:8080/members/kakao/login?code=${code}`,
+        );
+        console.log("인가코드 제대로 보내졌고, response 받음", response1);
 
-          // 서버에서 유저 정보가 없다면 보내줄 주소를 알기 때문에
-          // 서버에서부터 해당 페이지로 리다이렉트를 해주는 것이 보안적으로 조금 더 안전한 방법입니다.
-          // 백엔드에서 조회한 정보를 기반으로 해당 Route 주소(KakaoRedirect)로 리다이렉트를 해달라고 하시면 될 것 같아요!
-          navigate("/"); // 로그인 성공 후 메인페이지로 이동 (우선은 프론트에서 처리했습니다.)
+        const response2 = await axios.post(
+          "http://13.124.46.138:8080/members/signin",
+          {
+            email: response1.data.email,
+          }
+        );
+
+        if (response2.data) {
+          navigate("/");
+        } else {
+          navigate("/signup");
         }
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("카카오 로그인 에러:", error);
-      });
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
