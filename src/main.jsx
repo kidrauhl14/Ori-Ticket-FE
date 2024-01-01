@@ -34,6 +34,6 @@ import { RecoilRoot } from "recoil";
 // msw 적용 해제시 밑에 활성화
 ReactDOM.createRoot(document.getElementById("root")).render(
   <RecoilRoot>
-      <App />
+    <App />
   </RecoilRoot>
 );
