@@ -32,6 +32,15 @@ export default function KakaoRedirect() {
           }
         );
 
+        console.log(
+          "회원정보 등록 페이지로 이동할 때 받을 (response2.data)",
+          response2.data
+        );
+        console.log(
+          "회원정보 등록 페이지로 이동할 때 받을 이메일 값 (response2.data.email)",
+          response2.data.email
+        );
+        
         if (response2.data.existsByEmail) {
           navigate("/");
         } else {
