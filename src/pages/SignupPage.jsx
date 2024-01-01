@@ -1,14 +1,16 @@
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Datepicker from "react-tailwindcss-datepicker";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { loginState } from "@recoil/loginState";
 import { userInfoState } from "@recoil/userInfoState";
+import { emailState } from "@recoil/emailState.jsx";
 
 export default function SignupPage(){
   const { replace } = useNavigate();
   const [isChecked, setIsChecked] = useState([false, false, false, false]);
+  const [email, setEmail] = useRecoilState(emailState);
 
   // "등록할" 회원정보를 관리할 상태 객체
   const [signupInfo, setSignupInfo] = useState({
@@ -17,6 +19,14 @@ export default function SignupPage(){
     birthDate: "",
     phoneNum: "",
   });
+
+    // 회원정보 등록페이지가 렌더링되면, emailState에서 받아온 이메일 값을 signupInfo 객체에 넣어주기
+    useEffect(() => {
+      setSignupInfo((prevSignupInfo) => ({
+        ...prevSignupInfo,
+        email: email,
+      }));
+    }, []);
 
   console.log(signupInfo.email);
 
@@ -82,10 +92,8 @@ export default function SignupPage(){
                 id="email"
                 className="w-full appearance-none border border-4 rounded-lg border-navy-basic text-gray-700 placeholder-gray-400 focus:border-transparent"
                 placeholder="ori_ticket@gmail.com"
-                value={signupInfo.email}
-                onChange={(e) => {
-                  setSignupInfo({ ...signupInfo, email: e.target.value });
-                }}
+                value={email}
+                readOnly
                 required
               />
             </div>
