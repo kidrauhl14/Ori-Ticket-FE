@@ -106,7 +106,10 @@ export default function CategoryPage() {
     <div>
       <Navbar />
       <div className="flex justify-center items-center">
-        <img src={BaseballImg} className="border rounded-full shadow-xl" />
+        <img
+          src={BaseballImg}
+          className="border rounded-full shadow-xl"
+        />
         <div className="text-7xl font-extrabold ml-4">
           {category === "baseball" && "야구"}
           {category === "soccer" && "축구"}
@@ -125,13 +128,13 @@ export default function CategoryPage() {
                 className="border-none rounded-xl w-12 h-12"
               />
             </div>
-            <div className="text-white text-base mx-4 text-lg font-extrabold">
+            <div className="text-white mx-4 text-lg font-extrabold">
               {category === "baseball" && "야구"}
               {category === "soccer" && "축구"}
               {category === "basketball" && "농구"}
             </div>
             <div className="bg-white flex justify-between flex-1 px-2 border rounded-md">
-              <a className="text-slate-500 text-base text-lg font-extrabold">
+              <a className="text-slate-500 text-lg font-extrabold">
                 카테고리별 보기
               </a>
               <div>
@@ -171,7 +174,10 @@ export default function CategoryPage() {
                       "KT > 수원 위즈파크",
                       "LG > 잠실 야구장",
                     ].map((item, index) => (
-                      <div key={index} className="col-span-2 w-full px-2 py-1">
+                      <div
+                        key={index}
+                        className="col-span-2 w-full px-2 py-1"
+                      >
                         <a>{item}</a>
                       </div>
                     ))}
@@ -209,15 +215,19 @@ export default function CategoryPage() {
                       {data.awayTeamName}
                     </div>
                   </div>
-                  <h2 className="card-title text-3xl">{data.seatInfo}</h2>
+                  <h2 className="card-title text-3xl">
+                    {data.seatInfo}
+                  </h2>
                   <p className="text-left text-base font-extrabold">
-                    사용날짜: {formatDate(data.expirationAt)}
+                    사용날짜:{" "}
+                    {formatDate(data.expirationAt)}
                   </p>
                   <p className="text-sm text-end justify-end">
                     정가: {data.originalPrice}
                   </p>
                   <p className="font-extrabold text-xl text-end">
-                    수량: {data.quantity}장 &nbsp;&nbsp;판매가:&nbsp;
+                    수량: {data.quantity}장
+                    &nbsp;&nbsp;판매가:&nbsp;
                     {data.salePrice}
                   </p>
                   <div className="card-actions justify-end">
