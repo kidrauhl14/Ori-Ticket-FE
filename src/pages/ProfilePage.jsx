@@ -110,10 +110,13 @@ export default function ProfilePage() {
   const [memberId, setMemberId] = useState("7");
   // const memberId = "1"; // memberId를 사용자의 실제 ID로 대체
 
+
     const handleWithdraw = async () => {
+      console.log(memberId);
+
       try {
         const response = await axios.delete(
-          `https://oriticket.link/members/withdraw?id=${memberId}`,
+          `https://oriticket.link/members/withdraw/${memberId}`,
           {
             headers: {
               "Content-Type": "application/json",
