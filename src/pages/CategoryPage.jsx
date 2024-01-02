@@ -108,7 +108,7 @@ export default function CategoryPage() {
       <div className="flex justify-center items-center">
         <img
           src={BaseballImg}
-          className="border rounded-lg"
+          className="border rounded-full shadow-xl"
         />
         <div className="text-7xl font-extrabold ml-4">
           {category === "baseball" && "야구"}
@@ -120,7 +120,7 @@ export default function CategoryPage() {
         <button className="p-0 w-1/6 mb-4 justify-start">
           <img src={DoubleSeatBtn} />
         </button>
-        <div className="bg-white flex max-w-5xl mb-4">
+        <div className="flex max-w-5xl mb-4">
           <div className="navbar bg-navy-basic flex rounded-box">
             <div className="text-white">
               <img
@@ -128,13 +128,13 @@ export default function CategoryPage() {
                 className="border-none rounded-xl w-12 h-12"
               />
             </div>
-            <div className="text-white text-base mx-4 text-lg font-extrabold">
+            <div className="text-white mx-4 text-lg font-extrabold">
               {category === "baseball" && "야구"}
               {category === "soccer" && "축구"}
               {category === "basketball" && "농구"}
             </div>
             <div className="bg-white flex justify-between flex-1 px-2 border rounded-md">
-              <a className="text-slate-500 text-base text-lg font-extrabold">
+              <a className="text-slate-500 text-lg font-extrabold">
                 카테고리별 보기
               </a>
               <div>
@@ -160,32 +160,33 @@ export default function CategoryPage() {
 
                   <div
                     tabIndex={0}
-                    className="dropdown-content z-[1] card card-compact w-96 p-0 shadow bg-white text-navy-basic"
+                    className="dropdown-content z-[1] card card-compact w-80 p-0 shadow border-8 border-navy-basic  bg-white text-navy-basic"
                   >
-                    <ul
+                    {[
+                      "키움 > 고척 돔 야구장",
+                      "한화 > 대전 이글스 파크",
+                      "SSG > 인천 SSG 랜더스필드",
+                      "NC > 창원 NC파크",
+                      "KIA > 광주 챔피언스 필드",
+                      "롯데 > 부산 사직 야구장",
+                      "두산 > 잠실 야구장",
+                      "삼성 > 대구 라이온즈파크",
+                      "KT > 수원 위즈파크",
+                      "LG > 잠실 야구장",
+                    ].map((item, index) => (
+                      <div
+                        key={index}
+                        className="col-span-2 w-full px-2 py-1"
+                      >
+                        <a>{item}</a>
+                      </div>
+                    ))}
+                    {/* <ul
                       tabIndex={0}
                       className="bg-base-200 grid grid-cols-3 gap-8 rounded-box "
                     >
-                      {[
-                        "키움 > 고척 돔 야구장",
-                        "한화 > 대전 이글스 파크",
-                        "SSG > 인천 SSG 랜더스필드",
-                        "NC > 창원 NC파크",
-                        "KIA > 광주 챔피언스 필드",
-                        "롯데 > 부산 사직 야구장",
-                        "두산 > 잠실 야구장",
-                        "삼성 > 대구 라이온즈파크",
-                        "KT > 수원 위즈파크",
-                        "LG > 잠실 야구장",
-                      ].map((item, index) => (
-                        <li
-                          key={index}
-                          className="col-span-2 w-full px-2 py-1"
-                        >
-                          <a>{item}</a>
-                        </li>
-                      ))}
-                    </ul>
+
+                    </ul> */}
                   </div>
                 </div>
               </div>
@@ -256,7 +257,7 @@ export default function CategoryPage() {
                       }}
                       key={data.salePostId}
                     >
-                      <button className="btn btn-primary">
+                      <button className="btn btn-primary text-base">
                         티켓 구매
                       </button>
                     </Link>

@@ -1,29 +1,46 @@
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Datepicker from "react-tailwindcss-datepicker";
+import { useRecoilState } from "recoil";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { loginState } from "@recoil/loginState";
 import { userInfoState } from "@recoil/userInfoState";
+import { emailState } from "@recoil/emailState.jsx";
 
-export default function SignupPage(){
+export default function SignupPage() {
   const { replace } = useNavigate();
-  const [isChecked, setIsChecked] = useState([false, false, false, false]);
+  const [isChecked, setIsChecked] = useState([
+    false,
+    false,
+    false,
+    false,
+  ]);
+  const [email, setEmail] = useRecoilState(emailState);
 
   // "등록할" 회원정보를 관리할 상태 객체
   const [signupInfo, setSignupInfo] = useState({
-    email:"",
+    email: "",
     name: "",
     birthDate: "",
     phoneNum: "",
   });
 
+  // 회원정보 등록페이지가 렌더링되면, emailState에서 받아온 이메일 값을 signupInfo 객체에 넣어주기
+  useEffect(() => {
+    setSignupInfo((prevSignupInfo) => ({
+      ...prevSignupInfo,
+      email: email,
+    }));
+  }, []);
+
   console.log(signupInfo.email);
 
   const [verification, setVerification] = useState("");
-  
+
   // 가입하기 버튼 상태 (활성화/비활성화)
-  const [isSubmitButtonEnabled, setIsSubmitButtonEnabled] = useState(false);
+  const [isSubmitButtonEnabled, setIsSubmitButtonEnabled] =
+    useState(false);
 
   const toggleCheckbox = (index) => {
     const newChecked = [...isChecked];
@@ -33,7 +50,7 @@ export default function SignupPage(){
 
   const sendVerification = () => {
     axios
-      .post("http://13.124.46.138:8080/send-one", {
+      .post("https://oriticket.link/send-one", {
         phoneNum: signupInfo.phoneNum,
       })
       .then((res) => {
@@ -52,7 +69,10 @@ export default function SignupPage(){
   const register = (e) => {
     e.preventDefault();
     axios
-      .post("http://13.124.46.138:8080/members/signup", signupInfo)
+      .post(
+        "https://oriticket.link/members/signup",
+        signupInfo
+      )
       .then((res) => {
         replace("/");
         console.log("로그인 성공!");
@@ -64,14 +84,16 @@ export default function SignupPage(){
       });
   };
 
-
-
   return (
     <>
       <div className="w-64 lg:w-72 xl:w-80 2xl:w-96">
         <h1 className=" font-extrabold">회원가입</h1>
         <div className="grid-rows-6 w-full my-10">
-          <form onSubmit={register} action="/members/signup" method="post">
+          <form
+            onSubmit={register}
+            action="/members/signup"
+            method="post"
+          >
             <div className="py-4 text-left">
               <label htmlFor="email" className="font-bold">
                 이메일
@@ -82,15 +104,16 @@ export default function SignupPage(){
                 id="email"
                 className="w-full appearance-none border border-4 rounded-lg border-navy-basic text-gray-700 placeholder-gray-400 focus:border-transparent"
                 placeholder="ori_ticket@gmail.com"
-                value={signupInfo.email}
-                onChange={(e) => {
-                  setSignupInfo({ ...signupInfo, email: e.target.value });
-                }}
+                value={email}
+                readOnly
                 required
               />
             </div>
             <div className="py-4 text-left">
-              <label htmlFor="username" className="font-bold">
+              <label
+                htmlFor="username"
+                className="font-bold"
+              >
                 이름
               </label>
               <br />
@@ -102,7 +125,10 @@ export default function SignupPage(){
                 placeholder="김오리"
                 value={signupInfo.name}
                 onChange={(e) => {
-                  setSignupInfo({ ...signupInfo, name: e.target.value });
+                  setSignupInfo({
+                    ...signupInfo,
+                    name: e.target.value,
+                  });
                 }}
                 required
               />
@@ -120,7 +146,10 @@ export default function SignupPage(){
                 name="birthDate"
                 onChange={({ startDate }) => {
                   const formattedDate = `${startDate}T00:00:00`;
-                  setSignupInfo({ ...signupInfo, birthDate: formattedDate });
+                  setSignupInfo({
+                    ...signupInfo,
+                    birthDate: formattedDate,
+                  });
                   console.log(formattedDate);
                 }}
                 className="w-full"
@@ -136,10 +165,13 @@ export default function SignupPage(){
                   name="phoneNum"
                   id="phone"
                   placeholder="01012345678"
-                  className="w-full appearance-none border border-4 rounded-lg border-navy-basic text-gray-700 placeholder-gray-400 focus:border-transparent"
+                  className="w-full appearance-none border-4 rounded-lg border-navy-basic text-gray-700 placeholder-gray-400 focus:border-transparent"
                   value={signupInfo.phoneNum}
                   onChange={(e) => {
-                    setSignupInfo({ ...signupInfo, phoneNum: e.target.value });
+                    setSignupInfo({
+                      ...signupInfo,
+                      phoneNum: e.target.value,
+                    });
                   }}
                   required
                 />
@@ -162,13 +194,16 @@ export default function SignupPage(){
               <input
                 type="text"
                 id="auth"
-                className="w-full appearance-none border border-4 rounded-lg border-navy-basic text-gray-700 placeholder-gray-400 focus:border-transparent"
+                className="w-full appearance-none border-4 rounded-lg border-navy-basic text-gray-700 placeholder-gray-400 focus:border-transparent"
                 placeholder="123456"
                 onChange={(e) => {
                   // e.target.value랑 verification값이 같은지 확인
                   // 만약에 둘이 같으면, 가입하기 버튼을 활성화하고, 둘이 다르면 가입하기 버튼을 비활성화
-                  const isVerificationMatched = e.target.value === verification;
-                  setIsSubmitButtonEnabled(isVerificationMatched);
+                  const isVerificationMatched =
+                    e.target.value === verification;
+                  setIsSubmitButtonEnabled(
+                    isVerificationMatched
+                  );
                 }}
                 required
               />
@@ -180,10 +215,17 @@ export default function SignupPage(){
                   id="total_agree"
                   className="form-checkbox rounded-full bg-yellow-300"
                   checked={isChecked.every((item) => item)}
-                  onChange={() => setIsChecked((prev) => prev.map(() => true))}
+                  onChange={() =>
+                    setIsChecked((prev) =>
+                      prev.map(() => true)
+                    )
+                  }
                   required
                 />
-                <label htmlFor="total_agree" className="ml-2 mb-2">
+                <label
+                  htmlFor="total_agree"
+                  className="ml-2 mb-2"
+                >
                   약관 전체동의
                 </label>
               </div>
@@ -231,7 +273,9 @@ export default function SignupPage(){
               <button
                 type="submit"
                 className={`py-4 mt-8 bg-navy-basic text-white ${
-                  isSubmitButtonEnabled ? "" : "opacity-50 cursor-not-allowed"
+                  isSubmitButtonEnabled
+                    ? ""
+                    : "opacity-50 cursor-not-allowed"
                 }`}
                 disabled={!isSubmitButtonEnabled}
               >
