@@ -113,7 +113,7 @@ export default function ProfilePage() {
     const handleWithdraw = async () => {
       try {
         const response = await axios.delete(
-          `https://oriticket.link/api/members/withdraw?id=${memberId}`,
+          `https://oriticket.link/members/withdraw?id=${memberId}`,
           {
             headers: {
               "Content-Type": "application/json",
