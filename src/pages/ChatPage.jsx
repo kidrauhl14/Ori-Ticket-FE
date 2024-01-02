@@ -115,9 +115,9 @@ export default function ChatPage() {
           <div className="w-1/6 mt-4 bg-navy-basic border rounded-lg">
             {/* 채팅 상대방 정보 */}
             <p className="text-white font-extrabold text-xl">
-              {members[0].memberId == userId
+              {/* {members[0].membersId == userId
                 ? members[1].nickName
-                : members[0].nickName}
+                : members[0].nickName} */}
             </p>
           </div>
 
@@ -142,7 +142,7 @@ export default function ChatPage() {
                     </div>
                     <div className="chat-header">
                       <div className="text-xs opacity-50">
-                        {members[0].memberId === userId
+                        {members[0].memberId === msg.memberId
                           ? members[0].nickName
                           : members[1].nickName}
                       </div>
