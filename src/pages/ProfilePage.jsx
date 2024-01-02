@@ -107,9 +107,8 @@ export default function ProfilePage() {
   const [soldoutTickets, setSoldoutTickets] = useState([]);
 
   // 사용자의 ID
-  const [memberId, setMemberId] = useState("18");
-  // const memberId = "1"; // memberId를 사용자의 실제 ID로 대체
-
+  // const [memberId, setMemberId] = useState("18"); // 탈퇴기능 테스트용
+  const memberId = "1"; // memberId를 사용자의 실제 ID로 대체
 
     const handleWithdraw = async () => {
       console.log(memberId);
