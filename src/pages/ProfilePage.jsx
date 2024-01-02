@@ -107,7 +107,7 @@ export default function ProfilePage() {
   const [soldoutTickets, setSoldoutTickets] = useState([]);
 
   // 사용자의 ID
-  const [memberId, setMemberId] = useState("7");
+  const [memberId, setMemberId] = useState("18");
   // const memberId = "1"; // memberId를 사용자의 실제 ID로 대체
 
 
