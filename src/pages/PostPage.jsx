@@ -18,6 +18,12 @@ export default function PostPage() {
   // Mock API
   // 스포츠 리스트
   const [sportsData, setSportsData] = useState(null);
+
+  const [sportsId, setSportsId] = useState(null);
+  const [stadiumId, setStadiumId] = useState(null);
+  const [awayTeamId, setAwayTeamId] = useState(null);
+  const [seatInfo, setSeatInfo] = useState(null);
+
   useEffect(() => {
     async function fetchSportsData() {
       try {
@@ -46,7 +52,7 @@ export default function PostPage() {
 
     fetchSportsData();
   }, []);
-  console.log(sportsData);
+  // console.log(sportsData);
 
   // 경기장 리스트
   const [stadiumData, setStadiumData] = useState(null);
@@ -76,7 +82,7 @@ export default function PostPage() {
 
     fetchStadiumData();
   }, []);
-  console.log(stadiumData);
+  // console.log(stadiumData);
 
   // 상대팀 리스트
   const [awayteamData, setAwayteamData] = useState(null);
@@ -106,7 +112,7 @@ export default function PostPage() {
 
     fetchAwayteamData();
   }, []);
-  console.log(awayteamData);
+  // console.log(awayteamData);
 
   // 좌석 리스트
   const [seatData, setSeatData] = useState(null);
@@ -132,6 +138,7 @@ export default function PostPage() {
         awayteam.sportsId === parseInt(selectedSportsId)
     );
     setFilteredAwayteams(filteredAwayteams);
+    setSportsId(selectedSportsId);
   };
   // 선택된 stadiumId에 해당하는 좌석 데이터 가져오기
   const [filteredSeats, setFilteredSeats] = useState([]);
@@ -142,6 +149,17 @@ export default function PostPage() {
         seat.stadiumId === parseInt(selectedStadiumId)
     );
     setFilteredSeats(filteredSeats);
+    setStadiumId(selectedStadiumId);
+  };
+
+  const handleSeatInfoChange = (event) => {
+    const selectedSeatInfo = event.target.value;
+    setSeatInfo(selectedSeatInfo);
+  };
+
+  const handleAwayTeamChange = (event) => {
+    const selectedAwayTeamId = event.target.value;
+    setAwayTeamId(selectedAwayTeamId);
   };
 
   // Datepicker
@@ -242,7 +260,7 @@ export default function PostPage() {
     const isSuccessive = selectedSeatType === "연석";
     setIsCurb(isSuccessive);
     // 어떤 작업을 수행하고 싶다면 여기에 추가
-    console.log("isSuccessive:", isSuccessive);
+    // console.log("isSuccessive:", isSuccessive);
   };
 
   // // 이미지 업로드 상태
@@ -298,28 +316,8 @@ export default function PostPage() {
       // // S3에 업로드된 이미지의 URL을 받아옴
       // const imageUrls = uploadResponse.data.imageUrls;
 
-      const sportsId = `${
-        sportsData.length > 0 ? sportsData[0].sportsId : ""
-      }`;
-
-      const stadiumId = `${
-        filteredStadiums.length > 0
-          ? filteredStadiums[0].stadiumId
-          : ""
-      }`;
-
-      const awayTeamId = `${
-        filteredAwayteams.length > 0
-          ? filteredAwayteams[0].awayTeamId
-          : ""
-      }`;
-
       // 좌석 정보를 문자열로 구성
-      const seatInfo = `${zone} ${line} ${
-        filteredSeats.length > 0
-          ? filteredSeats[0].seatSelect[0].seatName
-          : ""
-      }`;
+      const seatInfoStr = `${zone} ${line} ${seatInfo}`;
 
       // Datepicker에서 선택된 날짜
       const expirationDate = value.startDate;
@@ -329,6 +327,19 @@ export default function PostPage() {
       const expirationAt = expirationDate
         ? `${expirationDate}T${expirationTime}:00`
         : null;
+
+      // console.log("sportsId");
+      // console.log(sportsId);
+      // console.log(sportsData);
+      // console.log("stadiumId");
+      // console.log(stadiumId);
+      // console.log(filteredStadiums);
+      // console.log("awayTeamId");
+      // console.log(awayTeamId);
+      // console.log(filteredAwayteams);
+      // console.log("seatInfo");
+      // console.log(seatInfoStr);
+      // console.log(filteredSeats);
 
       const response = await axios.post(
         "https://oriticket.link/posts",
@@ -342,7 +353,7 @@ export default function PostPage() {
           originalPrice: parseInt(originalPrice),
           expirationAt: expirationAt,
           isSuccessive: isCurb,
-          seatInfo: seatInfo,
+          seatInfo: seatInfoStr,
           imgUrl: "empty",
           note: note,
         }
@@ -471,7 +482,10 @@ export default function PostPage() {
               <p className="font-extrabold text-base text-right mr-8">
                 좌석:
               </p>
-              <select className="block appearance-none w-64 bg-white border-2 border-blue-950 hover:border-blue-950 px-4 py-2 pr-8 rounded-xl shadow leading-tight focus:outline-none focus:shadow-outline">
+              <select
+                className="block appearance-none w-64 bg-white border-2 border-blue-950 hover:border-blue-950 px-4 py-2 pr-8 rounded-xl shadow leading-tight focus:outline-none focus:shadow-outline"
+                onChange={handleSeatInfoChange}
+              >
                 <option disabled selected>
                   경기장을 먼저 선택하세요.
                 </option>
@@ -496,7 +510,10 @@ export default function PostPage() {
               <p className="font-extrabold text-base text-right mr-4">
                 상대팀:
               </p>
-              <select className="block appearance-none w-64 bg-white border-2 border-blue-950 hover:border-blue-950 px-4 py-2 pr-8 rounded-xl shadow leading-tight focus:outline-none focus:shadow-outline">
+              <select
+                className="block appearance-none w-64 bg-white border-2 border-blue-950 hover:border-blue-950 px-4 py-2 pr-8 rounded-xl shadow leading-tight focus:outline-none focus:shadow-outline"
+                onChange={handleAwayTeamChange}
+              >
                 <option disabled selected>
                   스포츠 종목을 먼저 선택하세요.
                 </option>
@@ -580,6 +597,19 @@ export default function PostPage() {
               <p className="font-extrabold text-sm">
                 사용일자가 종료되면 상품이 더이상 노출되지
                 않습니다.
+              </p>
+            </div>
+            <div className="flex items-center mb-1">
+              <img
+                src={Exclamation}
+                alt="느낌표"
+                className="w-6 h-6 mr-1"
+              ></img>
+              <p className="font-extrabold text-sm mr-4">
+                사용시간 입력시 2자리로 입력해야 합니다.
+              </p>
+              <p className="font-extrabold text-sm text-yellow-basic">
+                예시: 09시 05분
               </p>
             </div>
             <div className="flex items-center">

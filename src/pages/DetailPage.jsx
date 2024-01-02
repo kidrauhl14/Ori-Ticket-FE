@@ -61,11 +61,17 @@ export default function DetailPage() {
     orderInfoForm.name = "order_info";
     orderInfoForm.method = "post";
 
+    const salePrice = detailData.ticket.salePrice;
+    const salePostId = detailData.salePostId;
+    const stadiumName = detailData.ticket.stadiumName;
+    const homeTeamName = detailData.ticket.homeTeamName;
+    const awayTeamName = detailData.ticket.awayTeamName;
+
     // 필요한 데이터 설정
     orderInfoForm.innerHTML = `
       <input type="hidden" name="ordr_idxx" value="Ori-Ticket"/>
-      <input type="hidden" name="good_name" value="Test-Ticket 상품"/>
-      <input type="hidden" name="good_mny" value="5252"/>
+      <input type="hidden" name="good_name" value="${salePostId}_${stadiumName}[${homeTeamName}]_${awayTeamName}"/>
+      <input type="hidden" name="good_mny" value="${salePrice}"/>
       <input type="hidden" name="pay_method" value="100000000000"/> <!-- 결제수단(신용카드) -->
       <input type="hidden" name="site_cd" value="T0000"/>
       <input type="hidden" name="site_key" value="3grptw1.zW0GSo4PQdaGvsF__"/>
@@ -106,7 +112,7 @@ export default function DetailPage() {
       const response = await axios.post(
         `https://oriticket.link/posts/${salePostId}/report`,
         {
-          memberId: "3",
+          memberId: "7",
           reason: selectedReason,
         }
       );
