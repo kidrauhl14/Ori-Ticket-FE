@@ -28,7 +28,7 @@ export default function KakaoRedirect() {
         const response2 = await axios.post(
           "https://oriticket.link/members/signin",
           {
-            email: response1.data.email,
+            email : response1.data.email,
           }
         );
 
