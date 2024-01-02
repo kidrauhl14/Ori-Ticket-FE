@@ -16,6 +16,8 @@ import {
 } from "../store/shoppingCart";
 
 export default function ProfilePage() {
+  const navigate = useNavigate();
+
   // 날짜를 년-월-일 형식으로 변환하는 함수
   const formatDate = (dateString) => {
     const options = {
@@ -105,7 +107,31 @@ export default function ProfilePage() {
   const [soldoutTickets, setSoldoutTickets] = useState([]);
 
   // 사용자의 ID
-  const memberId = "1"; // memberId를 사용자의 실제 ID로 대체
+  const [memberId, setMemberId] = useState("7");
+  // const memberId = "1"; // memberId를 사용자의 실제 ID로 대체
+
+    const handleWithdraw = async () => {
+      try {
+        const response = await axios.delete(
+          `https://oriticket.link/api/members/withdraw?id=${memberId}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          console.log("회원 탈퇴 성공");
+          // 탈퇴 성공 시 로그인 페이지로 이동 또는 다른 작업 수행
+          navigate("/login");
+        } else {
+          console.error(`서버 응답 오류: ${response.status}`);
+        }
+      } catch (error) {
+        console.error("회원 탈퇴 중 에러:", error.message);
+      }
+    };
 
   useEffect(() => {
     // 판매 중인 티켓 정보를 가져오는 함수
@@ -295,6 +321,12 @@ export default function ProfilePage() {
     <div>
       <Navbar />
       <div className="flex justify-end mb-4">
+        <button
+          className="bg-navy-basic text-white font-semibold ml-2 shadow-xl"
+          onClick={handleWithdraw}
+        >
+          회원 탈퇴
+        </button>
         <Link to="/profile/edit">
           <button className="bg-blue-950 text-white font-semibold shadow-xl">
             정보수정
@@ -334,8 +366,7 @@ export default function ProfilePage() {
                 </div>
               </div>
               <div className="font-bold text-sm border-4 shadow-xl border-blue-950 bg-blue-950 text-white rounded-xl px-2">
-                경고를 한번 더 받으면 활동이 어려울 수
-                있습니다.
+                경고를 한번 더 받으면 활동이 어려울 수 있습니다.
               </div>
             </div>
             <div className="flex justify-center w-32 font-bold text-lg border-4 shadow-xl border-blue-950 bg-blue-950 text-white rounded-xl my-2">
@@ -373,9 +404,7 @@ export default function ProfilePage() {
                         {ticket.awayTeamName}
                       </div>
                     </div>
-                    <h2 className="card-title text-3xl">
-                      {ticket.seatInfo}
-                    </h2>
+                    <h2 className="card-title text-3xl">{ticket.seatInfo}</h2>
                     <p className="text-left text-base font-extrabold">
                       사용날짜:&nbsp;
                       {formatDate(ticket.expirationAt)}
@@ -384,8 +413,7 @@ export default function ProfilePage() {
                       정가:&nbsp;{ticket.originalPrice}
                     </p>
                     <p className="font-extrabold text-xl text-end">
-                      수량: {ticket.quantity}장&nbsp;&nbsp;
-                      판매가:&nbsp;
+                      수량: {ticket.quantity}장&nbsp;&nbsp; 판매가:&nbsp;
                       {ticket.salePrice}
                     </p>
                   </div>
@@ -445,18 +473,14 @@ export default function ProfilePage() {
             </div>
           </div>
           {/* 판매중인 티켓 리스트 */}
-          {selectedTab === "selling" &&
-            showSellTicketList(sellingTickets)}
+          {selectedTab === "selling" && showSellTicketList(sellingTickets)}
           {/* 판매종료 티켓 리스트 */}
-          {selectedTab === "soldout" &&
-            showSellTicketList(soldoutTickets)}
+          {selectedTab === "soldout" && showSellTicketList(soldoutTickets)}
           {/* 거래중인 티켓 리스트 */}
-          {selectedTab === "trading" &&
-            showTradingTicketList(tradingTickets)}
+          {selectedTab === "trading" && showTradingTicketList(tradingTickets)}
 
           {/* 거래종료 티켓 리스트 */}
-          {selectedTab === "traded" &&
-            showTradingTicketList(tradedTickets)}
+          {selectedTab === "traded" && showTradingTicketList(tradedTickets)}
         </div>
         {/* 거래 완료 */}
       </div>
