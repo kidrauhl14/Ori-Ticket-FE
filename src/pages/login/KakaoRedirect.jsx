@@ -47,9 +47,11 @@ export default function KakaoRedirect() {
         );
 
         if (response2.data.existsByEmail) {
-          navigate("/");
-          // if (response2.data.memberId === 1);
-          // navigate("/admin");
+          if (response2.data.id === 2) {
+            navigate("/admin");
+          } else {
+            navigate("/");
+          }
         } else {
           setEmail(response2.data.email);
           navigate("/signup");

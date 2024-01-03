@@ -9,7 +9,7 @@ import { userInfoState } from "@recoil/userInfoState";
 import { emailState } from "@recoil/emailState.jsx";
 
 export default function SignupPage() {
-  const { replace } = useNavigate();
+  const replace = useNavigate();
   const [isChecked, setIsChecked] = useState([
     false,
     false,
@@ -22,7 +22,7 @@ export default function SignupPage() {
   const [signupInfo, setSignupInfo] = useState({
     email: "",
     name: "",
-    // birthDate: "",
+    birthDate: "",
     phoneNum: "",
   });
 
@@ -56,9 +56,9 @@ export default function SignupPage() {
       .then((res) => {
         // 들어온 인증번호값과 사용자가 입력한 인증번호값이 같은지 확인
         // 같으면, 가입하기 버튼을 누를 수 있음
-        console.log("인증번호다!", res.data.getSubject);
         console.log("인증번호다!", res.data);
-        setVerification(res.data.getSubject);
+        console.log("인증번호다!", res.data);
+        setVerification(res.data);
         console.log(signupInfo);
       })
       .catch((error) => {
@@ -67,12 +67,17 @@ export default function SignupPage() {
   };
 
   const register = (e) => {
+    const birthDate = `${dateValue.startDate}T00:00:00`;
+
+    const newSignupInfo = signupInfo;
+    newSignupInfo.birthDate = birthDate;
+    setSignupInfo[newSignupInfo];
+
     e.preventDefault();
     axios
       .post(
         "https://oriticket.link/members/signup",
-        signupInfo,
-        { birthDate: DateValue }
+        signupInfo
       )
       .then((res) => {
         replace("/");
@@ -86,7 +91,7 @@ export default function SignupPage() {
   };
 
   // Datepicker
-  const [DateValue, setDateValue] = useState({
+  const [dateValue, setDateValue] = useState({
     startDate: null,
     endDate: null,
   });
@@ -169,10 +174,10 @@ export default function SignupPage() {
               <Datepicker
                 useRange={false}
                 asSingle={true}
-                value={DateValue}
+                value={dateValue}
                 onChange={handleValueChange}
-                displayFormat={"DD/MM/YYYY"}
-                id="birthdate"
+                displayFormat={"MM/DD/YYYY"}
+                id="birthDate"
                 name="birthDate"
               />
             </div>
@@ -220,7 +225,7 @@ export default function SignupPage() {
                   // e.target.value랑 verification값이 같은지 확인
                   // 만약에 둘이 같으면, 가입하기 버튼을 활성화하고, 둘이 다르면 가입하기 버튼을 비활성화
                   const isVerificationMatched =
-                    e.target.value === verification;
+                    e.target.value == verification;
                   setIsSubmitButtonEnabled(
                     isVerificationMatched
                   );
