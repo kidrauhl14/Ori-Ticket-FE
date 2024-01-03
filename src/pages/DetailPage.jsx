@@ -162,7 +162,7 @@ export default function DetailPage() {
                   </div>
                 </div>
                 <h2 className="card-title text-3xl">
-                  {detailData.seatInfo}
+                  {detailData.ticket.seatInfo}
                 </h2>
                 <p className="text-left text-base font-extrabold">
                   사용날짜:{" "}
