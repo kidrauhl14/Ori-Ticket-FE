@@ -9,7 +9,7 @@ import { userInfoState } from "@recoil/userInfoState";
 import { emailState } from "@recoil/emailState.jsx";
 
 export default function SignupPage() {
-  const { replace } = useNavigate();
+  const replace = useNavigate();
   const [isChecked, setIsChecked] = useState([
     false,
     false,
@@ -56,9 +56,9 @@ export default function SignupPage() {
       .then((res) => {
         // 들어온 인증번호값과 사용자가 입력한 인증번호값이 같은지 확인
         // 같으면, 가입하기 버튼을 누를 수 있음
-        console.log("인증번호다!", res.data.getSubject);
         console.log("인증번호다!", res.data);
-        setVerification(res.data.getSubject);
+        console.log("인증번호다!", res.data);
+        setVerification(res.data);
         console.log(signupInfo);
       })
       .catch((error) => {
@@ -67,6 +67,12 @@ export default function SignupPage() {
   };
 
   const register = (e) => {
+    const birthDate = `${dateValue.startDate}T00:00:00`;
+
+    const newSignupInfo = signupInfo;
+    newSignupInfo.birthDate = birthDate;
+    setSignupInfo[newSignupInfo];
+
     e.preventDefault();
     axios
       .post(
@@ -82,6 +88,16 @@ export default function SignupPage() {
         console.log("An error occurred:", error);
         console.log(signupInfo);
       });
+  };
+
+  // Datepicker
+  const [dateValue, setDateValue] = useState({
+    startDate: null,
+    endDate: null,
+  });
+  const handleValueChange = (newValue) => {
+    console.log("birthDate", newValue);
+    setDateValue(newValue);
   };
 
   return (
@@ -102,7 +118,7 @@ export default function SignupPage() {
               <input
                 type="email"
                 id="email"
-                className="w-full appearance-none border border-4 rounded-lg border-navy-basic text-gray-700 placeholder-gray-400 focus:border-transparent"
+                className="w-full appearance-none border-4 rounded-lg border-navy-basic text-gray-700 placeholder-gray-400 focus:border-transparent"
                 placeholder="ori_ticket@gmail.com"
                 value={email}
                 readOnly
@@ -121,7 +137,7 @@ export default function SignupPage() {
                 type="text"
                 name="name"
                 id="username"
-                className="w-full appearance-none border border-4 rounded-lg border-navy-basic text-gray-700 placeholder-gray-400 focus:border-transparent"
+                className="w-full appearance-none border-4 rounded-lg border-navy-basic text-gray-700 placeholder-gray-400 focus:border-transparent"
                 placeholder="김오리"
                 value={signupInfo.name}
                 onChange={(e) => {
@@ -137,7 +153,7 @@ export default function SignupPage() {
             <div className="py-4 text-left w-full">
               <label htmlFor="birthdate">생년월일</label>
               <br />
-              <Datepicker
+              {/* <Datepicker
                 primaryColor={"indigo"}
                 asSingle={true}
                 value={signupInfo.birthDate}
@@ -154,6 +170,15 @@ export default function SignupPage() {
                 }}
                 className="w-full"
                 required
+              /> */}
+              <Datepicker
+                useRange={false}
+                asSingle={true}
+                value={dateValue}
+                onChange={handleValueChange}
+                displayFormat={"MM/DD/YYYY"}
+                id="birthDate"
+                name="birthDate"
               />
             </div>
             <div className="py-4 text-left">
@@ -200,7 +225,7 @@ export default function SignupPage() {
                   // e.target.value랑 verification값이 같은지 확인
                   // 만약에 둘이 같으면, 가입하기 버튼을 활성화하고, 둘이 다르면 가입하기 버튼을 비활성화
                   const isVerificationMatched =
-                    e.target.value === verification;
+                    e.target.value == verification;
                   setIsSubmitButtonEnabled(
                     isVerificationMatched
                   );
