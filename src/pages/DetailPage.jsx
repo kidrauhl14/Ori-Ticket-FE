@@ -112,7 +112,7 @@ export default function DetailPage() {
       const response = await axios.post(
         `https://oriticket.link/posts/${salePostId}/report`,
         {
-          memberId: "7",
+          memberId: "3",
           reason: selectedReason,
         }
       );
